@@ -1,0 +1,6 @@
+framework module Pods_TGLiveScanTests {
+  umbrella header "Pods-TGLiveScanTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
