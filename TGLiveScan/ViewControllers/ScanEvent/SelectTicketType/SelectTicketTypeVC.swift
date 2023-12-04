@@ -15,7 +15,6 @@ class SelectTicketTypeVC: UIViewController {
     let viewModel = SelectTicketTypeViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("at view did load of Select ticket type", self.navigationController?.viewControllers as Any)
         dataSetToUserModel()
         self.setNavigationview()
         self.setTableView()
@@ -96,7 +95,6 @@ extension SelectTicketTypeVC {
                                 scannerVC.viewModel.updateTicketModel.eventName = self.viewModel.updateTicketModel.eventName
                                 scannerVC.viewModel.updateTicketModel.date = self.viewModel.updateTicketModel.date
                                 scannerVC.viewModel.updateTicketModel.userName = self.viewModel.updateTicketModel.userName
-                                print("after remove all at Select ticket vc", self.navigationController?.viewControllers as Any)
                                 self.navigationController?.pushViewController(scannerVC, animated: false)
                                 self.navigationController?.viewControllers = [scannerVC]
                             }
@@ -202,7 +200,6 @@ extension SelectTicketTypeVC {
     }
     func btnDoneAction() {
         let selectedData = viewModel.arrTicketTypes.filter({$0.isSelected == true })
-        print("selected Items:- ", selectedData)
         guard !selectedData.isEmpty else {
             showAlertController(title: "Alert", message: SelectTicketMessage)
             return

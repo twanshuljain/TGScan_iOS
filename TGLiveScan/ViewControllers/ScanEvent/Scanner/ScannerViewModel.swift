@@ -10,7 +10,6 @@ import AVFoundation
 
 class ScannerViewModel {
     // MARK: - Variables
-//    var scanDetailModel = ScanDetailModel()
     var scanTicketDetails = ScanTicketDetails()
     // In use
     var captureSession: AVCaptureSession!

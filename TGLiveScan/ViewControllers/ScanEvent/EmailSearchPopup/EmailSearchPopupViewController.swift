@@ -11,7 +11,7 @@ class EmailSearchPopupViewController: UIViewController {
     // MARK: - Outlets
     @IBOutlet weak var tblViewEmailSearch: UITableView!
     @IBOutlet weak var viewPopup: UIView!
-    @IBOutlet weak var btnCancel: CustomButtonGradiant!
+    @IBOutlet weak var btnCancel: UIButton!
     @IBOutlet weak var btnConfirm: CustomButtonGradiant!
     // MARK: - Variable
     var viewModel = EmailSearchPopupViewModel()

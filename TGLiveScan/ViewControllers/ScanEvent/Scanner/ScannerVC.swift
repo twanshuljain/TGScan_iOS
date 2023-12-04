@@ -46,7 +46,6 @@ class ScannerVC: UIViewController {
         self.getCameraPreview()
         dataSetToUserModel()
         setUIAndGetScanDetail()
-        print("at view did load of ScannerVC", self.navigationController?.viewControllers as Any)
     }
 }
 // MARK: -

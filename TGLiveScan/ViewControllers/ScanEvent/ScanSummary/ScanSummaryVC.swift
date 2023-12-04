@@ -30,7 +30,6 @@ class ScanSummaryVC: UIViewController, ChartViewDelegate {
      let tblData = ["Tix to scan", "Tix Scanned", "Accepted", "Rejected", "Scanned Hard Tix", "Scanned PDF Tix", "Scanned Comps Tix"]
     override func viewDidLoad() {
         super.viewDidLoad()
-//        getScanOverview()
         getScanSummary()
         self.setNavigationView()
         self.setFont()
@@ -143,30 +142,6 @@ extension ScanSummaryVC {
         self.btnUpdateLiveOnServer.titleLabel?.font = UIFont.setFont(fontType: .medium, fontSize: .fourteen)
         self.btnUpdateLiveOnServer.titleLabel?.textColor = UIColor.setColor(colorType: .btnDarkBlue)
     }
-//    func getScanOverview() {
-//        APIHandler.shared.baseURL = "https://api.tg-dev2.com/"
-//        if Reachability.isConnectedToNetwork() {
-////            view.showLoading(centreToView: self.view)
-//            viewModel.getScanOverview(completion: { isTrue, message in
-//                if isTrue {
-//                    self.dataSettingAfterScanOverview()
-//                    self.view.stopLoading()
-//
-//                    self.tblScanAllTableView.reloadData()
-//                } else {
-//                    DispatchQueue.main.async {
-//                        self.view.stopLoading()
-//                        self.showToast(message: message)
-//                    }
-//                }
-//            })
-//        } else {
-//            DispatchQueue.main.async {
-//                self.view.stopLoading()
-//                self.showToast(message: ValidationConstantStrings.networkLost)
-//            }
-//        }
-//    }
     func getScanSummary() {
         if Reachability.isConnectedToNetwork() {
             view.showLoading(centreToView: self.view)
@@ -195,9 +170,9 @@ extension ScanSummaryVC {
         lblDate.text = viewModel.updateTicketModel.date
         lblTotalTicketValue.text = "\(viewModel.getScanOverviewData.totalTicketInEvent ?? 0)"
         if let url = (APIHandler.shared.s3URL + (viewModel.getScanOverviewData.eventCoverImage ?? "")).getCleanedURL() {
-            self.imgProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "homeDas"), options: SDWebImageOptions.continueInBackground)
+            self.imgProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "Profile_ip"), options: SDWebImageOptions.continueInBackground)
         } else {
-            self.imgProfile.image = UIImage(named: "homeDas")
+            self.imgProfile.image = UIImage(named: "Profile_ip")
         }
         viewModel.arrOfValueChart = []
         viewModel.arrOfValueChart.append(viewModel.getScanSummaryResponse?.totalTicketToScan ?? 0)
@@ -319,11 +294,6 @@ extension ScanSummaryVC: UITableViewDelegate, UITableViewDataSource {
         }
         return UITableView.automaticDimension
     }
-    
-    
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 112
-//    }
 }
 // MARK: - NavigationBarViewDelegate
 extension ScanSummaryVC: NavigationBarViewDelegate {

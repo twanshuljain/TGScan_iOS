@@ -18,48 +18,6 @@ class ScanSummaryViewModel {
     var getScanSummaryResponse: GetScanSummaryResponse?
     var updateTicketModel = UpdateTicketModel()
     // MARK: Custom Functions
-//    func getScanOverview(completion: @escaping (Bool, String) -> Void) {
-//        
-//        APIHandler.shared.executeRequestWith(apiName: .scanDetail, parameters: scanOverviewModel, methodType: .GET) { (result: Result<ResponseModal<GetScanOverviewData>, Error>) in
-//            switch result {
-//            case .success(let response):
-//                print("success scan overview api")
-//                if response.status_code == 200 {
-//                    DispatchQueue.main.async {
-//                        if let data = response.data {
-//                            self.getScanOverviewData = data
-//                            completion(true, response.message ?? "")
-//                        }
-//                    }
-//                }
-//            case .failure(let error):
-//                print("error", error)
-//                print("failure scan overview api ")
-//                completion(false, error as? String ?? "")
-//            }
-//        }
-//    }
-//    func getScanSummary(completion: @escaping (Bool, String) -> Void) {
-//        APIHandler.shared.executeRequestWith(apiName: .scanSummary, parameters: scanSummaryModel, methodType: .GET) { (result: Result<ResponseModal<GetScanSummaryData>, Error>) in
-//            switch result {
-//            case .success(let response):
-//                print("success scan summary api")
-//                if response.status_code == 200 {
-//                    DispatchQueue.main.async {
-//                        if let data = response.data {
-//                            self.getScanSummaryItem.removeAll()
-//                            self.getScanSummaryItem = data.items ?? []
-//                            completion(true, response.message ?? "")
-//                        }
-//                    }
-//                }
-//            case .failure(let error):
-//                print("error", error)
-//                print("failure scan summary api ")
-//                completion(false, error as? String ?? "")
-//            }
-//        }
-//    }
     func getScanSummary(completion: @escaping (Bool, String) -> Void) {
         let dictBody: [String: Any] = [
             "event_id": updateTicketModel.eventId as Any
