@@ -314,6 +314,11 @@ extension ScannerVC {
     func offlineFetchBarCode() {
         if Reachability.isConnectedToNetwork() {
             self.view.showLoading(centreToView: self.view)
+//            self.viewModel.saveOfflineRecords(offlineRecord: self.viewModel.offlineData, complition: { isStored in
+//                print("data stored")
+//            })
+            let data = DatabaseHelper.shareInstance.checkBarCodeExistance(barCode: "956317703383")
+//            print("data", data)
             viewModel.offlineFetchBarCode (
                 complition: { isTrue, showMessage in
                     if isTrue {

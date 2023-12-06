@@ -6,6 +6,7 @@
 
 import UIKit
 import SDWebImage
+import CoreNFC
 
 class FindRFIDVC: UIViewController {
     // MARK: - Oulets
@@ -37,6 +38,7 @@ class FindRFIDVC: UIViewController {
         super.viewDidLoad()
         self.setFont()
         self.setUI()
+        self.startNFCReading()
     }
 }
 // MARK: -
@@ -132,5 +134,43 @@ extension FindRFIDVC {
                 break
             }
         }
+    }
+    func startNFCReading() {
+        guard NFCNDEFReaderSession.readingAvailable else {
+            let alertController = UIAlertController(
+                title: "Scanning Not Supported",
+                message: "This device doesn't support tag scanning.",
+                preferredStyle: .alert
+            )
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return
+        }
+        self.viewModel.nfcSession = NFCNDEFReaderSession(delegate: self, queue: nil, invalidateAfterFirstRead: false)
+        self.viewModel.nfcSession?.alertMessage = "Hold your iPhone near the item to learn more about it."
+        self.viewModel.nfcSession?.begin()
+    }
+}
+extension FindRFIDVC: NFCNDEFReaderSessionDelegate {
+    func readerSessionDidBecomeActive(_ session: NFCNDEFReaderSession) {
+        print(session)
+    }
+    func readerSession(_ session: NFCNDEFReaderSession, didDetectNDEFs messages: [NFCNDEFMessage]) {
+        guard let message = messages.first else {
+            return
+        }
+        for record in message.records {
+            print("Payload: \(record.payload)")
+            var data = String(data: record.payload,encoding:.utf8)
+            if let data = data {
+                self.viewModel.nfcBarCodeId.append(data)
+            }
+        }
+        print(self.viewModel.nfcBarCodeId)
+        // Optionally, you can stop the session after the first read
+        session.invalidate()
+    }
+    func readerSession(_ session: NFCNDEFReaderSession, didInvalidateWithError error: Error) {
+        print("NFC session invalidated with error: \(error.localizedDescription)")
     }
 }

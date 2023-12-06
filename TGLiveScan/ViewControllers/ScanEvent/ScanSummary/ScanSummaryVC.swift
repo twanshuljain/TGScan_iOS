@@ -76,7 +76,7 @@ extension ScanSummaryVC {
         let alert = UIAlertController.init(title: "Logout", message: "Do you want to logout?", preferredStyle: .alert)
         let btnCancel = UIAlertAction.init(title: "Cancel", style: .default) { _ in
         }
-        let btnYes = UIAlertAction.init(title: "Yes", style: .destructive) { _ in
+        let btnYes = UIAlertAction.init(title: "Logout", style: .destructive) { _ in
             UserDefaultManager.share.removeUserDefualtsModels(key: .userAuthData) // Clear session when user logged out.
             print("after delete userDefault at Scan summary", UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData) as Any)
             // Remove selected Ticket Types on Logout

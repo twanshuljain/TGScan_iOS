@@ -772,6 +772,7 @@ extension APIHandler {
                         complition(.success(responseModel))
                     }
                     catch {
+                        complition(.failure(error))
                         print(error)
                     }
                 } else {

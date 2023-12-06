@@ -67,10 +67,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func start() {
         let userDataModel = UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData)
         if (userDataModel?.info?.masterId?.isEmpty) ?? true {
-            print("login")
             showLogin()
         } else {
-            print("dashbioard")
             showDashboard()
         }
     }
@@ -87,8 +85,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navController = storyboard.instantiateViewController(withIdentifier: "DashboardNav") as? UINavigationController
         let navControllerTicketTypeVC = storyboard.instantiateViewController(withIdentifier: "ScanEventNav") as? UINavigationController
         let rootViewController: UIViewController = storyboard.instantiateViewController(withIdentifier: "ScannerVC") as! ScannerVC
-        let selectedTicketTypeVC: UIViewController = storyboard.instantiateViewController(withIdentifier: "SelectTicketTypeVC") as! SelectTicketTypeVC
-//        navControllerTicketTypeVC!.viewControllers = [rootViewController]
         navController!.viewControllers = [rootViewController]
         self.window?.rootViewController = navController
         self.window?.makeKeyAndVisible()

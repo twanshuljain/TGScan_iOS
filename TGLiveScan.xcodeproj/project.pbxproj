@@ -19,6 +19,9 @@
 		186D74A92B05FCA80087BD9B /* TGLiveScanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D74A82B05FCA80087BD9B /* TGLiveScanTests.swift */; };
 		186D74B32B05FCA80087BD9B /* TGLiveScanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D74B22B05FCA80087BD9B /* TGLiveScanUITests.swift */; };
 		186D74B52B05FCA80087BD9B /* TGLiveScanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D74B42B05FCA80087BD9B /* TGLiveScanUITestsLaunchTests.swift */; };
+		1871DF9A2B1F042F003BBAC3 /* OfflineScan+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871DF982B1F042F003BBAC3 /* OfflineScan+CoreDataClass.swift */; };
+		1871DF9B2B1F042F003BBAC3 /* OfflineScan+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871DF992B1F042F003BBAC3 /* OfflineScan+CoreDataProperties.swift */; };
+		1871DF9E2B1F074C003BBAC3 /* DataBaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871DF9D2B1F074C003BBAC3 /* DataBaseHelper.swift */; };
 		1886904F2B0B3D7800D3349D /* GetTicketTypesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1886904E2B0B3D7800D3349D /* GetTicketTypesModel.swift */; };
 		188690512B0B685C00D3349D /* UpdateTicketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188690502B0B685C00D3349D /* UpdateTicketModel.swift */; };
 		18BA02D02B0602B200A41939 /* APIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BA02CC2B0602B200A41939 /* APIHandler.swift */; };
@@ -137,6 +140,10 @@
 		186D74AE2B05FCA80087BD9B /* TGLiveScanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TGLiveScanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		186D74B22B05FCA80087BD9B /* TGLiveScanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGLiveScanUITests.swift; sourceTree = "<group>"; };
 		186D74B42B05FCA80087BD9B /* TGLiveScanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGLiveScanUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1871DF982B1F042F003BBAC3 /* OfflineScan+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OfflineScan+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1871DF992B1F042F003BBAC3 /* OfflineScan+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OfflineScan+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1871DF9D2B1F074C003BBAC3 /* DataBaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseHelper.swift; sourceTree = "<group>"; };
+		1871DF9F2B20549C003BBAC3 /* TGLiveScan.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TGLiveScan.entitlements; sourceTree = "<group>"; };
 		1886904E2B0B3D7800D3349D /* GetTicketTypesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTicketTypesModel.swift; sourceTree = "<group>"; };
 		188690502B0B685C00D3349D /* UpdateTicketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTicketModel.swift; sourceTree = "<group>"; };
 		18BA02CC2B0602B200A41939 /* APIHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIHandler.swift; sourceTree = "<group>"; };
@@ -301,6 +308,8 @@
 		186D748D2B05FCA60087BD9B /* TGLiveScan */ = {
 			isa = PBXGroup;
 			children = (
+				1871DF9F2B20549C003BBAC3 /* TGLiveScan.entitlements */,
+				1871DF962B1F00D1003BBAC3 /* DataBaseHandler */,
 				18BA03942B06178500A41939 /* Global */,
 				18BA03452B06066100A41939 /* TableViewCells */,
 				18BA033E2B06057D00A41939 /* Extensions */,
@@ -310,7 +319,6 @@
 				18BA02CA2B0601BE00A41939 /* ViewControllers */,
 				18BA02C92B06016900A41939 /* AppDelegate */,
 				186D749F2B05FCA80087BD9B /* Info.plist */,
-				186D74972B05FCA60087BD9B /* TGLiveScan.xcdatamodeld */,
 			);
 			path = TGLiveScan;
 			sourceTree = "<group>";
@@ -330,6 +338,33 @@
 				186D74B42B05FCA80087BD9B /* TGLiveScanUITestsLaunchTests.swift */,
 			);
 			path = TGLiveScanUITests;
+			sourceTree = "<group>";
+		};
+		1871DF962B1F00D1003BBAC3 /* DataBaseHandler */ = {
+			isa = PBXGroup;
+			children = (
+				1871DF9C2B1F073B003BBAC3 /* DataBaseHelper */,
+				186D74972B05FCA60087BD9B /* TGLiveScan.xcdatamodeld */,
+				1871DF972B1F00F5003BBAC3 /* EntityClasses */,
+			);
+			path = DataBaseHandler;
+			sourceTree = "<group>";
+		};
+		1871DF972B1F00F5003BBAC3 /* EntityClasses */ = {
+			isa = PBXGroup;
+			children = (
+				1871DF982B1F042F003BBAC3 /* OfflineScan+CoreDataClass.swift */,
+				1871DF992B1F042F003BBAC3 /* OfflineScan+CoreDataProperties.swift */,
+			);
+			path = EntityClasses;
+			sourceTree = "<group>";
+		};
+		1871DF9C2B1F073B003BBAC3 /* DataBaseHelper */ = {
+			isa = PBXGroup;
+			children = (
+				1871DF9D2B1F074C003BBAC3 /* DataBaseHelper.swift */,
+			);
+			path = DataBaseHelper;
 			sourceTree = "<group>";
 		};
 		18BA02C92B06016900A41939 /* AppDelegate */ = {
@@ -904,6 +939,7 @@
 				18BA039A2B06188500A41939 /* Date+Extension.swift in Sources */,
 				18CB956A2B14CAC60011CE39 /* EmailSearchPopupViewController.swift in Sources */,
 				18BA03AB2B06246600A41939 /* NavigationBarView.swift in Sources */,
+				1871DF9E2B1F074C003BBAC3 /* DataBaseHelper.swift in Sources */,
 				18BA02D12B0602B200A41939 /* CheckInterNetConnectivity.swift in Sources */,
 				18BA038E2B0614BD00A41939 /* ScannerViewModel.swift in Sources */,
 				18BA034A2B06070F00A41939 /* Constant.swift in Sources */,
@@ -912,6 +948,7 @@
 				18BA039F2B06192000A41939 /* ValidationConstantStrings.swift in Sources */,
 				18BA03962B06179000A41939 /* UserDefaultManager.swift in Sources */,
 				18BA03442B06061000A41939 /* uiColour+Extensions.swift in Sources */,
+				1871DF9A2B1F042F003BBAC3 /* OfflineScan+CoreDataClass.swift in Sources */,
 				18587EBE2B14E97F0013BE06 /* GetEmailOrdersResponseModel.swift in Sources */,
 				18BA03502B06074000A41939 /* CustomSearchBar.swift in Sources */,
 				18BA02D32B0602B200A41939 /* FileUploader.swift in Sources */,
@@ -957,6 +994,7 @@
 				18BA03832B0614BD00A41939 /* FindRFIDVC.swift in Sources */,
 				18BA038B2B0614BD00A41939 /* SelectTicketTypeViewModel.swift in Sources */,
 				18C5CA5C2B0F3B5D00615F93 /* OfflineModeTableViewCell.swift in Sources */,
+				1871DF9B2B1F042F003BBAC3 /* OfflineScan+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1124,6 +1162,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TGLiveScan/TGLiveScan.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5KQQ4NSG87;
@@ -1134,7 +1173,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1154,6 +1193,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = TGLiveScan/TGLiveScan.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5KQQ4NSG87;
@@ -1164,7 +1204,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

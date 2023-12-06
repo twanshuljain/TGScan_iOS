@@ -84,6 +84,8 @@ struct GetOfflineFetchBarCodeResponse: Codable {
     var ticketId: String?
     var ticketType: String?
     var usedStatus: String?
+    var countForRejection: String?
+    
     enum CodingKeys: String, CodingKey {
         case message
         case statusCode = "statuscode"
@@ -92,5 +94,6 @@ struct GetOfflineFetchBarCodeResponse: Codable {
         case ticketId = "ticket_id"
         case ticketType = "ticket_type"
         case usedStatus = "used_status"
+        case countForRejection = "countForRejection"
     }
 }

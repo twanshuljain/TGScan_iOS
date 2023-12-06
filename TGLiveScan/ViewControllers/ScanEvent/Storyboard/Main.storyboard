@@ -131,7 +131,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rti-YX-4iG">
                                                                 <rect key="frame" x="0.0" y="26" width="321" height="48"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="p83494" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rvt-MC-RGC">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="w17349" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rvt-MC-RGC">
                                                                         <rect key="frame" x="5" y="0.0" width="316" height="48"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1733,9 +1733,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="755"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_ip" translatesAutoresizingMaskIntoConstraints="NO" id="xPe-qE-bMW">
-                                                <rect key="frame" x="0.0" y="0.0" width="393" height="250"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="393" height="220"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="250" id="sBO-Aa-TGs"/>
+                                                    <constraint firstAttribute="height" constant="220" id="sBO-Aa-TGs"/>
                                                 </constraints>
                                             </imageView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WIv-uQ-9en">
@@ -1782,7 +1782,7 @@
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G7T-dB-tnD">
-                                                <rect key="frame" x="154.66666666666666" y="638" width="84" height="40"/>
+                                                <rect key="frame" x="154.66666666666666" y="575" width="84" height="40"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="84" id="Kcd-Dq-rEe"/>
                                                     <constraint firstAttribute="height" constant="40" id="MLF-5U-sGl"/>
@@ -1804,22 +1804,22 @@
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="FeD-fm-vzJ">
-                                                <rect key="frame" x="42" y="698" width="309" height="20.333333333333371"/>
+                                                <rect key="frame" x="42" y="635" width="309" height="90"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accepted : 56" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gkN-iD-nq0">
-                                                        <rect key="frame" x="0.0" y="0.0" width="106.66666666666667" height="20.333333333333332"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="106.66666666666667" height="90"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total : 287" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S2c-Zo-QjL">
-                                                        <rect key="frame" x="122.66666666666666" y="0.0" width="80" height="20.333333333333332"/>
+                                                        <rect key="frame" x="122.66666666666666" y="0.0" width="80" height="90"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rejected : 5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IBq-GY-q75">
-                                                        <rect key="frame" x="218.66666666666671" y="0.0" width="90.333333333333343" height="20.333333333333332"/>
+                                                        <rect key="frame" x="218.66666666666671" y="0.0" width="90.333333333333343" height="90"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -1830,13 +1830,13 @@
                                                 <rect key="frame" x="341" y="17" width="36" height="36"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keep Closer Your Device." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GmC-JU-LIN">
-                                                <rect key="frame" x="100.66666666666667" y="204.66666666666669" width="191.66666666666663" height="20.333333333333343"/>
+                                                <rect key="frame" x="100.66666666666667" y="209.66666666666669" width="191.66666666666663" height="20.333333333333343"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="connect_ip" translatesAutoresizingMaskIntoConstraints="NO" id="SMx-ig-X6C">
-                                                <rect key="frame" x="0.0" y="280" width="393" height="300"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="connect_ip" translatesAutoresizingMaskIntoConstraints="NO" id="SMx-ig-X6C">
+                                                <rect key="frame" x="0.0" y="250" width="393" height="300"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="43b-Rj-HxD"/>
                                                 </constraints>
@@ -1863,10 +1863,10 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstItem="FeD-fm-vzJ" firstAttribute="top" secondItem="G7T-dB-tnD" secondAttribute="bottom" constant="20" id="0Yb-mf-iC1"/>
-                                            <constraint firstItem="GmC-JU-LIN" firstAttribute="top" secondItem="7Md-cy-Av8" secondAttribute="bottom" constant="30" id="2Xu-sL-gnL"/>
+                                            <constraint firstItem="GmC-JU-LIN" firstAttribute="top" secondItem="7Md-cy-Av8" secondAttribute="bottom" constant="35" id="2Xu-sL-gnL"/>
                                             <constraint firstItem="xRA-PF-il7" firstAttribute="centerX" secondItem="zrt-Lv-5V8" secondAttribute="centerX" id="5cO-WF-qv6"/>
                                             <constraint firstItem="ZCC-px-pA2" firstAttribute="leading" secondItem="PIm-MS-8cI" secondAttribute="leading" id="6Gp-PW-nUB"/>
-                                            <constraint firstItem="G7T-dB-tnD" firstAttribute="top" secondItem="SMx-ig-X6C" secondAttribute="bottom" constant="58" id="97X-sv-69r"/>
+                                            <constraint firstItem="G7T-dB-tnD" firstAttribute="top" secondItem="SMx-ig-X6C" secondAttribute="bottom" constant="25" id="97X-sv-69r"/>
                                             <constraint firstAttribute="trailing" secondItem="xPe-qE-bMW" secondAttribute="trailing" id="A9A-Id-Gav"/>
                                             <constraint firstItem="afT-EK-lAU" firstAttribute="top" secondItem="zrt-Lv-5V8" secondAttribute="top" constant="25" id="BKj-u9-wq7"/>
                                             <constraint firstItem="ZCC-px-pA2" firstAttribute="top" secondItem="zrt-Lv-5V8" secondAttribute="top" constant="17" id="CLQ-jG-TLC"/>
@@ -1883,7 +1883,7 @@
                                             <constraint firstItem="xRA-PF-il7" firstAttribute="centerY" secondItem="zrt-Lv-5V8" secondAttribute="centerY" id="lot-j9-a7s"/>
                                             <constraint firstItem="xPe-qE-bMW" firstAttribute="leading" secondItem="zrt-Lv-5V8" secondAttribute="leading" id="lpK-Qk-V1J"/>
                                             <constraint firstAttribute="trailing" secondItem="SMx-ig-X6C" secondAttribute="trailing" id="nBw-h5-sZ0"/>
-                                            <constraint firstAttribute="bottom" secondItem="FeD-fm-vzJ" secondAttribute="bottom" constant="36.670000000000002" id="qsC-kM-zpI"/>
+                                            <constraint firstAttribute="bottom" secondItem="FeD-fm-vzJ" secondAttribute="bottom" constant="30" id="qsC-kM-zpI"/>
                                             <constraint firstItem="PIm-MS-8cI" firstAttribute="leading" secondItem="afT-EK-lAU" secondAttribute="trailing" constant="8" id="sFD-2l-jXq"/>
                                             <constraint firstItem="WIv-uQ-9en" firstAttribute="centerX" secondItem="xPe-qE-bMW" secondAttribute="centerX" id="sVE-nw-OI5"/>
                                             <constraint firstItem="ZCC-px-pA2" firstAttribute="bottom" secondItem="PIm-MS-8cI" secondAttribute="bottom" id="urN-gw-6En"/>
