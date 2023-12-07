@@ -79,7 +79,7 @@ class ScannerViewModel {
             switch result {
             case .success(let response):
                 if response.statusCode == "200" {
-                    print("success api", Date.now)
+//                    print("success api", Date./)
 //                    self.storeOfflineDataInDataBase(offlineRecord: response, complition: { isStored in
 //                        print("return after stored", Date.now)
 //

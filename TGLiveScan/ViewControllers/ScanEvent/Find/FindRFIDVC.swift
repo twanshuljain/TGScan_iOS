@@ -50,7 +50,6 @@ extension FindRFIDVC {
             imgConnect.isHidden = true
         } else {
             connectedStackView.isHidden = true
-            showToast(message: SOMETHING_WENT_WRONG)
         }
         self.lblScan.font = UIFont.setFont(fontType: .medium, fontSize: .twelve)
         self.lblScan.textColor = UIColor.setColor(colorType: .lblTextPara)
@@ -88,6 +87,11 @@ extension FindRFIDVC {
         } else {
             self.profileImage.image = UIImage(named: "Profile_ip")
         }
+    }
+    func dataSetToUserModel() {
+        let userDataModel = UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData)
+        viewModel.scanBarCodeModel.eventId = viewModel.updateTicketModel.eventId
+        viewModel.scanBarCodeModel.operatorName = userDataModel?.userName ?? ""
     }
 }
 // MARK: - Instance Method
@@ -150,6 +154,31 @@ extension FindRFIDVC {
         self.viewModel.nfcSession?.alertMessage = "Hold your iPhone near the item to learn more about it."
         self.viewModel.nfcSession?.begin()
     }
+    // Get entry by the NFC tag bar code
+    func scanBarCode() {
+        if Reachability.isConnectedToNetwork() { // check internet connectivity
+            self.view.showLoading(centreToView: self.view)
+            viewModel.scanBarCodeApi(
+                complition: { isTrue, showMessage in
+                    if isTrue {
+                        DispatchQueue.main.async {
+                            self.view.stopLoading()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.view.stopLoading()
+                            self.showToast(message: showMessage)
+                        }
+                    }
+                }
+            )
+        } else {
+            DispatchQueue.main.async {
+                self.view.stopLoading()
+                self.showToast(message: ValidationConstantStrings.networkLost)
+            }
+        }
+    }
 }
 extension FindRFIDVC: NFCNDEFReaderSessionDelegate {
     func readerSessionDidBecomeActive(_ session: NFCNDEFReaderSession) {
@@ -167,6 +196,10 @@ extension FindRFIDVC: NFCNDEFReaderSessionDelegate {
             }
         }
         print(self.viewModel.nfcBarCodeId)
+        // Update bar code API (Gets entry)
+        if !viewModel.nfcBarCodeId.isEmpty {
+            scanBarCode()
+        }
         // Optionally, you can stop the session after the first read
         session.invalidate()
     }
