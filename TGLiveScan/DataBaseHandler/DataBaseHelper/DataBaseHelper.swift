@@ -42,7 +42,7 @@ class DatabaseHelper {
             let records = try context.fetch(fetchRequest)
             // Return the first record (assuming IDs are unique)
             var data = records.first as? OfflineScan
-            print("barCode", data?.barCode)
+            print("barCode", data?.barCode as Any)
             return records.first as? OfflineScan
         } catch {
             print("Error fetching record: \(error)")

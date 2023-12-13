@@ -521,7 +521,7 @@ extension APIHandler {
                         let message = response?.url?.lastPathComponent
                         complition(.failure("API \(message ?? "") Invalid Response."))
                     }
-                } else if httpStatusCode == 200, let data = data {
+                } else if httpStatusCode == 200 {
                     complition(.success("Success"))
                 } else {
                     do {

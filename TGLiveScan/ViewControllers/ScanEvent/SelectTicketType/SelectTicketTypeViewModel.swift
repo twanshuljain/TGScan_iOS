@@ -24,11 +24,7 @@ class SelectTicketTypeViewModel {
             switch result {
             case .success(let response):
                 print("response....",response)
-                // Get selected ticket types from User defaults if available else get response from API.
-                self.arrTicketTypes = UserDefaultManager.share.getSelectedTicketTypes()
-                if self.arrTicketTypes.isEmpty {
-                    self.arrTicketTypes = response
-                }
+                self.arrTicketTypes = response
                 complition(true, "Success")
             case .failure(let error):
                 complition(false,"\(error)")

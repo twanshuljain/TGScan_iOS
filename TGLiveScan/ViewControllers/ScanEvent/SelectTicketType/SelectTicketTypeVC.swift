@@ -20,7 +20,6 @@ class SelectTicketTypeVC: UIViewController {
         self.setTableView()
         self.setFont()
         self.setUI()
-        getTicketTypeList()
     }
 }
 
@@ -31,6 +30,11 @@ extension SelectTicketTypeVC {
         viewModel.updateTicketModel.eventId = Int(userDataModel?.info?.masterId ?? "") ?? 0
         viewModel.updateTicketModel.eventName = userDataModel?.info?.eventName ?? ""
         viewModel.updateTicketModel.date = userDataModel?.info?.showdate ?? ""
+        viewModel.arrTicketTypes = UserDefaultManager.share.getSelectedTicketTypes()
+        // Get selected ticket types from User defaults if available else get response from API.
+        if viewModel.arrTicketTypes.isEmpty {
+            getTicketTypeList()
+        }
     }
     func setNavigationview() {
         vwNavigationView.delegateBarAction = self
@@ -56,63 +60,44 @@ extension SelectTicketTypeVC {
         btnDone.titleLabel?.textColor = UIColor.setColor(colorType: .btnDarkBlue)
     }
     func getTicketTypeList() {
-        if Reachability.isConnectedToNetwork() { // check internet connectivity
-            self.view.showLoading(centreToView: self.view)
-            viewModel.getTicketTypeList(
-                complition: { isTrue, showMessage in
-                    if isTrue {
-                        print("Success")
-                        DispatchQueue.main.async {
-                            self.view.stopLoading()
-                            self.tblTicketTypeTablView.reloadData()
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            self.view.stopLoading()
-                            self.showToast(message: showMessage)
-                        }
+        self.view.showLoading(centreToView: self.view)
+        viewModel.getTicketTypeList(
+            complition: { isTrue, showMessage in
+                if isTrue {
+                    print("Success")
+                    DispatchQueue.main.async {
+                        self.view.stopLoading()
+                        self.tblTicketTypeTablView.reloadData()
                     }
                 }
-            )
-        } else {
-            DispatchQueue.main.async {
-                self.view.stopLoading()
-                self.showToast(message: ValidationConstantStrings.networkLost)
             }
-        }
+        )
     }
     func updateTickets() {
-        if Reachability.isConnectedToNetwork() { // check internet connectivity
-            self.view.showLoading(centreToView: self.view)
-            viewModel.updateTickets(
-                complition: { isTrue, showMessage in
-                    if isTrue {
-                        print("Success")
-                        DispatchQueue.main.async {
-                            self.view.stopLoading()
-                            if let scannerVC = self.createView(storyboard: .main, storyboardID: .ScannerVC) as? ScannerVC {
-                                scannerVC.viewModel.updateTicketModel.eventId = self.viewModel.updateTicketModel.eventId
-                                scannerVC.viewModel.updateTicketModel.eventName = self.viewModel.updateTicketModel.eventName
-                                scannerVC.viewModel.updateTicketModel.date = self.viewModel.updateTicketModel.date
-                                scannerVC.viewModel.updateTicketModel.userName = self.viewModel.updateTicketModel.userName
-                                self.navigationController?.pushViewController(scannerVC, animated: false)
-                                self.navigationController?.viewControllers = [scannerVC]
-                            }
-                        }
-                    } else {
-                        DispatchQueue.main.async {
-                            self.view.stopLoading()
-                            self.showToast(message: showMessage)
+        self.view.showLoading(centreToView: self.view)
+        viewModel.updateTickets(
+            complition: { isTrue, showMessage in
+                if isTrue {
+                    print("Success")
+                    DispatchQueue.main.async {
+                        self.view.stopLoading()
+                        if let scannerVC = self.createView(storyboard: .main, storyboardID: .ScannerVC) as? ScannerVC {
+                            scannerVC.viewModel.updateTicketModel.eventId = self.viewModel.updateTicketModel.eventId
+                            scannerVC.viewModel.updateTicketModel.eventName = self.viewModel.updateTicketModel.eventName
+                            scannerVC.viewModel.updateTicketModel.date = self.viewModel.updateTicketModel.date
+                            scannerVC.viewModel.updateTicketModel.userName = self.viewModel.updateTicketModel.userName
+                            self.navigationController?.pushViewController(scannerVC, animated: false)
+                            self.navigationController?.viewControllers = [scannerVC]
                         }
                     }
+                } else {
+                    DispatchQueue.main.async {
+                        self.view.stopLoading()
+                        self.showToast(message: showMessage)
+                    }
                 }
-            )
-        } else {
-            DispatchQueue.main.async {
-                self.view.stopLoading()
-                self.showToast(message: ValidationConstantStrings.networkLost)
             }
-        }
+        )
     }
     @objc func actionSwitch(_ sender: UISwitch) {
         viewModel.arrTicketTypes[sender.tag].isSelected = !(viewModel.arrTicketTypes[sender.tag].isSelected ?? false)

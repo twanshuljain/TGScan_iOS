@@ -15,7 +15,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomSearchBar" customModule="TicketGateway" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CustomSearchBar" customModule="TGLiveScan" customModuleProvider="target">
             <connections>
                 <outlet property="btnFilter" destination="cff-kn-KHN" id="NZB-26-xj4"/>
                 <outlet property="btnLocation" destination="Qdz-Ds-9AA" id="noI-cV-K1Q"/>
