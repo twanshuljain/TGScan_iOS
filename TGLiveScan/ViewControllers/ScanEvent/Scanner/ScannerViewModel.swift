@@ -30,6 +30,8 @@ class ScannerViewModel {
         GetOfflineFetchBarCodeResponse(barCode: "9563177448956", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
         GetOfflineFetchBarCodeResponse(barCode: "956317744897", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N")
     ]
+    var scannerEnable: Int = 1
+    var dispatchGroup = DispatchGroup()
     // MARK: Custom Functions
     func getScanDetail(complition: @escaping (Bool, String) -> Void) {
         APIHandler.shared.getScanDetails(

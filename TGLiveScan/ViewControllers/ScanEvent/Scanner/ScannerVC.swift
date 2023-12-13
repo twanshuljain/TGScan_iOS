@@ -43,7 +43,9 @@ class ScannerVC: UIViewController {
         super.viewDidLoad()
         self.setUI()
         self.setFont()
-        self.getCameraPreview()
+        DispatchQueue.main.async {
+            self.getCameraPreview()
+        }
         dataSetToUserModel()
         setUIAndGetScanDetail()
     }
@@ -194,7 +196,12 @@ extension ScannerVC {
     func btnScanAgainAction() {
         imgScanStatus.isHidden = true
         imgScanStatusBGColor.isHidden = true
-        getCameraPreview()
+        print("viewModel.scannerEnable", viewModel.scannerEnable)
+        if viewModel.scannerEnable == 0 {
+            getCameraPreview()
+            // Disable scanner after once tap on scan again button
+            viewModel.scannerEnable = 1
+        }
     }
     func btnFindRfidAction() {
         if let findRFIDVc = createView(storyboard: .main, storyboardID: .FindRFIDVC) as? FindRFIDVC {
@@ -285,20 +292,26 @@ extension ScannerVC {
         }
     }
     func scanBarCode() {
+        var success = false
+        var msg = ""
         if Reachability.isConnectedToNetwork() { // check internet connectivity
+            viewModel.dispatchGroup.enter()
             self.view.showLoading(centreToView: self.view)
             viewModel.scanBarCodeApi(
                 complition: { isTrue, showMessage in
                     if isTrue {
+                        success = true
+                        msg = showMessage
+                        self.viewModel.dispatchGroup.leave()
                         DispatchQueue.main.async {
                             self.view.stopLoading()
-                            self.setUIAfterScanTicket(isSuccess: true, message: showMessage)
                         }
                     } else {
+                        success = false
+                        msg = showMessage
+                        self.viewModel.dispatchGroup.leave()
                         DispatchQueue.main.async {
                             self.view.stopLoading()
-                            self.vibrateDevice()
-                            self.setUIAfterScanTicket(isSuccess: false, message: showMessage)
                             self.showToast(message: showMessage)
                         }
                     }
@@ -309,6 +322,9 @@ extension ScannerVC {
                 self.view.stopLoading()
                 self.showToast(message: ValidationConstantStrings.networkLost)
             }
+        }
+        self.viewModel.dispatchGroup.notify(queue: .main) {
+            self.setUIAfterScanTicket(isSuccess: success, message: msg)
         }
     }
     func offlineFetchBarCode() {
@@ -349,6 +365,8 @@ extension ScannerVC {
         imgScanStatusBGColor.backgroundColor = UIColor.setColor(colorType: isSuccess ? .tgGreen : .tgRed)
         lblQrid.text = viewModel.scanBarCodeModel.barcode
         lblScanStatusMessage.text = message
+        // Enable scanner
+        self.viewModel.scannerEnable = 0
         // Get Updated Data after send QRid
         getScanDetail()
     }
