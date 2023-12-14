@@ -36,21 +36,30 @@ class FindRFIDVC: UIViewController {
     let viewModel = FindRFIDViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setFont()
-        self.setUI()
-        self.startNFCReading()
+        setFont()
+        setUI()
+        startNFCReading()
+        dataSetToUserModel()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.isConnected = false
     }
 }
 // MARK: -
 extension FindRFIDVC {
-    func setFont() {
+    func setImages() {
         if viewModel.isConnected {
             connectedStackView.isHidden = false
             lblKeepCloserYourDevice.isHidden = true
             imgConnect.isHidden = true
         } else {
             connectedStackView.isHidden = true
+            lblKeepCloserYourDevice.isHidden = false
+            imgConnect.isHidden = false
         }
+    }
+    func setFont() {
+        setImages()
         self.lblScan.font = UIFont.setFont(fontType: .medium, fontSize: .twelve)
         self.lblScan.textColor = UIColor.setColor(colorType: .lblTextPara)
         self.imgScan.image = UIImage(named: SCAN_UNSELECTED_ICON)
@@ -90,14 +99,14 @@ extension FindRFIDVC {
     }
     func dataSetToUserModel() {
         let userDataModel = UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData)
-        viewModel.scanBarCodeModel.eventId = viewModel.updateTicketModel.eventId
+        viewModel.scanBarCodeModel.eventId = Int(userDataModel?.info?.masterId ?? "0") ?? 0
         viewModel.scanBarCodeModel.operatorName = userDataModel?.userName ?? ""
     }
 }
 // MARK: - Instance Method
 extension FindRFIDVC {
     func setUI() {
-        [self.btnSearch, self.btnScan, self.btnFindRfid, self.btnTicket].forEach {
+        [self.btnSearch, self.btnScan, self.btnFindRfid, self.btnTicket, btnEndScan].forEach {
             $0?.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
         }
     }
@@ -111,6 +120,8 @@ extension FindRFIDVC {
             self.btnSearchAction()
         case btnTicket:
             self.btnTicketAction()
+        case btnEndScan:
+            self.btnEndScanAction()
         default:
             break
         }
@@ -122,7 +133,21 @@ extension FindRFIDVC {
             self.navigationController?.pushViewController(scannerVC, animated: false)
         }
     }
+    func btnEndScanAction() {
+        let popUpVc = self.createView(storyboard: .main, storyboardID: .EndScanPoPUpVC) as! EndScanPoPUpVC
+        popUpVc.delegate = self
+        popUpVc.isStackViewHidden = false
+        popUpVc.isViewForOkayButtonHidden = true
+        popUpVc.strMsgForTitle = END_SCAN
+        popUpVc.strMsgForDescription = WANT_TO_SCAN_EVENT
+        popUpVc.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        self.present(popUpVc, animated: true)
+    }
     func btnFindRfidAction() {
+        // To reset the scanner for NFC tag.
+        self.startNFCReading()
+        viewModel.isConnected = false
+        setImages()
     }
     func btnSearchAction() {
         if let searchVC = createView(storyboard: .main, storyboardID: .SearchVC) as? SearchVC {
@@ -132,12 +157,7 @@ extension FindRFIDVC {
         }
     }
     func btnTicketAction() {
-        for controller in self.navigationController!.viewControllers as Array {
-            if controller.isKind(of: SelectTicketTypeVC.self) {
-                self.navigationController!.popToViewController(controller, animated: true)
-                break
-            }
-        }
+        self.navigationController?.popViewController(animated: false)
     }
     func startNFCReading() {
         guard NFCNDEFReaderSession.readingAvailable else {
@@ -157,15 +177,20 @@ extension FindRFIDVC {
     // Get entry by the NFC tag bar code
     func scanBarCode() {
         if Reachability.isConnectedToNetwork() { // check internet connectivity
-            self.view.showLoading(centreToView: self.view)
+            DispatchQueue.main.async {
+                self.view.showLoading(centreToView: self.view)
+            }
             viewModel.scanBarCodeApi(
                 complition: { isTrue, showMessage in
                     if isTrue {
                         DispatchQueue.main.async {
+                            self.viewModel.isConnected = true
                             self.view.stopLoading()
+                            self.setImages()
                         }
                     } else {
                         DispatchQueue.main.async {
+                            self.viewModel.isConnected = false
                             self.view.stopLoading()
                             self.showToast(message: showMessage)
                         }
@@ -190,7 +215,7 @@ extension FindRFIDVC: NFCNDEFReaderSessionDelegate {
         }
         for record in message.records {
             print("Payload: \(record.payload)")
-            var data = String(data: record.payload,encoding:.utf8)
+            let data = String(data: record.payload,encoding:.utf8)
             if let data = data {
                 self.viewModel.nfcBarCodeId.append(data)
             }
@@ -207,3 +232,12 @@ extension FindRFIDVC: NFCNDEFReaderSessionDelegate {
         print("NFC session invalidated with error: \(error.localizedDescription)")
     }
 }
+extension FindRFIDVC: AlertAction {
+    func alertYesaction() {
+        if let view = createView(storyboard: .main, storyboardID: .ScanSummaryVC) as? ScanSummaryVC {
+            view.viewModel.updateTicketModel = viewModel.updateTicketModel
+            self.navigationController?.pushViewController(view, animated: true)
+        }
+    }
+}
+    

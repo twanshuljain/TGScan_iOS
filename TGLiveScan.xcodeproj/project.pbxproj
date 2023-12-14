@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0D8C778FB179508D1BF41FE0 /* Pods_TGLiveScan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76F87F4924F25DF52388552E /* Pods_TGLiveScan.framework */; };
 		184148522B0E4B4C00A2EEE1 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184148512B0E4B4C00A2EEE1 /* WebViewViewController.swift */; };
+		1857949A2B2AE7D100F9A691 /* OfflineScan+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185794982B2AE7D100F9A691 /* OfflineScan+CoreDataClass.swift */; };
+		1857949B2B2AE7D100F9A691 /* OfflineScan+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185794992B2AE7D100F9A691 /* OfflineScan+CoreDataProperties.swift */; };
 		18587EBC2B14E7AC0013BE06 /* EmailSearchDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18587EBB2B14E7AC0013BE06 /* EmailSearchDataModel.swift */; };
 		18587EBE2B14E97F0013BE06 /* GetEmailOrdersResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18587EBD2B14E97F0013BE06 /* GetEmailOrdersResponseModel.swift */; };
 		186D748F2B05FCA60087BD9B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D748E2B05FCA60087BD9B /* AppDelegate.swift */; };
@@ -19,8 +21,6 @@
 		186D74A92B05FCA80087BD9B /* TGLiveScanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D74A82B05FCA80087BD9B /* TGLiveScanTests.swift */; };
 		186D74B32B05FCA80087BD9B /* TGLiveScanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D74B22B05FCA80087BD9B /* TGLiveScanUITests.swift */; };
 		186D74B52B05FCA80087BD9B /* TGLiveScanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D74B42B05FCA80087BD9B /* TGLiveScanUITestsLaunchTests.swift */; };
-		1871DF9A2B1F042F003BBAC3 /* OfflineScan+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871DF982B1F042F003BBAC3 /* OfflineScan+CoreDataClass.swift */; };
-		1871DF9B2B1F042F003BBAC3 /* OfflineScan+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871DF992B1F042F003BBAC3 /* OfflineScan+CoreDataProperties.swift */; };
 		1871DF9E2B1F074C003BBAC3 /* DataBaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1871DF9D2B1F074C003BBAC3 /* DataBaseHelper.swift */; };
 		1886904F2B0B3D7800D3349D /* GetTicketTypesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1886904E2B0B3D7800D3349D /* GetTicketTypesModel.swift */; };
 		188690512B0B685C00D3349D /* UpdateTicketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188690502B0B685C00D3349D /* UpdateTicketModel.swift */; };
@@ -126,6 +126,8 @@
 /* Begin PBXFileReference section */
 		0CD1216442D942E1B377E8CB /* Pods-TGLiveScan.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TGLiveScan.debug.xcconfig"; path = "Target Support Files/Pods-TGLiveScan/Pods-TGLiveScan.debug.xcconfig"; sourceTree = "<group>"; };
 		184148512B0E4B4C00A2EEE1 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
+		185794982B2AE7D100F9A691 /* OfflineScan+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OfflineScan+CoreDataClass.swift"; sourceTree = "<group>"; };
+		185794992B2AE7D100F9A691 /* OfflineScan+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OfflineScan+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		18587EBB2B14E7AC0013BE06 /* EmailSearchDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSearchDataModel.swift; sourceTree = "<group>"; };
 		18587EBD2B14E97F0013BE06 /* GetEmailOrdersResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetEmailOrdersResponseModel.swift; sourceTree = "<group>"; };
 		186D748B2B05FCA60087BD9B /* TGLiveScan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TGLiveScan.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,8 +142,6 @@
 		186D74AE2B05FCA80087BD9B /* TGLiveScanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TGLiveScanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		186D74B22B05FCA80087BD9B /* TGLiveScanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGLiveScanUITests.swift; sourceTree = "<group>"; };
 		186D74B42B05FCA80087BD9B /* TGLiveScanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TGLiveScanUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		1871DF982B1F042F003BBAC3 /* OfflineScan+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OfflineScan+CoreDataClass.swift"; sourceTree = "<group>"; };
-		1871DF992B1F042F003BBAC3 /* OfflineScan+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OfflineScan+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		1871DF9D2B1F074C003BBAC3 /* DataBaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseHelper.swift; sourceTree = "<group>"; };
 		1871DF9F2B20549C003BBAC3 /* TGLiveScan.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TGLiveScan.entitlements; sourceTree = "<group>"; };
 		1886904E2B0B3D7800D3349D /* GetTicketTypesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTicketTypesModel.swift; sourceTree = "<group>"; };
@@ -353,8 +353,8 @@
 		1871DF972B1F00F5003BBAC3 /* EntityClasses */ = {
 			isa = PBXGroup;
 			children = (
-				1871DF982B1F042F003BBAC3 /* OfflineScan+CoreDataClass.swift */,
-				1871DF992B1F042F003BBAC3 /* OfflineScan+CoreDataProperties.swift */,
+				185794982B2AE7D100F9A691 /* OfflineScan+CoreDataClass.swift */,
+				185794992B2AE7D100F9A691 /* OfflineScan+CoreDataProperties.swift */,
 			);
 			path = EntityClasses;
 			sourceTree = "<group>";
@@ -948,7 +948,6 @@
 				18BA039F2B06192000A41939 /* ValidationConstantStrings.swift in Sources */,
 				18BA03962B06179000A41939 /* UserDefaultManager.swift in Sources */,
 				18BA03442B06061000A41939 /* uiColour+Extensions.swift in Sources */,
-				1871DF9A2B1F042F003BBAC3 /* OfflineScan+CoreDataClass.swift in Sources */,
 				18587EBE2B14E97F0013BE06 /* GetEmailOrdersResponseModel.swift in Sources */,
 				18BA03502B06074000A41939 /* CustomSearchBar.swift in Sources */,
 				18BA02D32B0602B200A41939 /* FileUploader.swift in Sources */,
@@ -982,9 +981,11 @@
 				18CB956C2B14CADB0011CE39 /* EmailSearchPopupViewModel.swift in Sources */,
 				18BA03852B0614BD00A41939 /* ScanSummaryModel.swift in Sources */,
 				18BA03402B06059A00A41939 /* UIFont+Extension.swift in Sources */,
+				1857949A2B2AE7D100F9A691 /* OfflineScan+CoreDataClass.swift in Sources */,
 				18BA033D2B06054D00A41939 /* GradientButton.swift in Sources */,
 				18BA03812B0614BD00A41939 /* ScanEventViewModel.swift in Sources */,
 				18BA038D2B0614BD00A41939 /* ScanDetailModel.swift in Sources */,
+				1857949B2B2AE7D100F9A691 /* OfflineScan+CoreDataProperties.swift in Sources */,
 				18BA03862B0614BD00A41939 /* ScanSummaryVC.swift in Sources */,
 				186D74912B05FCA60087BD9B /* SceneDelegate.swift in Sources */,
 				186D74992B05FCA60087BD9B /* TGLiveScan.xcdatamodeld in Sources */,
@@ -994,7 +995,6 @@
 				18BA03832B0614BD00A41939 /* FindRFIDVC.swift in Sources */,
 				18BA038B2B0614BD00A41939 /* SelectTicketTypeViewModel.swift in Sources */,
 				18C5CA5C2B0F3B5D00615F93 /* OfflineModeTableViewCell.swift in Sources */,
-				1871DF9B2B1F042F003BBAC3 /* OfflineScan+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1168,11 +1168,12 @@
 				DEVELOPMENT_TEAM = 5KQQ4NSG87;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TGLiveScan/Info.plist;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "Need NFC scan access for read tickets.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need camera access for scan events.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1199,11 +1200,12 @@
 				DEVELOPMENT_TEAM = 5KQQ4NSG87;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TGLiveScan/Info.plist;
+				INFOPLIST_KEY_NFCReaderUsageDescription = "Need NFC scan access for read tickets.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need camera access for scan events.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

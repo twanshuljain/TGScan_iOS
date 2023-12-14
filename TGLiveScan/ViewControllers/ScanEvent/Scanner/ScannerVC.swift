@@ -195,6 +195,8 @@ extension ScannerVC {
     }
     func btnScanAgainAction() {
         imgScanStatus.isHidden = true
+        lblQrid.isHidden = true
+        lblScanStatusMessage.isHidden = true
         imgScanStatusBGColor.isHidden = true
         print("viewModel.scannerEnable", viewModel.scannerEnable)
         if viewModel.scannerEnable == 0 {
@@ -330,10 +332,10 @@ extension ScannerVC {
     func offlineFetchBarCode() {
         if Reachability.isConnectedToNetwork() {
             self.view.showLoading(centreToView: self.view)
-//            self.viewModel.saveOfflineRecords(offlineRecord: self.viewModel.offlineData, complition: { isStored in
-//                print("data stored")
-//            })
-            let data = DatabaseHelper.shareInstance.checkBarCodeExistance(barCode: "956317703383")
+            self.viewModel.saveOfflineRecords(offlineRecord: self.viewModel.offlineData, complition: { isStored in
+                print("data stored")
+            })
+//            let data = DatabaseHelper.shareInstance.checkBarCodeExistance(barCode: "956317703383")
 //            print("data", data)
             viewModel.offlineFetchBarCode (
                 complition: { isTrue, showMessage in

@@ -7,6 +7,7 @@
 
 import Foundation
 // MARK: Get Scan OverView Data
+// GetScanOverviewData is not in use
 struct GetScanOverviewData: Codable {
     init() {}
     var eventId: Int?
@@ -118,4 +119,9 @@ struct GetScanSummaryResponse: Codable {
               others = try container.decode(String.self, forKey: .others)
           }
       }
+}
+// MARK: Send Status Report to Promoter
+struct SendReportToPromoterResponseModel: Codable {
+    var info: String?
+    var status: String?
 }

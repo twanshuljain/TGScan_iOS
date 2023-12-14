@@ -17,26 +17,16 @@ struct GetScanDetailData: Codable {
     }
 }
 struct GetBarCodeScanResponse: Codable {
-    var message: String?
-    var statusCode: String?
-    var status: String?
-    var info: Info?
-    enum CodingKeys: String, CodingKey {
-        case message = "message"
-        case statusCode = "statuscode"
-        case status = "status"
-    }
-}
-struct Info: Codable {
-    let id, categoryid, ticketID, type: String
-    let tixOrder, barcode, firstName, lastName: String
-    let scanQty, ticketPrice, ticketName, holdStatus: String
-    let soldStatus, usedStatus, orderID, generatedDate: String
-    let layout, soldDate, holdDate, usedDate: String
-    let generatedStatus, ticketType, cancelled, isFraud: String
-    let sizes, otherOptions, notes, blockStatus: String
-    let noOfRejection, transStatus, promoterStatus, isSent: String
-    let multipleScan, allowRefundShow, podNumber, podDis: String
+    let id, categoryid, ticketID, type: String?
+    let tixOrder, barcode, firstName, lastName: String?
+    let scanQty, ticketPrice, ticketName, holdStatus: String?
+    let soldStatus, usedStatus, orderID, generatedDate: String?
+    let layout, soldDate, holdDate, usedDate: String?
+    let generatedStatus, ticketType, cancelled, isFraud: String?
+    let sizes, otherOptions, notes, blockStatus: String?
+    let noOfRejection, transStatus, promoterStatus, isSent: String?
+    let multipleScan, allowRefundShow, podNumber, podDis: String?
+    let message, statusCode, status: String?
 
     enum CodingKeys: String, CodingKey {
         case id, categoryid
@@ -74,6 +64,9 @@ struct Info: Codable {
         case allowRefundShow = "allow_refund_show"
         case podNumber = "pod_number"
         case podDis = "pod_dis"
+        case message = "message"
+        case statusCode = "statuscode"
+        case status = "status"
     }
 }
 struct GetOfflineFetchBarCodeResponse: Codable {
@@ -84,7 +77,7 @@ struct GetOfflineFetchBarCodeResponse: Codable {
     var ticketId: String?
     var ticketType: String?
     var usedStatus: String?
-    var countForRejection: String?
+    var countForRejection: Int32?
     
     enum CodingKeys: String, CodingKey {
         case message

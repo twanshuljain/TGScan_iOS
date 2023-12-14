@@ -1123,20 +1123,22 @@
                                                     </tableViewCell>
                                                 </prototypes>
                                             </tableView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="30o-AU-LGb" customClass="CustomButtonNormal" customModule="TGLiveScan" customModuleProvider="target">
-                                                <rect key="frame" x="177" y="804" width="200" height="48"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="30o-AU-LGb">
+                                                <rect key="frame" x="16" y="804" width="361" height="48"/>
                                                 <color key="backgroundColor" name="TGBlue"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="200" id="4Hm-Ks-0Pr"/>
-                                                    <constraint firstAttribute="height" constant="48" id="HHl-rE-Dqy"/>
+                                                    <constraint firstAttribute="height" constant="48" id="jrH-D1-WPd"/>
                                                 </constraints>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="Download Report"/>
+                                                <state key="normal" title="Send status report to promoter"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                         <real key="value" value="5"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="actionSendStatusReport:" destination="VLI-wA-iie" eventType="touchUpInside" id="JQK-4S-kJV"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AM7-XN-4TX">
                                                 <rect key="frame" x="16" y="860" width="361" height="48"/>
@@ -1158,29 +1160,33 @@
                                                         <color key="value" name="BorderLineColour"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="actionUpdateOnLiveServer:" destination="VLI-wA-iie" eventType="touchUpInside" id="HE6-gs-Teg"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="AM7-XN-4TX" secondAttribute="bottom" constant="10" id="1Km-lI-erK"/>
                                             <constraint firstItem="FKI-im-WgS" firstAttribute="leading" secondItem="DkQ-Ab-qHN" secondAttribute="leading" constant="16" id="2Ib-Ur-dXh"/>
+                                            <constraint firstAttribute="trailing" secondItem="30o-AU-LGb" secondAttribute="trailing" constant="16" id="3pB-vq-0cD"/>
+                                            <constraint firstItem="30o-AU-LGb" firstAttribute="leading" secondItem="DkQ-Ab-qHN" secondAttribute="leading" constant="16" id="BcM-LS-Z6Y"/>
                                             <constraint firstAttribute="trailing" secondItem="AM7-XN-4TX" secondAttribute="trailing" constant="16" id="Is6-nK-4F0"/>
                                             <constraint firstItem="CUG-gz-2uc" firstAttribute="leading" secondItem="DkQ-Ab-qHN" secondAttribute="leading" constant="16" id="KKg-sC-9lW"/>
-                                            <constraint firstItem="AM7-XN-4TX" firstAttribute="top" secondItem="30o-AU-LGb" secondAttribute="bottom" constant="8" symbolic="YES" id="LZW-JW-g6h"/>
                                             <constraint firstAttribute="trailing" secondItem="IcS-cW-rVQ" secondAttribute="trailing" constant="16" id="Ln3-t2-atA"/>
                                             <constraint firstItem="ZUD-Tn-2CL" firstAttribute="top" secondItem="DkQ-Ab-qHN" secondAttribute="top" constant="16" id="Nh5-iZ-hUQ"/>
                                             <constraint firstItem="AM7-XN-4TX" firstAttribute="leading" secondItem="DkQ-Ab-qHN" secondAttribute="leading" constant="16" id="Nrt-0n-bxP"/>
                                             <constraint firstItem="CUG-gz-2uc" firstAttribute="top" secondItem="ZUD-Tn-2CL" secondAttribute="bottom" constant="16" id="PmH-qt-6mP"/>
-                                            <constraint firstItem="30o-AU-LGb" firstAttribute="top" secondItem="FKI-im-WgS" secondAttribute="bottom" constant="24" id="Xhf-d2-fwP"/>
                                             <constraint firstItem="ZUD-Tn-2CL" firstAttribute="leading" secondItem="DkQ-Ab-qHN" secondAttribute="leading" constant="16" id="Z3T-lN-HhG"/>
                                             <constraint firstItem="qfS-CF-gKT" firstAttribute="top" secondItem="CUG-gz-2uc" secondAttribute="bottom" constant="16" id="a9m-2z-309"/>
+                                            <constraint firstItem="AM7-XN-4TX" firstAttribute="top" secondItem="30o-AU-LGb" secondAttribute="bottom" constant="8" id="caM-dN-02t"/>
                                             <constraint firstItem="IcS-cW-rVQ" firstAttribute="top" secondItem="qfS-CF-gKT" secondAttribute="bottom" constant="16" id="d6M-mr-6me"/>
                                             <constraint firstItem="IcS-cW-rVQ" firstAttribute="leading" secondItem="DkQ-Ab-qHN" secondAttribute="leading" constant="16" id="dQ2-x2-oBq"/>
-                                            <constraint firstAttribute="trailing" secondItem="30o-AU-LGb" secondAttribute="trailing" constant="16" id="fSj-GC-CIW"/>
                                             <constraint firstAttribute="trailing" secondItem="FKI-im-WgS" secondAttribute="trailing" constant="16" id="fTd-B5-ruV"/>
                                             <constraint firstItem="IcS-cW-rVQ" firstAttribute="centerX" secondItem="DkQ-Ab-qHN" secondAttribute="centerX" id="gQa-Ks-TaC"/>
                                             <constraint firstItem="qfS-CF-gKT" firstAttribute="centerX" secondItem="CUG-gz-2uc" secondAttribute="centerX" id="hPo-fm-Ubx"/>
                                             <constraint firstAttribute="trailing" secondItem="ZUD-Tn-2CL" secondAttribute="trailing" constant="16" id="hgJ-Yu-2F4"/>
+                                            <constraint firstItem="30o-AU-LGb" firstAttribute="top" secondItem="FKI-im-WgS" secondAttribute="bottom" constant="24" id="pWt-bp-Ooq"/>
                                             <constraint firstAttribute="trailing" secondItem="CUG-gz-2uc" secondAttribute="trailing" constant="16" id="tWD-iW-aES"/>
                                             <constraint firstItem="FKI-im-WgS" firstAttribute="top" secondItem="IcS-cW-rVQ" secondAttribute="bottom" constant="16" id="zBV-Ys-Frl"/>
                                         </constraints>
@@ -1253,68 +1259,15 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7Ly-zL-Xrr">
                                         <rect key="frame" x="0.0" y="60.000000000000057" width="361" height="757.33333333333348"/>
                                     </tableView>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8gl-tO-GQc">
-                                        <rect key="frame" x="10" y="827.33333333333337" width="341" height="112"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KSx-Pe-6dB" customClass="CustomButtonNormal" customModule="TGLiveScan" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="8" width="325" height="48"/>
-                                                <color key="backgroundColor" name="TGBlue"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="48" id="dEY-Mx-F73"/>
-                                                </constraints>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="Download Report"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ipq-fH-Ord">
-                                                <rect key="frame" x="8" y="64" width="325" height="48"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="48" id="mIG-by-9dy"/>
-                                                </constraints>
-                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <state key="normal" title="Update on live server">
-                                                    <color key="titleColor" name="btnDarkBlue"/>
-                                                </state>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                        <real key="value" value="1"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                        <color key="value" name="BorderLineColour"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
-                                            </button>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstItem="KSx-Pe-6dB" firstAttribute="leading" secondItem="8gl-tO-GQc" secondAttribute="leading" constant="8" id="0z9-6c-7Jg"/>
-                                            <constraint firstAttribute="height" constant="112" id="45f-jR-bdl"/>
-                                            <constraint firstItem="Ipq-fH-Ord" firstAttribute="top" secondItem="KSx-Pe-6dB" secondAttribute="bottom" constant="8" symbolic="YES" id="XdS-n6-Sni"/>
-                                            <constraint firstItem="KSx-Pe-6dB" firstAttribute="leading" secondItem="Ipq-fH-Ord" secondAttribute="leading" id="d4w-7L-df7"/>
-                                            <constraint firstItem="KSx-Pe-6dB" firstAttribute="trailing" secondItem="Ipq-fH-Ord" secondAttribute="trailing" id="iTZ-Ts-Nrt"/>
-                                            <constraint firstItem="KSx-Pe-6dB" firstAttribute="top" secondItem="8gl-tO-GQc" secondAttribute="top" constant="8" id="rlD-Hx-rY2"/>
-                                            <constraint firstAttribute="trailing" secondItem="KSx-Pe-6dB" secondAttribute="trailing" constant="8" id="yM3-lC-XEl"/>
-                                        </constraints>
-                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="6eA-6j-EBI" secondAttribute="trailing" id="2Fa-dI-7vE"/>
-                                    <constraint firstItem="8gl-tO-GQc" firstAttribute="leading" secondItem="gQd-4u-Vg1" secondAttribute="leading" constant="10" id="2G2-aW-Nlf"/>
                                     <constraint firstItem="6eA-6j-EBI" firstAttribute="leading" secondItem="gQd-4u-Vg1" secondAttribute="leading" id="Ah0-eM-nG2"/>
                                     <constraint firstItem="6eA-6j-EBI" firstAttribute="top" secondItem="gQd-4u-Vg1" secondAttribute="top" id="Fex-Er-hZd"/>
+                                    <constraint firstAttribute="bottom" secondItem="7Ly-zL-Xrr" secondAttribute="bottom" constant="142" id="VA6-Gr-BrU"/>
                                     <constraint firstAttribute="trailing" secondItem="7Ly-zL-Xrr" secondAttribute="trailing" id="ehZ-BC-v0J"/>
                                     <constraint firstItem="7Ly-zL-Xrr" firstAttribute="top" secondItem="6eA-6j-EBI" secondAttribute="bottom" id="fqB-TT-q3c"/>
-                                    <constraint firstItem="8gl-tO-GQc" firstAttribute="top" secondItem="7Ly-zL-Xrr" secondAttribute="bottom" constant="10" id="roS-xJ-4Ls"/>
-                                    <constraint firstAttribute="bottom" secondItem="8gl-tO-GQc" secondAttribute="bottom" constant="20" id="tJk-3r-6DA"/>
-                                    <constraint firstAttribute="trailing" secondItem="8gl-tO-GQc" secondAttribute="trailing" constant="10" id="tll-qV-3Cq"/>
                                     <constraint firstItem="7Ly-zL-Xrr" firstAttribute="leading" secondItem="gQd-4u-Vg1" secondAttribute="leading" id="uZO-wn-rUj"/>
                                 </constraints>
                             </view>
@@ -1334,12 +1287,16 @@
                             <constraint firstItem="vOv-Wf-faY" firstAttribute="bottom" secondItem="2Ma-yz-5do" secondAttribute="bottom" id="kE6-XT-j8j"/>
                             <constraint firstItem="x5c-Sm-gjT" firstAttribute="top" secondItem="vOv-Wf-faY" secondAttribute="top" id="zSR-Ei-N7k"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="gQd-4u-Vg1"/>
+                            </mask>
+                        </variation>
                     </view>
                     <size key="freeformSize" width="393" height="1200"/>
                     <connections>
-                        <outlet property="btnDownloadReport" destination="30o-AU-LGb" id="uOc-eM-qmQ"/>
-                        <outlet property="btnDownloadReportWidth" destination="4Hm-Ks-0Pr" id="uii-0l-5WY"/>
-                        <outlet property="btnUpdateLiveOnServer" destination="AM7-XN-4TX" id="JJ3-md-dgI"/>
+                        <outlet property="btnSendStatusReport" destination="30o-AU-LGb" id="Yoy-WJ-qRc"/>
+                        <outlet property="btnUpdateLiveOnServer" destination="AM7-XN-4TX" id="yD2-hO-cDU"/>
                         <outlet property="chartView" destination="IcS-cW-rVQ" id="3NH-Ug-vDq"/>
                         <outlet property="imgProfile" destination="xKF-oP-53l" id="xqR-py-vI9"/>
                         <outlet property="lblDate" destination="B2d-gN-ejO" id="wtV-XV-52k"/>
@@ -1356,57 +1313,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tan-hN-Lwd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="cPA-3J-IId">
-                    <rect key="frame" x="0.0" y="0.0" width="687" height="148"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CNr-Kj-ISA" customClass="CustomButtonNormal" customModule="TGLiveScan" customModuleProvider="target">
-                            <rect key="frame" x="8" y="8" width="671" height="48"/>
-                            <color key="backgroundColor" name="TGBlue"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="48" id="F0p-58-Jd4"/>
-                            </constraints>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" title="Download Report"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="5"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d5n-u0-DDt">
-                            <rect key="frame" x="8" y="64" width="671" height="48"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="48" id="iG0-vy-Wsa"/>
-                            </constraints>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" title="Update on live server">
-                                <color key="titleColor" name="btnDarkBlue"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="5"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                    <real key="value" value="1"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                    <color key="value" name="BorderLineColour"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                        </button>
-                    </subviews>
-                    <viewLayoutGuide key="safeArea" id="I4f-g9-FPs"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="trailing" secondItem="CNr-Kj-ISA" secondAttribute="trailing" constant="8" id="2CS-xC-P8v"/>
-                        <constraint firstItem="CNr-Kj-ISA" firstAttribute="leading" secondItem="d5n-u0-DDt" secondAttribute="leading" id="59q-f1-rUM"/>
-                        <constraint firstItem="CNr-Kj-ISA" firstAttribute="top" secondItem="cPA-3J-IId" secondAttribute="top" constant="8" id="9Ow-OP-bQv"/>
-                        <constraint firstItem="d5n-u0-DDt" firstAttribute="top" secondItem="CNr-Kj-ISA" secondAttribute="bottom" constant="8" symbolic="YES" id="Qfj-FL-Ub2"/>
-                        <constraint firstItem="CNr-Kj-ISA" firstAttribute="leading" secondItem="cPA-3J-IId" secondAttribute="leading" constant="8" id="V7X-iE-PTo"/>
-                        <constraint firstItem="CNr-Kj-ISA" firstAttribute="trailing" secondItem="d5n-u0-DDt" secondAttribute="trailing" id="fJt-MT-Wxq"/>
-                    </constraints>
-                </view>
             </objects>
             <point key="canvasLocation" x="4987.0229007633588" y="-7.042253521126761"/>
         </scene>
@@ -1843,17 +1749,17 @@
                                                 </constraints>
                                             </imageView>
                                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="xRA-PF-il7">
-                                                <rect key="frame" x="83.000000000000014" y="337.33333333333331" width="227.33333333333337" height="80.333333333333314"/>
+                                                <rect key="frame" x="85.333333333333329" y="337.33333333333331" width="222.66666666666669" height="80.333333333333314"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Done_ip" translatesAutoresizingMaskIntoConstraints="NO" id="RHH-YZ-DB3">
-                                                        <rect key="frame" x="86" y="0.0" width="55" height="55"/>
+                                                        <rect key="frame" x="83.666666666666671" y="0.0" width="55.000000000000014" height="55"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="55" id="Qnk-Is-jjM"/>
                                                             <constraint firstAttribute="height" constant="55" id="rqg-Nv-gWB"/>
                                                         </constraints>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 tickets by rFID are accepted" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Omb-h7-1ig">
-                                                        <rect key="frame" x="0.0" y="60.000000000000007" width="227.33333333333334" height="20.333333333333336"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 ticket by RFID are Accepted" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Omb-h7-1ig">
+                                                        <rect key="frame" x="0.0" y="60.000000000000007" width="222.66666666666666" height="20.333333333333336"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>

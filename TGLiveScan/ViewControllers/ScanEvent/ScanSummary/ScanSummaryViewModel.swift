@@ -8,15 +8,15 @@
 import Foundation
 
 class ScanSummaryViewModel {
+    
     // MARK: - Variables
-    var isOnline: Bool = true
     var scanSummaryModel = ScanSummaryModel()
     var getScanOverviewData = GetScanOverviewData()
     var getScanSummaryItem = [GetScanSummaryItem]()
     var arrOfValueChart: [Int] = []
-    
     var getScanSummaryResponse: GetScanSummaryResponse?
     var updateTicketModel = UpdateTicketModel()
+    
     // MARK: Custom Functions
     func getScanSummary(completion: @escaping (Bool, String) -> Void) {
         let dictBody: [String: Any] = [
@@ -33,6 +33,23 @@ class ScanSummaryViewModel {
             case .failure(let error):
                 print("error", error)
                 print("failure scan summary api ")
+                completion(false, error as? String ?? "")
+            }
+        }
+    }
+    func sendReportToPromoter(completion: @escaping (Bool, String) -> Void) {
+        APIHandler.shared.sendReportToPromoter(
+            apiName: .scanBarCode,
+            eventId: updateTicketModel.eventId,
+            methodType: .POST
+        ) { (result: Result<SendReportToPromoterResponseModel, Error>) in
+            switch result {
+            case .success(let response):
+                DispatchQueue.main.async {
+                    completion(true, response.info ?? "")
+                }
+            case .failure(let error):
+                print("error", error)
                 completion(false, error as? String ?? "")
             }
         }

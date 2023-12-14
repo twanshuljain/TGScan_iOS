@@ -19,11 +19,9 @@ class ScanSummaryVC: UIViewController, ChartViewDelegate {
     @IBOutlet weak var tblScanAllTableView: UITableView!
     @IBOutlet weak var tblScan: UITableView!
     @IBOutlet weak var scanSummaryView: UIView!
-    @IBOutlet weak var btnDownloadReport: CustomButtonNormal!
+    @IBOutlet weak var btnSendStatusReport: UIButton!
     @IBOutlet weak var btnUpdateLiveOnServer: UIButton!
     @IBOutlet weak var tblViewHeight: NSLayoutConstraint!
-    // @IBOutlet weak var tblScanViewHt: NSLayoutConstraint!
-    @IBOutlet weak var btnDownloadReportWidth: NSLayoutConstraint!
     @IBOutlet weak var imgProfile: UIImageView!
     // MARK: - Variables
     let viewModel = ScanSummaryViewModel()
@@ -34,6 +32,7 @@ class ScanSummaryVC: UIViewController, ChartViewDelegate {
         self.setNavigationView()
         self.setFont()
         self.setTableView()
+        dataSetToUserModel()
         self.chartView.delegate = self
         self.tblScanAllTableView.addObserver(self, forKeyPath: "contentSize", options: [], context: nil)
        // self.tblScan.addObserver(self, forKeyPath: "contentSize", options: [], context: nil)
@@ -44,9 +43,20 @@ class ScanSummaryVC: UIViewController, ChartViewDelegate {
         self.tblViewHeight.constant = tblScanAllTableView.contentSize.height
         //self.tblScanViewHt.constant = tblScan.contentSize.height
     }
+    @IBAction func actionSendStatusReport(_ sender: UIButton) {
+        sendReportToPromoter()
+    }
+    @IBAction func actionUpdateOnLiveServer(_ sender: UIButton) {
+        print("update on live server")
+    }
 }
 // MARK: -
 extension ScanSummaryVC {
+    func dataSetToUserModel() {
+        let userDataModel = UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData)
+        viewModel.updateTicketModel.eventId = Int(userDataModel?.info?.masterId ?? "") ?? 0
+        viewModel.updateTicketModel.userName = userDataModel?.userName ?? ""
+    }
     func setTableView() {
         self.tblScanAllTableView.separatorColor = UIColor.clear
         self.tblScanAllTableView.delegate = self
@@ -117,12 +127,6 @@ extension ScanSummaryVC {
         chartView.holeRadiusPercent = 0.7
     }
     func setFont() {
-        if viewModel.isOnline == true {
-            btnDownloadReportWidth.constant = self.view.bounds.width - 32
-        } else {
-            btnDownloadReportWidth.constant = (self.view.bounds.width - 32)/2
-            btnUpdateLiveOnServer.isHidden = true
-        }
         // If user with guest login
         if UserDefaultManager.share.getUserBoolValue(key: .isGuestLogin) {
             btnUpdateLiveOnServer.isHidden = true
@@ -135,22 +139,42 @@ extension ScanSummaryVC {
         self.lblTotalTickets.textColor = UIColor.setColor(colorType: .lblTextPara)
         self.lblTotalTicketValue.font = UIFont.setFont(fontType: .semiBold, fontSize: .fourteen)
         self.lblTotalTicketValue.textColor = UIColor.setColor(colorType: .lblTextPara)
-        self.btnDownloadReport.titleLabel?.font = UIFont.setFont(fontType: .medium, fontSize: .fourteen)
-        self.btnDownloadReport.titleLabel?.textColor = UIColor.setColor(colorType: .white)
-        self.btnDownloadReport.setImage(UIImage(named: ""), for: .normal)
-        self.btnDownloadReport.addRightIcon(image: UIImage(named: DOWNLOAD_WHITE_ICON))
+        self.btnSendStatusReport.titleLabel?.font = UIFont.setFont(fontType: .medium, fontSize: .fourteen)
+        self.btnSendStatusReport.titleLabel?.textColor = UIColor.setColor(colorType: .white)
         self.btnUpdateLiveOnServer.titleLabel?.font = UIFont.setFont(fontType: .medium, fontSize: .fourteen)
         self.btnUpdateLiveOnServer.titleLabel?.textColor = UIColor.setColor(colorType: .btnDarkBlue)
     }
     func getScanSummary() {
         if Reachability.isConnectedToNetwork() {
-            view.showLoading(centreToView: self.view)
+            self.view.showLoading(centreToView: self.view)
             viewModel.getScanSummary(completion: { isTrue, message in
                 if isTrue {
                     self.view.stopLoading()
                     self.dataSettingAfterScanOverview()
                     self.setChart()
                     self.tblScanAllTableView.reloadData()
+                } else {
+                    DispatchQueue.main.async {
+                        self.view.stopLoading()
+                        self.showToast(message: message)
+                    }
+                }
+            })
+        } else {
+            DispatchQueue.main.async {
+                self.view.stopLoading()
+                self.showToast(message: ValidationConstantStrings.networkLost)
+            }
+        }
+    }
+    // Send status report to promoter
+    func sendReportToPromoter() {
+        if Reachability.isConnectedToNetwork() {
+            self.view.showLoading(centreToView: self.view)
+            viewModel.sendReportToPromoter(completion: { isTrue, message in
+                if isTrue {
+                    self.view.stopLoading()
+                    self.showToast(message: message)
                 } else {
                     DispatchQueue.main.async {
                         self.view.stopLoading()
@@ -200,21 +224,21 @@ extension ScanSummaryVC{
             self.viewModel.updateTicketModel.eventId = self.viewModel.getScanOverviewData.eventId ?? 0
             self.scrollView.isScrollEnabled = true
             self.scanSummaryView.isHidden = false
-            self.getScanSummary()
+//            self.getScanSummary()
         case 2:
             print("ACCEPTED")
             self.viewModel.scanSummaryModel.tab = "ACCEPTED"
             self.viewModel.updateTicketModel.eventId = self.viewModel.getScanOverviewData.eventId ?? 0
             self.scrollView.isScrollEnabled = true
             self.scanSummaryView.isHidden = false
-            self.getScanSummary()
+//            self.getScanSummary()
         case 3:
             print("Rest")
             self.viewModel.scanSummaryModel.tab = "REJECTED"
             self.viewModel.updateTicketModel.eventId = self.viewModel.getScanOverviewData.eventId ?? 0
             self.scrollView.isScrollEnabled = true
             self.scanSummaryView.isHidden = false
-            self.getScanSummary()
+//            self.getScanSummary()
             
         default:
             break

@@ -25,7 +25,7 @@ class DatabaseHelper {
         entityName?.ticketType = offlineScan.ticketType
         entityName?.usedStatus = offlineScan.usedStatus
         entityName?.eventId = offlineScan.eventId
-        entityName?.countForRejection = offlineScan.countForRejection
+        entityName?.countForRejection = offlineScan.countForRejection ?? 0
         do {
             try context.save()
         } catch {
@@ -41,7 +41,7 @@ class DatabaseHelper {
             // Fetch the records that match the predicate
             let records = try context.fetch(fetchRequest)
             // Return the first record (assuming IDs are unique)
-            var data = records.first as? OfflineScan
+            let data = records.first as? OfflineScan
             print("barCode", data?.barCode as Any)
             return records.first as? OfflineScan
         } catch {
@@ -53,9 +53,9 @@ class DatabaseHelper {
     func checkBarCodeExistance(barCode: String) -> OfflineScan?  {
         // Get data throught Bar Code
         if let data = self.fetchRecordByBarCode(barCode: barCode) {
-            // Check that this barcode gets entry or not.
+            // If already gets entry increase rejection count else set status yes ("Y")
             if data.usedStatus == "Y" {
-//                data.countForRejection = "2"
+                data.countForRejection += 1
             } else {
                 data.usedStatus = "Y"
             }
