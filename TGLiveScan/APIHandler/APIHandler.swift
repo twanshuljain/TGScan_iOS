@@ -78,16 +78,14 @@ public enum APIName: String {
     case updateUserProfileData = "auth/user/update/profile/"
     
     // Scan Ticket
-    case loginScan = "ticketscanapi/livescan.php"//"tgscan/login/"
-    case getTickets = "ticketscanapi/get_tickets.php"
-    case updateTickets = "ticketscanapi/update_tixids.php"
-    case scanCount = "ticketscanapi/scancount.php?"
-    case scanBarCode = "ticketscanapi/livescan.php?"
-    case getEmailOrders = "ticketscanapi/get_emailorders.php"
-    case updateEmailsEntry = "ticketscanapi/confim_orderemail_v2.php"
-    case offlineFetchBarcode = "ticketscanapi/fetch_barcode.php"
-    case scanDetail = "tgscan/scan/detail"
-    case scanSummary = "tgscan/scan/summary/"
+    case loginScan = "livescan.php"
+    case getTickets = "get_tickets.php"
+    case updateTickets = "update_tixids.php"
+    case scanCount = "scancount.php?"
+    case scanBarCode = "livescan.php?"
+    case getEmailOrders = "get_emailorders.php"
+    case updateEmailsEntry = "confim_orderemail_v2.php"
+    case offlineFetchBarcode = "fetch_barcode.php"
 }
 public enum GroupApiName: String {
     case auth = "auth"
@@ -101,8 +99,7 @@ class APIHandler: NSObject {
     static var shared = APIHandler()
     private override init() {}
     private let session = URLSession.shared
-    var baseURL = "https://www.ticketgateway.com/" //"http://3.21.114.70/"
-    //let baseURL = "http://3.19.250.147/"
+    var baseURL = "https://www.ticketgateway.com/ticketscanapi/" //"http://3.21.114.70/"
     let previousBaseURL = "http://18.224.21.11/"
     let s3URL = "https://tw-staging-media.s3.us-east-2.amazonaws.com/"
     private let boundary = "Boundary-\(NSUUID().uuidString)"

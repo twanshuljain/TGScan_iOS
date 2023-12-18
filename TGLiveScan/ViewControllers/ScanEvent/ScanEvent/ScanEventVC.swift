@@ -95,6 +95,12 @@ extension ScanEventVC {
             self.showToast(message: Pin_Not_Nil)
             return
         }
+        // Set local sever if user entered 4 digit pin
+        if viewModel.loginScanModel.pin.count == 6 {
+            APIHandler.shared.baseURL = "https://www.ticketgateway.com/ticketscanapi/"
+        } else {
+            APIHandler.shared.baseURL = "https://192.168.1.100/"
+        }
         scanTicketLogin()
     }
     func btnHereAction() {
