@@ -43,6 +43,7 @@ class FindRFIDVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         viewModel.isConnected = false
+        dataSetToUI()
     }
 }
 // MARK: -
@@ -101,6 +102,14 @@ extension FindRFIDVC {
         let userDataModel = UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData)
         viewModel.scanBarCodeModel.eventId = Int(userDataModel?.info?.masterId ?? "0") ?? 0
         viewModel.scanBarCodeModel.operatorName = userDataModel?.userName ?? ""
+    }
+    func dataSetToUI() {
+        let localStoredData = UserDefaultManager.share.getModelDataFromUserDefults(
+            userData: OfflineScanLocalModel.self, key: .scanOfflineData
+        )
+        lblAccepted.text = "Accepted : \(localStoredData?.acceptedCount ?? "")"
+        lblRejected.text = "Rejected : \(localStoredData?.rejectedCount ?? "")"
+        lblTotal.text = "Total : \(localStoredData?.totalCount ?? "")"
     }
 }
 // MARK: - Instance Method

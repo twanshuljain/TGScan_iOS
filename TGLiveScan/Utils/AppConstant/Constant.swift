@@ -494,3 +494,6 @@ let SelectTicketMessage = "You need to select atleast one Ticket Type."
 let OFFLINE_SCAN = "Offline Scan?"
 let OFFLINE_SCAN_DESC = "When you click on offline scanning, we are giving you the ability to be able to scan your tickets at a location that you may not have wifi or 3G service. Please note that once you are finish scanning and to want to update your account, you need to click on update when you have internet access again. \n\n Once you are scanning offline, you will not be able to use multiple device, if you want to use multiple devices, you must first get internet access and then complete your scan."
 let OFFLINE_ERROR = "Someone is already downloaded the data for offline scan."
+let LOGOUT_MESSAGE = "The offline data will get erased and won’t recover once you logout, to avoid data loss upload data on live server."
+let LOGOUT_TITLE = "Are you sure to logout the app?"
+

@@ -190,9 +190,10 @@ extension ScanSummaryVC {
         }
     }
     func dataSettingAfterScanOverview() {
+        let totalTickets = (viewModel.getScanSummaryResponse?.totalTicketToScan ?? 0) + (viewModel.getScanSummaryResponse?.totalTicketScanned ?? 0)
         lblSunburnReload.text = viewModel.updateTicketModel.eventName
         lblDate.text = viewModel.updateTicketModel.date
-        lblTotalTicketValue.text = "\(viewModel.getScanOverviewData.totalTicketInEvent ?? 0)"
+        lblTotalTicketValue.text = "\(totalTickets)"
         if let url = (APIHandler.shared.s3URL + (viewModel.getScanOverviewData.eventCoverImage ?? "")).getCleanedURL() {
             self.imgProfile.sd_setImage(with: url, placeholderImage: UIImage(named: "Profile_ip"), options: SDWebImageOptions.continueInBackground)
         } else {

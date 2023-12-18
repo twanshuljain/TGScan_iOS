@@ -6,6 +6,8 @@
 //
 
 import Foundation
+
+// MARK: Get Scan Detail Response Model
 struct GetScanDetailData: Codable {
     var acceptedDevice: String?
     var rejectedDevice: String?
@@ -16,6 +18,7 @@ struct GetScanDetailData: Codable {
         case accepted = "Accepted"
     }
 }
+// MARK: Get Bar Code Scan Response Model
 struct GetBarCodeScanResponse: Codable {
     let id, categoryid, ticketID, type: String?
     let tixOrder, barcode, firstName, lastName: String?
@@ -69,6 +72,8 @@ struct GetBarCodeScanResponse: Codable {
         case status = "status"
     }
 }
+
+// MARK: Get Fetch Bar Code Response Model
 struct GetOfflineFetchBarCodeResponse: Codable {
     var message: String?
     var statusCode: String?

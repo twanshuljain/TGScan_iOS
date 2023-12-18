@@ -28,6 +28,7 @@ class DatabaseHelper {
         entityName?.countForRejection = offlineScan.countForRejection ?? 0
         do {
             try context.save()
+            print("Core data Save Successfully")
         } catch {
             print("Data not save, Error:", error)
         }
@@ -50,25 +51,28 @@ class DatabaseHelper {
         }
     }
     
-    func checkBarCodeExistance(barCode: String) -> OfflineScan?  {
+    func getEntry(barCode: String, completion: @escaping (Bool) -> Void) -> OfflineScan?  {
         // Get data throught Bar Code
         if let data = self.fetchRecordByBarCode(barCode: barCode) {
             // If already gets entry increase rejection count else set status yes ("Y")
             if data.usedStatus == "Y" {
                 data.countForRejection += 1
+                completion(false)
             } else {
                 data.usedStatus = "Y"
+                completion(true)
             }
             do {
                 try context.save()
+                print("Core data Gets entry successfully")
             } catch {
-                print("Cannot delete data, Error:", error)
+                print("Error:", error)
             }
             return data
         }
+        completion(false)
         return nil
     }
-    
     // Function to get All Data
     func getAllData() -> [OfflineScan] {
         var employee: [OfflineScan] = []
@@ -81,15 +85,15 @@ class DatabaseHelper {
         return employee
     }
     // Function to delete all data
-    func deleteData(index: Int) -> [OfflineScan] {
-        var employee = getAllData()
-        context.delete(employee[index])
-        employee.remove(at: index)
+    func deleteAllData(forEntity entityName: String) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        let batchDeleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         do {
-            try context.save()
+            try AppDelegate.shared.persistentContainer.viewContext.execute(batchDeleteRequest)
+            try AppDelegate.shared.persistentContainer.viewContext.save()
+            print("Core data, Delete all Data Successfully")
         } catch {
-            print("Cannot delete data, Error:", error)
+            print("Error deleting all data: \(error)")
         }
-        return employee
     }
 }

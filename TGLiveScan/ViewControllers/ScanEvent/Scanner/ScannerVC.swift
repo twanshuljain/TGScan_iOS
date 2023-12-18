@@ -37,20 +37,27 @@ class ScannerVC: UIViewController {
     @IBOutlet weak var lblScanStatusMessage: UILabel!
     @IBOutlet weak var lblQrid: UILabel!
     @IBOutlet weak var btnBack: CustomButtonGradiant!
+    @IBOutlet weak var viewInternetAvailivbility: UIView!
     // MARK: - Variables
     let viewModel = ScannerViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUI()
         self.setFont()
-        DispatchQueue.main.async {
-            self.getCameraPreview()
-        }
         dataSetToUserModel()
         setUIAndGetScanDetail()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        DispatchQueue.main.async {
+            // Reset the UI and Scanner
+            self.viewModel.scannerEnable = 1
+            self.getCameraPreview()
+        }
+        self.hideScanStatusUI()
+        getScanDetail()
+        self.viewInternetAvailivbility.backgroundColor = UIColor.setColor(colorType: Reachability.isConnectedToNetwork() ? .tgGreen : .tgRed)
+    }
 }
-// MARK: -
 extension ScannerVC {
     func dataSetToUserModel() {
         let userDataModel = UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData)
@@ -148,22 +155,19 @@ extension ScannerVC {
         }
     }
     func dataSetAfterAPICall() {
+        let detailData = viewModel.getScanDetailData
+        dataSet() // Data set to labels
+        // Store response in local storage
+        viewModel.offlineScanLocalModel.acceptedCount = detailData?.acceptedDevice ?? "0"
+        viewModel.offlineScanLocalModel.rejectedCount = detailData?.rejectedDevice ?? "0"
+        viewModel.offlineScanLocalModel.totalCount = detailData?.accepted ?? "0"
+        UserDefaultManager.share.storeModelToUserDefault(userData: viewModel.offlineScanLocalModel, key: .scanOfflineData)
+        print("after save data in userdefault at scannerVC:-", UserDefaultManager.share.getModelDataFromUserDefults(userData: OfflineScanLocalModel.self, key: .scanOfflineData) as Any)
+    }
+    func dataSet() {
         lblAccepted.text = "Accepted : \(viewModel.getScanDetailData?.acceptedDevice ?? "0")"
         lblRejected.text = "Rejected : \(viewModel.getScanDetailData?.rejectedDevice ?? "0")"
         lblTotal.text = "Total : \(viewModel.getScanDetailData?.accepted ?? "0")"
-    }
-    func setUIAndGetScanDetail() {
-        viewModel.scanBarCodeModel.operatorName = viewModel.updateTicketModel.userName
-        viewModel.scanBarCodeModel.eventId = viewModel.updateTicketModel.eventId
-        if let url = (APIHandler.shared.s3URL + viewModel.scanTicketDetails.imageUrl).getCleanedURL() {
-            self.imgProfileImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Profile_ip"), options: SDWebImageOptions.continueInBackground)
-        } else {
-            self.imgProfileImage.image = UIImage(named: "Profile_ip")
-        }
-        // Set Data to UI Components
-        self.lblSunburnReload.text = viewModel.updateTicketModel.eventName
-        self.lblDate.text = viewModel.updateTicketModel.date
-        getScanDetail()
     }
     @objc func buttonPressed(sender: UIButton) {
         switch sender {
@@ -193,11 +197,14 @@ extension ScannerVC {
     }
     func btnScanAction() {
     }
-    func btnScanAgainAction() {
+    func hideScanStatusUI() {
         imgScanStatus.isHidden = true
         lblQrid.isHidden = true
         lblScanStatusMessage.isHidden = true
         imgScanStatusBGColor.isHidden = true
+    }
+    func btnScanAgainAction() {
+        hideScanStatusUI()
         print("viewModel.scannerEnable", viewModel.scannerEnable)
         if viewModel.scannerEnable == 0 {
             getCameraPreview()
@@ -289,7 +296,16 @@ extension ScannerVC {
         } else {
             DispatchQueue.main.async {
                 self.view.stopLoading()
-                self.showToast(message: ValidationConstantStrings.networkLost)
+                // Here user is offline, so get data from DB and distribute to UI.
+                let localStoredData = UserDefaultManager.share.getModelDataFromUserDefults(
+                    userData: OfflineScanLocalModel.self, key: .scanOfflineData
+                )
+                self.viewModel.getScanDetailData = GetScanDetailData(
+                    acceptedDevice: localStoredData?.acceptedCount,
+                    rejectedDevice: localStoredData?.rejectedCount,
+                    accepted: localStoredData?.totalCount
+                )
+                self.dataSet()
             }
         }
     }
@@ -319,24 +335,40 @@ extension ScannerVC {
                     }
                 }
             )
-        } else {
-            DispatchQueue.main.async {
-                self.view.stopLoading()
-                self.showToast(message: ValidationConstantStrings.networkLost)
+            self.viewModel.dispatchGroup.notify(queue: .main) {
+                self.setUIAfterScanTicket(isSuccess: success, message: msg)
             }
-        }
-        self.viewModel.dispatchGroup.notify(queue: .main) {
-            self.setUIAfterScanTicket(isSuccess: success, message: msg)
+        } else {
+            self.view.stopLoading()
+            DispatchQueue.main.async {
+                // If user already gets entry, increase rejection count, else set status yes ("Y")
+                let data = DatabaseHelper.shareInstance.getEntry(
+                    barCode: self.viewModel.scanBarCodeModel.barcode,
+                    completion: { isAccepted in
+                        if isAccepted {
+                            self.setUIAfterScanTicket(
+                                isSuccess: true,
+                                message: "This ticket is valid for this event."
+                            )
+                        } else {
+                            self.setUIAfterScanTicket(
+                                isSuccess: false,
+                                message: "This ticket is already scanned."
+                            )
+                        }
+                    }
+                )
+                print("data", data as Any)
+            }
         }
     }
     func offlineFetchBarCode() {
-        if Reachability.isConnectedToNetwork() {
+        //        DatabaseHelper.shareInstance.deleteAllData(forEntity: "OfflineScan")
+//        self.viewModel.saveOfflineRecords(offlineRecord: self.viewModel.offlineData, complition: { isStored in
+//            print("data stored")
+//        })
+        if Reachability.isConnectedToNetwork() { // Check internet connection
             self.view.showLoading(centreToView: self.view)
-            self.viewModel.saveOfflineRecords(offlineRecord: self.viewModel.offlineData, complition: { isStored in
-                print("data stored")
-            })
-//            let data = DatabaseHelper.shareInstance.checkBarCodeExistance(barCode: "956317703383")
-//            print("data", data)
             viewModel.offlineFetchBarCode (
                 complition: { isTrue, showMessage in
                     if isTrue {
@@ -362,6 +394,8 @@ extension ScannerVC {
     }
     func setUIAfterScanTicket(isSuccess: Bool, message: String) {
         imgScanStatus.isHidden = false
+        lblQrid.isHidden = false
+        lblScanStatusMessage.isHidden = false
         imgScanStatus.image = UIImage(named: isSuccess ? Right : Wrong)
         imgScanStatusBGColor.isHidden = false
         imgScanStatusBGColor.backgroundColor = UIColor.setColor(colorType: isSuccess ? .tgGreen : .tgRed)
@@ -370,6 +404,19 @@ extension ScannerVC {
         // Enable scanner
         self.viewModel.scannerEnable = 0
         // Get Updated Data after send QRid
+        getScanDetail()
+    }
+    func setUIAndGetScanDetail() {
+        viewModel.scanBarCodeModel.operatorName = viewModel.updateTicketModel.userName
+        viewModel.scanBarCodeModel.eventId = viewModel.updateTicketModel.eventId
+        if let url = (APIHandler.shared.s3URL + viewModel.scanTicketDetails.imageUrl).getCleanedURL() {
+            self.imgProfileImage.sd_setImage(with: url, placeholderImage: UIImage(named: "Profile_ip"), options: SDWebImageOptions.continueInBackground)
+        } else {
+            self.imgProfileImage.image = UIImage(named: "Profile_ip")
+        }
+        // Set Data to UI Components
+        self.lblSunburnReload.text = viewModel.updateTicketModel.eventName
+        self.lblDate.text = viewModel.updateTicketModel.date
         getScanDetail()
     }
 }

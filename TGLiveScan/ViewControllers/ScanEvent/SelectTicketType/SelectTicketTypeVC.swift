@@ -60,44 +60,48 @@ extension SelectTicketTypeVC {
         btnDone.titleLabel?.textColor = UIColor.setColor(colorType: .btnDarkBlue)
     }
     func getTicketTypeList() {
-        self.view.showLoading(centreToView: self.view)
-        viewModel.getTicketTypeList(
-            complition: { isTrue, showMessage in
-                if isTrue {
-                    print("Success")
-                    DispatchQueue.main.async {
-                        self.view.stopLoading()
-                        self.tblTicketTypeTablView.reloadData()
-                    }
-                }
-            }
-        )
-    }
-    func updateTickets() {
-        self.view.showLoading(centreToView: self.view)
-        viewModel.updateTickets(
-            complition: { isTrue, showMessage in
-                if isTrue {
-                    print("Success")
-                    DispatchQueue.main.async {
-                        self.view.stopLoading()
-                        if let scannerVC = self.createView(storyboard: .main, storyboardID: .ScannerVC) as? ScannerVC {
-                            scannerVC.viewModel.updateTicketModel.eventId = self.viewModel.updateTicketModel.eventId
-                            scannerVC.viewModel.updateTicketModel.eventName = self.viewModel.updateTicketModel.eventName
-                            scannerVC.viewModel.updateTicketModel.date = self.viewModel.updateTicketModel.date
-                            scannerVC.viewModel.updateTicketModel.userName = self.viewModel.updateTicketModel.userName
-                            self.navigationController?.pushViewController(scannerVC, animated: false)
-                            self.navigationController?.viewControllers = [scannerVC]
+        if Reachability.isConnectedToNetwork() {
+            self.view.showLoading(centreToView: self.view)
+            viewModel.getTicketTypeList(
+                complition: { isTrue, showMessage in
+                    if isTrue {
+                        print("Success")
+                        DispatchQueue.main.async {
+                            self.view.stopLoading()
+                            self.tblTicketTypeTablView.reloadData()
                         }
                     }
-                } else {
-                    DispatchQueue.main.async {
-                        self.view.stopLoading()
-                        self.showToast(message: showMessage)
+                }
+            )
+        }
+    }
+    func updateTickets() {
+        if Reachability.isConnectedToNetwork() {
+            self.view.showLoading(centreToView: self.view)
+            viewModel.updateTickets(
+                complition: { isTrue, showMessage in
+                    if isTrue {
+                        print("Success")
+                        DispatchQueue.main.async {
+                            self.view.stopLoading()
+                            if let scannerVC = self.createView(storyboard: .main, storyboardID: .ScannerVC) as? ScannerVC {
+                                scannerVC.viewModel.updateTicketModel.eventId = self.viewModel.updateTicketModel.eventId
+                                scannerVC.viewModel.updateTicketModel.eventName = self.viewModel.updateTicketModel.eventName
+                                scannerVC.viewModel.updateTicketModel.date = self.viewModel.updateTicketModel.date
+                                scannerVC.viewModel.updateTicketModel.userName = self.viewModel.updateTicketModel.userName
+                                self.navigationController?.pushViewController(scannerVC, animated: false)
+                                self.navigationController?.viewControllers = [scannerVC]
+                            }
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.view.stopLoading()
+                            self.showToast(message: showMessage)
+                        }
                     }
                 }
-            }
-        )
+            )
+        }
     }
     @objc func actionSwitch(_ sender: UISwitch) {
         viewModel.arrTicketTypes[sender.tag].isSelected = !(viewModel.arrTicketTypes[sender.tag].isSelected ?? false)
@@ -184,39 +188,48 @@ extension SelectTicketTypeVC {
         }
     }
     func btnDoneAction() {
-        let selectedData = viewModel.arrTicketTypes.filter({$0.isSelected == true })
-        guard !selectedData.isEmpty else {
-            showAlertController(title: "Alert", message: SelectTicketMessage)
-            return
+        if Reachability.isConnectedToNetwork() {
+            let selectedData = viewModel.arrTicketTypes.filter({$0.isSelected == true })
+            guard !selectedData.isEmpty else {
+                showAlertController(title: "Alert", message: SelectTicketMessage)
+                return
+            }
+            viewModel.updateTicketModel.ticketIds = selectedData.map {
+                String($0.id.trimmingCharacters(in: .whitespaces))
+            }.joined(separator: ",")
+            print("selectedTicketIds", viewModel.updateTicketModel.ticketIds)
+            // Save selected ticket types in User Defaults
+            UserDefaultManager.share.setSelectedTicketTypes(selectedTickets: viewModel.arrTicketTypes)
+            updateTickets()
+        } else {
+            DispatchQueue.main.async {
+                self.showToast(message: "No Internet Connection")
+            }
         }
-        viewModel.updateTicketModel.ticketIds = selectedData.map {
-            String($0.id.trimmingCharacters(in: .whitespaces))
-        }.joined(separator: ",")
-        print("selectedTicketIds", viewModel.updateTicketModel.ticketIds)
-        // Save selected ticket types in User Defaults
-        UserDefaultManager.share.setSelectedTicketTypes(selectedTickets: viewModel.arrTicketTypes)
-        updateTickets()
     }
     func btnSelectAllAction() {
         viewModel.arrTicketTypes.indices.forEach { self.viewModel.arrTicketTypes[$0].isSelected = true }
         tblTicketTypeTablView.reloadData()
     }
     func showLogoutAlert() {
-        let alert = UIAlertController.init(title: "Logout", message: "Do you want to logout?", preferredStyle: .alert)
+        let alert = UIAlertController.init(title: LOGOUT_TITLE, message: LOGOUT_MESSAGE, preferredStyle: .alert)
         let btnCancel = UIAlertAction.init(title: "Cancel", style: .default) { _ in
         }
-        let btnYes = UIAlertAction.init(title: "Logout", style: .destructive) { _ in
-            UserDefaultManager.share.removeUserDefualtsModels(key: .userAuthData) // Clear session when user logged out.
+        let btnLogout = UIAlertAction.init(title: "Logout", style: .destructive) { _ in
+            // Clear session when user logged out.
+            UserDefaultManager.share.removeUserDefualtsModels(key: .userAuthData)
             print("after delete userDefault at ticket type", UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData) as Any)
             // Remove selected Ticket Types on Logout
             UserDefaultManager.share.removeSelectedTicketTypes()
+            // Clear Database on Logout
+            DatabaseHelper.shareInstance.deleteAllData(forEntity: "OfflineScan")
             let navigationController = self.storyboard?.instantiateViewController(withIdentifier: "ScanEventNav") as? UINavigationController
             (UIApplication.shared.windows.first)?.rootViewController = navigationController
             UIApplication.shared.windows.first?.makeKeyAndVisible()
             navigationController?.popToRootViewController(animated: true)
         }
         alert.addAction(btnCancel)
-        alert.addAction(btnYes)
+        alert.addAction(btnLogout)
         self.present(alert, animated: true, completion: nil)
     }
 }

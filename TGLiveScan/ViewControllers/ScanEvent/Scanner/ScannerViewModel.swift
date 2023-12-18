@@ -20,18 +20,19 @@ class ScannerViewModel {
     var getBarCodeScanResponse: GetBarCodeScanResponse?
     var offlineFetchBarCodeModel = OfflineFetchBarCodeModel()
     var offlineData = [
-        GetOfflineFetchBarCodeResponse(barCode: "956317744891", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
-        GetOfflineFetchBarCodeResponse(barCode: "956317703383", eventId: "29344", ticketId: "41502", ticketType: "1", usedStatus: "Y"),
-        GetOfflineFetchBarCodeResponse(barCode: "956317703384", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
-        GetOfflineFetchBarCodeResponse(barCode: "956317744892", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
-        GetOfflineFetchBarCodeResponse(barCode: "956317744893", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "Y"),
-        GetOfflineFetchBarCodeResponse(barCode: "956317744894", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
-        GetOfflineFetchBarCodeResponse(barCode: "9563177448945", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
-        GetOfflineFetchBarCodeResponse(barCode: "9563177448956", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
-        GetOfflineFetchBarCodeResponse(barCode: "956317744897", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N")
+        GetOfflineFetchBarCodeResponse(barCode: "128904692836", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
+        GetOfflineFetchBarCodeResponse(barCode: "956317703381", eventId: "29344", ticketId: "41502", ticketType: "1", usedStatus: "Y"),
+        GetOfflineFetchBarCodeResponse(barCode: "956317703382", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
+        GetOfflineFetchBarCodeResponse(barCode: "956317703383", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
+        GetOfflineFetchBarCodeResponse(barCode: "956317703384", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "Y"),
+        GetOfflineFetchBarCodeResponse(barCode: "956317703385", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
+        GetOfflineFetchBarCodeResponse(barCode: "956317703386", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
+        GetOfflineFetchBarCodeResponse(barCode: "956317703387", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
+        GetOfflineFetchBarCodeResponse(barCode: "956317703388", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N")
     ]
     var scannerEnable: Int = 1
     var dispatchGroup = DispatchGroup()
+    var offlineScanLocalModel = OfflineScanLocalModel()
     // MARK: Custom Functions
     func getScanDetail(complition: @escaping (Bool, String) -> Void) {
         APIHandler.shared.getScanDetails(
