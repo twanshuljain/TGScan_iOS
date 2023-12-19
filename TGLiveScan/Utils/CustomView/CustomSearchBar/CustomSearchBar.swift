@@ -35,7 +35,8 @@ class CustomSearchBar: UIView {
     @IBOutlet weak var locationView:UIView!
     @IBOutlet weak var btnFilter:UIButton!
     @IBOutlet weak var wtBtnFilter:NSLayoutConstraint!
-    
+    @IBOutlet weak var imgSearch: UIImageView!
+    @IBOutlet weak var leadingSearchTextConstraint: NSLayoutConstraint!
     var delegate:CustomSearchMethodsDelegate?
     var customSearchBarEnum:CustomSearchBarEnum = .home
     

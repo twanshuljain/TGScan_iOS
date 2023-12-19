@@ -1439,7 +1439,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="teY-8a-1Cz">
                                 <rect key="frame" x="0.0" y="59" width="393" height="60"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="e8B-G8-XNY">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kaD-ow-S5k" customClass="CustomSearchBar" customModule="TGLiveScan" customModuleProvider="target">
+                                        <rect key="frame" x="1" y="8" width="344" height="44"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                    <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="e8B-G8-XNY">
                                         <rect key="frame" x="16" y="8" width="329" height="44"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PUI-0S-r0u">
@@ -1468,9 +1472,13 @@
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstItem="kaD-ow-S5k" firstAttribute="bottom" secondItem="e8B-G8-XNY" secondAttribute="bottom" id="4wI-oq-Qsg"/>
                                     <constraint firstAttribute="trailing" secondItem="APf-rT-Oap" secondAttribute="trailing" constant="15" id="CUm-J9-3qQ"/>
+                                    <constraint firstItem="kaD-ow-S5k" firstAttribute="top" secondItem="e8B-G8-XNY" secondAttribute="top" id="Ptb-ez-f8V"/>
                                     <constraint firstAttribute="height" constant="60" id="Q9c-ma-8aP"/>
+                                    <constraint firstItem="kaD-ow-S5k" firstAttribute="leading" secondItem="e8B-G8-XNY" secondAttribute="leading" constant="-15" id="R3s-0T-kgE"/>
                                     <constraint firstItem="APf-rT-Oap" firstAttribute="leading" secondItem="e8B-G8-XNY" secondAttribute="trailing" constant="8" id="TTz-qt-90a"/>
+                                    <constraint firstItem="kaD-ow-S5k" firstAttribute="trailing" secondItem="e8B-G8-XNY" secondAttribute="trailing" id="bed-ms-e3i"/>
                                     <constraint firstAttribute="bottom" secondItem="e8B-G8-XNY" secondAttribute="bottom" constant="8" id="d4y-ZW-Xfv"/>
                                     <constraint firstItem="e8B-G8-XNY" firstAttribute="leading" secondItem="teY-8a-1Cz" secondAttribute="leading" constant="16" id="fGb-QF-t9y"/>
                                     <constraint firstItem="APf-rT-Oap" firstAttribute="top" secondItem="teY-8a-1Cz" secondAttribute="top" constant="16" id="vQd-ik-PJd"/>
@@ -1524,6 +1532,7 @@
                         <outlet property="lblSearch" destination="JyS-jb-0e6" id="Izk-4B-MZh"/>
                         <outlet property="lblSearchText" destination="fdh-vA-36u" id="fNE-Bd-c5A"/>
                         <outlet property="tblSearchTableView" destination="EKG-uI-b64" id="Ddt-BW-uAM"/>
+                        <outlet property="vwSearchBar" destination="kaD-ow-S5k" id="q0y-eY-pBr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xnl-N9-1TV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

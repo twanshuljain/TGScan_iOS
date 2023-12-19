@@ -5,6 +5,8 @@
 // Created by Apple on 21/06/23.
 import UIKit
 import Foundation
+import IQKeyboardManagerSwift
+
 class SearchVC: UIViewController {
     // MARK: - Outlets
     @IBOutlet weak var tblSearchTableView: UITableView!
@@ -19,6 +21,7 @@ class SearchVC: UIViewController {
     @IBOutlet weak var btnSearch: UIButton!
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var lblSearchText: UITextField!
+    @IBOutlet weak var vwSearchBar: CustomSearchBar!
     // MARK: - Variables
     let viewModel = SearchViewModel()
     let textField = UITextField()
@@ -27,11 +30,25 @@ class SearchVC: UIViewController {
         self.setUI()
         self.setFont()
         self.setTableView()
-        self.setTextField()
         self.dataSetToUserModel()
+        self.setSearchBar()
+        IQKeyboardManager.shared.enableAutoToolbar = false
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    func setSearchBar() {
+        self.vwSearchBar.delegate = self
+        self.vwSearchBar.vwLocation.isHidden = true
+        self.vwSearchBar.btnMenu.setImage(UIImage(named: BACK_ARROW_ICON), for: .normal)
+        self.vwSearchBar.backgroundColor = .white
+        vwSearchBar.txtSearch.becomeFirstResponder()
+        vwSearchBar.txtSearch.delegate = self
+        vwSearchBar.txtSearch.returnKeyType = .search
+        vwSearchBar.txtSearch.keyboardType = .emailAddress
+        vwSearchBar.imgSearch.isHidden = true
+        vwSearchBar.locationView.isHidden = true
+        vwSearchBar.leadingSearchTextConstraint.constant = 0
     }
     func dataSetToUserModel() {
         let userDataModel = UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData)
@@ -39,23 +56,6 @@ class SearchVC: UIViewController {
         viewModel.updateTicketModel.userName = userDataModel?.userName ?? ""
         viewModel.scanBarCodeModel.operatorName = userDataModel?.userName ?? ""
         viewModel.scanBarCodeModel.eventId = viewModel.updateTicketModel.eventId
-    }
-    func setTextField() {
-        self.view.addSubview(textField)
-        textField.frame = CGRect(origin: .zero, size: .zero)
-        let txtSearch = CustomSearchBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 70))
-        textField.delegate = self
-        lblSearchText.delegate = self
-        txtSearch.txtSearch.delegate = self
-        txtSearch.locationView.isHidden = true
-        txtSearch.btnMenu.isHidden = true
-        txtSearch.btnFilter.isHidden = true
-        txtSearch.txtSearch.isHidden = false
-        txtSearch.txtSearch.becomeFirstResponder()
-        textField.inputAccessoryView = txtSearch
-        textField.becomeFirstResponder()
-        txtSearch.txtSearch.addTarget(self, action: #selector(txtSearchData), for: .allEditingEvents)
-        txtSearch.txtSearch.becomeFirstResponder()
     }
     @objc func txtSearchData(_ sender: UITextField) {
         lblSearchText.text = sender.text
@@ -295,6 +295,18 @@ extension SearchVC: UITextFieldDelegate {
         } else {
             self.showToast(message: "Please enter keyword to search")
         }
+        vwSearchBar.txtSearch.resignFirstResponder()
         return  true
+    }
+}
+extension SearchVC: CustomSearchMethodsDelegate {
+    func leftButtonPressed(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    func rightButtonPressed(_ sender: UIButton) {
+        print("right button")
+    }
+    func filterButtonPressed(_ sender: UIButton) {
+        print("filter button")
     }
 }

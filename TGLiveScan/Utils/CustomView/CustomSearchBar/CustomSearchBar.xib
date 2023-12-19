@@ -21,7 +21,9 @@
                 <outlet property="btnLocation" destination="Qdz-Ds-9AA" id="noI-cV-K1Q"/>
                 <outlet property="btnMenu" destination="TTg-LO-18O" id="xW7-gK-ZLJ"/>
                 <outlet property="imgMap" destination="Ge2-nb-Gog" id="TOA-Jk-Hys"/>
+                <outlet property="imgSearch" destination="L03-zf-4o8" id="z83-b3-U76"/>
                 <outlet property="lblAddress" destination="J9g-hP-rvY" id="efs-MX-RBX"/>
+                <outlet property="leadingSearchTextConstraint" destination="vow-q4-x5Z" id="Uaj-30-CXY"/>
                 <outlet property="locationView" destination="v9A-34-JjD" id="3Q4-Pe-37l"/>
                 <outlet property="txtSearch" destination="MLG-i3-egF" id="H25-WH-sV4"/>
                 <outlet property="vwLocation" destination="v9A-34-JjD" id="qEy-62-Bmd"/>
@@ -106,10 +108,10 @@
                                             </constraints>
                                         </view>
                                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Search event..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MLG-i3-egF">
-                                            <rect key="frame" x="38" y="7.5" width="150" height="35"/>
+                                            <rect key="frame" x="38" y="7.5" width="199" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="35" id="1S8-6q-C6t"/>
-                                                <constraint firstAttribute="width" constant="150" id="oYh-l5-2CU"/>
+                                                <constraint firstAttribute="width" constant="199" id="oYh-l5-2CU"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits"/>
@@ -122,8 +124,8 @@
                                         <constraint firstItem="v9A-34-JjD" firstAttribute="top" secondItem="oLn-CA-h7Y" secondAttribute="top" id="Mz1-c1-G8N"/>
                                         <constraint firstItem="L03-zf-4o8" firstAttribute="centerY" secondItem="oLn-CA-h7Y" secondAttribute="centerY" id="Wlq-uR-5Ag"/>
                                         <constraint firstItem="MLG-i3-egF" firstAttribute="centerY" secondItem="L03-zf-4o8" secondAttribute="centerY" id="cKy-cT-OhQ"/>
-                                        <constraint firstItem="MLG-i3-egF" firstAttribute="leading" secondItem="L03-zf-4o8" secondAttribute="trailing" constant="10" id="gm0-Ax-S5A"/>
                                         <constraint firstAttribute="height" constant="50" id="qnL-sf-A6j"/>
+                                        <constraint firstItem="MLG-i3-egF" firstAttribute="leading" secondItem="oLn-CA-h7Y" secondAttribute="leading" constant="38" id="vow-q4-x5Z"/>
                                         <constraint firstAttribute="trailing" secondItem="v9A-34-JjD" secondAttribute="trailing" constant="10" id="xkN-Ri-jij"/>
                                         <constraint firstAttribute="bottom" secondItem="v9A-34-JjD" secondAttribute="bottom" id="yJ1-re-vt5"/>
                                     </constraints>
