@@ -6,24 +6,13 @@
 
 import Foundation
 
-struct SearchDummyData {
-    let name: String?
-    let orderID: String? 
-    let cardNo: String?
-    let nameOnCard: String?
-}
 protocol DidPopupDismis {
     func updateDataAfterPopupDismissed(isFromCancel: Bool,
                                        selectedBarCodes: String)
 }
 class SearchViewModel: NSObject {
-    var orderInfo: [SearchDummyData] = []
-    var searchData: [SearchDummyData] = []
     var isFromSearchTxtField: Bool = false
     var updateTicketModel = UpdateTicketModel()
-    var numberOfRows: Int {
-        return isFromSearchTxtField ? searchData.count : orderInfo.count
-    }
     // used
     var emailSearchDataModel: EmailSearchDataModel?
     var arrGetEmailOrdersResponse: [GetEmailOrdersResponse]?
@@ -32,34 +21,9 @@ class SearchViewModel: NSObject {
     var emailId: String = "" // which user enter during search by email
     var scanBarCodeModel = ScanBarCodeModel()
     var getBarCodeSearchedResponse: GetBarCodeSearchedResponse?
-    
-    func getItem(indexPath: Int) -> SearchDummyData {
-        return isFromSearchTxtField ? searchData[indexPath] : orderInfo[indexPath]
-    }
-    override init() {
-        super.init()
-        self.setDummyData()
-    }
-    func setDummyData() {
-        for _ in 0...4 {
-            let data = SearchDummyData(name: "Mangesh Yahoo", orderID: "213456755", cardNo: "XXXXXXXX2145", nameOnCard: "Mnages Kamdim")
-            orderInfo.append(data)
-        }
-    }
-    // MARK: - SEARCH FUNC
-    open func searchFilter(text: String, searchText: String) -> Bool {
-        return text.range(of: searchText, options: .caseInsensitive) != nil
-    }
-    func filterData(searchText: String, completionHandler: @escaping() -> Void) {
-        searchData.removeAll()
-        var searchedItems = [SearchDummyData]()
-        let filter = orderInfo.filter { info in
-            return searchFilter(text: info.name ?? "", searchText: searchText) || searchFilter(text: info.cardNo ?? "", searchText: searchText)
-        }
-        searchedItems.append(contentsOf: filter)
-        searchData = searchedItems
-        completionHandler()
-    }
+    var arrGlobalSearchData: [[String: Any]] = [[:]]
+    var isGlobalApiActive: Bool = false
+   
     func getEmailSearchedData(emailId: String, complition: @escaping (Bool, String) -> Void) {
         self.emailSearchDataModel = EmailSearchDataModel(
             eventId: "\(updateTicketModel.eventId)",
@@ -119,18 +83,65 @@ class SearchViewModel: NSObject {
             case .success(let response):
                 print("response....", response)
                 if response.statusCode == "200" {
-                    self.getBarCodeSearchedResponse = response
                     self.arrGetEmailOrdersResponse = [GetEmailOrdersResponse(orderID: response.orderID, firstName: response.firstName, lastName: response.lastName, nameOnCard: "-", cardNumber: "-", barcodeData: [])
                     ]
                     complition(true, response.message ?? "")
                 } else {
-                    self.arrGetEmailOrdersResponse?.removeAll()
-                    self.getBarCodeSearchedResponse = response
+//                    self.arrGetEmailOrdersResponse?.removeAll()
                     complition(false, response.message ?? "")
                 }
             case .failure(let error):
                 complition(false,"\(error)")
             }
+        }
+    }
+    func getGlobalSearchedData(
+        keyword: String,
+        complition: @escaping (Bool, String) -> Void
+    ) {
+        APIHandler.shared.getGlobalSearchedData(
+            apiName: .scanBarCode,
+            parameter: scanBarCodeModel,
+            methodType: .POST
+        ) { (result: Result<AnyObject?, Error>) in
+            switch result {
+            case .success(let response):
+                let data = response?["data"] as? [String: Any]
+                print("data", data as Any)
+                self.convertToObjectArray(data ?? [:])
+                let statuscode = data?["statuscode"] as? String
+                print("statusCode", statuscode as Any)
+                if statuscode == "200" {
+                    complition(true, "Success")
+                } else {
+                    complition(false, "No record found.")
+                }
+            case .failure(let error):
+                complition(false,"\(error)")
+            }
+        }
+    }
+    func convertToObjectArray(_ data: [String: Any]) {
+        arrGlobalSearchData.removeAll()
+        arrGlobalSearchData = data.compactMap { $0.value as? [String: Any] }
+        arrGetEmailOrdersResponse = []
+        arrGlobalSearchData.forEach { record in
+            arrGetEmailOrdersResponse?.append(
+                GetEmailOrdersResponse(
+                    orderID: "", 
+                    firstName: record["first_name"] as? String,
+                    lastName: record["last_name"] as? String,
+                    nameOnCard: "",
+                    cardNumber: "",
+                    barcodeData: [
+                        GetEmailOrdersData(
+                            id: "", barcode: record["barcode"] as? String,
+                            firstName: "", lastName: "", 
+                            isSelected: false
+                        )
+                    ]
+                )
+            )
         }
     }
 }

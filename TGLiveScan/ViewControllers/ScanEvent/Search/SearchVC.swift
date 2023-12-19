@@ -57,16 +57,6 @@ class SearchVC: UIViewController {
         viewModel.scanBarCodeModel.operatorName = userDataModel?.userName ?? ""
         viewModel.scanBarCodeModel.eventId = viewModel.updateTicketModel.eventId
     }
-    @objc func txtSearchData(_ sender: UITextField) {
-        lblSearchText.text = sender.text
-        viewModel.isFromSearchTxtField = true
-        viewModel.filterData(searchText: sender.text ?? "") { [weak self] in
-            if let self {
-                self.tblSearchTableView.reloadData()
-            }
-        }
-    }
-    
     func getEmailSearchedData(email: String) {
         if Reachability.isConnectedToNetwork() { // check internet connectivity
             self.view.showLoading(centreToView: self.view)
@@ -128,6 +118,34 @@ class SearchVC: UIViewController {
                     if isTrue {
                         DispatchQueue.main.async {
                             self.view.stopLoading()
+                            self.showToast(message: showMessage)
+                            self.tblSearchTableView.reloadData()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self.view.stopLoading()
+                            self.view.endEditing(true) // for dismiss the keyboard
+                            self.tblSearchTableView.reloadData()
+                            self.showToast(message: showMessage)
+                        }
+                    }
+                }
+            )
+        } else {
+            DispatchQueue.main.async {
+                self.view.stopLoading()
+                self.showToast(message: ValidationConstantStrings.networkLost)
+            }
+        }
+    }
+    func getGlobalSearchedData(keyword: String) {
+        if Reachability.isConnectedToNetwork() { // check internet connectivity
+            self.view.showLoading(centreToView: self.view)
+            viewModel.getGlobalSearchedData(keyword: keyword,
+                complition: { isTrue, showMessage in
+                    if isTrue {
+                        DispatchQueue.main.async {
+                            self.view.stopLoading()
                             self.tblSearchTableView.reloadData()
                         }
                     } else {
@@ -171,16 +189,20 @@ extension SearchVC {
         self.lblSearchText.textColor = UIColor.setColor(colorType: .tgBlack)
     }
     @objc func btnCheckInAction(_ sender: UIButton) {
-        self.view.alpha = 0.5
-        self.view.backgroundColor = .black
         print("btn check in", sender.tag)
-        if let popoverContent = self.storyboard?.instantiateViewController(withIdentifier: "EmailSearchPopupViewController") as? EmailSearchPopupViewController {
-            popoverContent.popupDelegate = self
-            popoverContent.viewModel.arrEmailOrder = viewModel.arrGetEmailOrdersResponse?[sender.tag].barcodeData ?? []
-            viewModel.orderId = viewModel.arrGetEmailOrdersResponse?[sender.tag].orderID ?? ""
-            let nav = UINavigationController(rootViewController: popoverContent)
-            nav.modalPresentationStyle = .overCurrentContext
-            self.present(nav, animated: true, completion: nil)
+        if viewModel.isGlobalApiActive {
+            getBarCodeSearchedData(barCode: viewModel.arrGetEmailOrdersResponse?.first?.barcodeData?.first?.barcode ?? "0")
+        } else {
+            self.view.alpha = 0.5
+            self.view.backgroundColor = .black
+            if let popoverContent = self.storyboard?.instantiateViewController(withIdentifier: "EmailSearchPopupViewController") as? EmailSearchPopupViewController {
+                popoverContent.popupDelegate = self
+                popoverContent.viewModel.arrEmailOrder = viewModel.arrGetEmailOrdersResponse?[sender.tag].barcodeData ?? []
+                viewModel.orderId = viewModel.arrGetEmailOrdersResponse?[sender.tag].orderID ?? ""
+                let nav = UINavigationController(rootViewController: popoverContent)
+                nav.modalPresentationStyle = .overCurrentContext
+                self.present(nav, animated: true, completion: nil)
+            }
         }
     }
 }
@@ -209,7 +231,14 @@ extension SearchVC: UITableViewDataSource, UITableViewDelegate {
             cell.btnCheckIn.alpha = 1
             cell.btnCheckIn.isUserInteractionEnabled = true
         }
-        cell.lblCardNo.text = "Card No. " + ((((record?.cardNumber?.isEmpty) != nil) ? "NA" : record?.cardNumber) ?? "")
+        
+        // Managed lables hide and show according to condition
+        cell.lblOrderId.isHidden = viewModel.isGlobalApiActive
+        cell.lblNameOnCard.isHidden = viewModel.isGlobalApiActive
+        
+        // Managed one for "CardNo" as well as "BarCodeNumber" according to the situation
+        cell.lblCardNo.text = viewModel.isGlobalApiActive ? "Bar Code No.: \(record?.barcodeData?.first?.barcode ?? "0")" : "Card No.: " + ((((record?.cardNumber?.isEmpty) != nil) ? "NA" : record?.cardNumber) ?? "")
+        
         cell.lblNameOnCard.text = "Name on Card: " + (record?.nameOnCard ?? "NA")
         cell.lblOrderId.text = "Order Id: " + (record?.orderID ?? "NA")
         cell.btnCheckIn.tag = indexPath.row
@@ -217,7 +246,8 @@ extension SearchVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 195
+        // If user search globally then show only barcode lable else show all details
+        return viewModel.isGlobalApiActive ? 150 : 195
     }
 }
 // MARK: - Instance Method
@@ -284,13 +314,18 @@ extension SearchVC: UITextFieldDelegate {
         if let searchText = textField.text, !searchText.isEmpty {
             if searchText.isValidEmail(emaiId: searchText) {
                 print("email API call")
+                viewModel.isGlobalApiActive = false
                 getEmailSearchedData(email: "sanjay.chawke@gmail.com")
                 viewModel.emailId = "sanjay.chawke@gmail.com"
             } else if searchText.isContainsOnlyNumber {
                 print("bar code API call")
+                viewModel.isGlobalApiActive = false
                 getBarCodeSearchedData(barCode: searchText)
             } else {
                 print("global API call")
+                viewModel.isGlobalApiActive = true
+                viewModel.scanBarCodeModel.keyword = searchText
+                getGlobalSearchedData(keyword: searchText)
             }
         } else {
             self.showToast(message: "Please enter keyword to search")

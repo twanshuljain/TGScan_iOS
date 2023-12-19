@@ -43,7 +43,7 @@ struct UpdateEmailOrderData: Codable {
     let count: Int?
 }
 
-// MARK: - Welcome
+// MARK: - Get Bar Code Searched Response
 struct GetBarCodeSearchedResponse: Codable {
     var id, categoryid, ticketID, type: String?
     var tixOrder, barcode, firstName, lastName: String?
@@ -94,5 +94,20 @@ struct GetBarCodeSearchedResponse: Codable {
         case podDis = "pod_dis"
         case message, status
         case statusCode = "statuscode"
+    }
+}
+// MARK: - Get Global Searched Response
+struct GetGlobalSearchResponseModel: Codable {
+    var id: String?
+    var firstName: String?
+    var lastName: String?
+    var barcode: String?
+    var ticketName: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id, barcode
+        case firstName = "first_name"
+        case lastName = "last_name"
+        case ticketName = "ticket_name"
     }
 }

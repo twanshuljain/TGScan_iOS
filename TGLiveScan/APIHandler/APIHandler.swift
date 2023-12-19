@@ -1040,4 +1040,62 @@ extension APIHandler {
             }
         }.resume()
     }
+    // MARK: Get Global Searched Data
+    func getGlobalSearchedData(
+        apiName: APIName,
+        parameter: ScanBarCodeModel,
+        methodType: MethodType,
+        complition: @escaping(Result<AnyObject?, Error>) -> Void
+    ) {
+        let requestURL = "\(APIHandler.shared.baseURL)\(apiName.rawValue)"
+        var request = URLRequest(url: URL(string: requestURL)!)
+        request.httpMethod = methodType.rawValue
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField:"Content-Type")
+        request.setValue(NSLocalizedString("lang", comment: ""), forHTTPHeaderField:"Accept-Language")
+        let dictBody: [String: Any] = [
+            "event": parameter.eventId,
+            "keyword": parameter.keyword
+        ]
+        let postString = getPostString(params: dictBody as [String : Any])
+        request.httpBody = postString.data(using: .utf8)
+        
+        print("Method/URL:-\(request.httpMethod ?? "") \(String(describing: request.url))")
+        let str = String(decoding: request.httpBody ?? Data(), as: UTF8.self)
+        print("BODY \n \(str)")
+        print("HEADERS \n \(String(describing: request.allHTTPHeaderFields))")
+        
+        session.dataTask(with: request) { data, response, error in
+            var httpStatusCode = 0
+            if let httpResponse = response as? HTTPURLResponse {
+                httpStatusCode = httpResponse.statusCode
+                print("httpStatusCode:- \(httpStatusCode)")
+            }
+            if error != nil {
+                complition(.failure(error?.localizedDescription ?? "Something went wrong"))
+            } else {
+                if httpStatusCode == 401 {
+                    // Refresh Token
+                    if let fbData = data {
+                        let message = String(decoding: fbData, as: UTF8.self)
+                        complition(.failure(message))
+                    } else {
+                        let message = response?.url?.lastPathComponent
+                        complition(.failure("API \(message ?? "") Invalid Response."))
+                    }
+                } else if httpStatusCode == 200, let data = data {
+                    let dictData = self.nsdataToJSON(data: data as NSData)
+                    print("----------------JSON in APIClient", dictData as Any)
+                    complition(.success(dictData))
+                } else {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: []) as! NSDictionary
+                        complition(.failure(json["message"] as? String ?? "something went wrong"))
+                    } catch {
+                        complition(.failure("Unable to get json."))
+                    }
+                }
+            }
+        }.resume()
+    }
+    
 }

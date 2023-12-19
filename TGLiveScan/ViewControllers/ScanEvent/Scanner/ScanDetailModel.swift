@@ -12,6 +12,8 @@ struct ScanBarCodeModel: Codable {
     var deviceId: String = ""
     var eventId: Int = 0
     var operatorName: String = ""
+    // For global search
+    var keyword: String = ""
 }
 
 // MARK: Offline Scan Model For Local Store
