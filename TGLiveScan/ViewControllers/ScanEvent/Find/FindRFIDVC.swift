@@ -43,7 +43,10 @@ class FindRFIDVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         viewModel.isConnected = false
-        dataSetToUI()
+        var localStoredData = UserDefaultManager.share.getModelDataFromUserDefults(
+            userData: OfflineScanLocalModel.self, key: .scanOfflineData
+        )
+        dataSetToUI(localStoredData: localStoredData ?? OfflineScanLocalModel())
     }
 }
 // MARK: -
@@ -103,13 +106,10 @@ extension FindRFIDVC {
         viewModel.scanBarCodeModel.eventId = Int(userDataModel?.info?.masterId ?? "0") ?? 0
         viewModel.scanBarCodeModel.operatorName = userDataModel?.userName ?? ""
     }
-    func dataSetToUI() {
-        let localStoredData = UserDefaultManager.share.getModelDataFromUserDefults(
-            userData: OfflineScanLocalModel.self, key: .scanOfflineData
-        )
-        lblAccepted.text = "Accepted : \(localStoredData?.acceptedCount ?? "")"
-        lblRejected.text = "Rejected : \(localStoredData?.rejectedCount ?? "")"
-        lblTotal.text = "Total : \(localStoredData?.totalCount ?? "")"
+    func dataSetToUI(localStoredData: OfflineScanLocalModel) {
+        lblAccepted.text = "Accepted : \(localStoredData.acceptedCount)"
+        lblRejected.text = "Rejected : \(localStoredData.rejectedCount)"
+        lblTotal.text = "Total : \(localStoredData.totalCount)"
     }
 }
 // MARK: - Instance Method
@@ -200,6 +200,7 @@ extension FindRFIDVC {
                     } else {
                         DispatchQueue.main.async {
                             self.viewModel.isConnected = false
+                            self.setImages()
                             self.view.stopLoading()
                             self.showToast(message: showMessage)
                         }
@@ -208,10 +209,55 @@ extension FindRFIDVC {
             )
         } else {
             DispatchQueue.main.async {
-                self.view.stopLoading()
-                self.showToast(message: ValidationConstantStrings.networkLost)
+                // Store this barcode in DB if not stored.
+                if DatabaseHelper.shareInstance.fetchRecordByBarCode(barCode: self.viewModel.scanBarCodeModel.barcode) == nil {
+                    DatabaseHelper.shareInstance.save(
+                        offlineScan: GetOfflineFetchBarCodeResponse(
+                            barCode: self.viewModel.scanBarCodeModel.barcode,
+                            eventId: "\(self.viewModel.scanBarCodeModel.eventId)",
+                            ticketId: "0",
+                            ticketType: "1",
+                            usedStatus: "Y",
+                            countForRejection: 0
+                        )
+                    )
+                    // SetUI after save in DB
+                    self.viewModel.isConnected = true
+                    self.setImages()
+                    self.updateLocalCounts(isTotal: true, isAccepted: true, isRejected: false)
+                } else {
+                    // If user already gets entry, increase rejection count, else set status yes ("Y")
+                    let data = DatabaseHelper.shareInstance.getEntry(
+                        barCode: self.viewModel.scanBarCodeModel.barcode,
+                        completion: { isAccepted in
+                            if isAccepted {
+                                self.viewModel.isConnected = true
+                                self.setImages()
+                                self.updateLocalCounts(isTotal: true, isAccepted: true, isRejected: false)
+                            } else {
+                                self.viewModel.isConnected = false
+                                self.setImages()
+                                self.updateLocalCounts(isTotal: true, isAccepted: false, isRejected: true)
+                                self.showToast(message: "This ticket is already scanned.")
+                            }
+                        }
+                    )
+                    print("data", data as Any)
+                }
             }
         }
+    }
+    func updateLocalCounts(isTotal: Bool, isAccepted: Bool, isRejected: Bool) {
+        var localStoredData = UserDefaultManager.share.getModelDataFromUserDefults(
+            userData: OfflineScanLocalModel.self, key: .scanOfflineData
+        )
+        localStoredData?.totalCount += isTotal ? 1 : 0
+        localStoredData?.acceptedCount += isAccepted ? 1 : 0
+        localStoredData?.rejectedCount += isRejected ? 1 : 0
+        self.dataSetToUI(localStoredData: localStoredData ?? OfflineScanLocalModel())
+        print("localStoredData", localStoredData as Any)
+        UserDefaultManager.share.storeModelToUserDefault(userData: localStoredData, key: .scanOfflineData)
+        dataSetToUI(localStoredData: localStoredData ?? OfflineScanLocalModel())
     }
 }
 extension FindRFIDVC: NFCNDEFReaderSessionDelegate {
@@ -222,6 +268,7 @@ extension FindRFIDVC: NFCNDEFReaderSessionDelegate {
         guard let message = messages.first else {
             return
         }
+        viewModel.nfcBarCodeId.removeAll()
         for record in message.records {
             print("Payload: \(record.payload)")
             let data = String(data: record.payload,encoding:.utf8)
@@ -229,9 +276,10 @@ extension FindRFIDVC: NFCNDEFReaderSessionDelegate {
                 self.viewModel.nfcBarCodeId.append(data)
             }
         }
-        print(self.viewModel.nfcBarCodeId)
+        print("NFC barcode:- ", self.viewModel.nfcBarCodeId)
         // Update bar code API (Gets entry)
         if !viewModel.nfcBarCodeId.isEmpty {
+            self.viewModel.scanBarCodeModel.barcode = viewModel.nfcBarCodeId.first ?? ""
             scanBarCode()
         }
         // Optionally, you can stop the session after the first read

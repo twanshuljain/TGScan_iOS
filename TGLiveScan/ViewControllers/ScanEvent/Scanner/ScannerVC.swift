@@ -51,6 +51,7 @@ class ScannerVC: UIViewController {
         DispatchQueue.main.async {
             // Reset the UI and Scanner
             self.viewModel.scannerEnable = 1
+            self.viewModel.isProcessingQRCode = false
             self.getCameraPreview()
         }
         self.hideScanStatusUI()
@@ -100,9 +101,7 @@ extension ScannerVC {
         viewModel.previewLayer.frame = qrScannerView.layer.bounds
         viewModel.previewLayer.videoGravity = .resizeAspectFill
         qrScannerView.layer.addSublayer(viewModel.previewLayer)
-        DispatchQueue.global(qos: .background).async {
-            self.viewModel.captureSession.startRunning()
-        }
+        self.viewModel.captureSession.startRunning()
     }
     func setFont() {
         lblQrid.text = ""
@@ -158,9 +157,9 @@ extension ScannerVC {
         let detailData = viewModel.getScanDetailData
         dataSet() // Data set to labels
         // Store response in local storage
-        viewModel.offlineScanLocalModel.acceptedCount = detailData?.acceptedDevice ?? "0"
-        viewModel.offlineScanLocalModel.rejectedCount = detailData?.rejectedDevice ?? "0"
-        viewModel.offlineScanLocalModel.totalCount = detailData?.accepted ?? "0"
+        viewModel.offlineScanLocalModel.acceptedCount = Int(detailData?.acceptedDevice ?? "0") ?? 0
+        viewModel.offlineScanLocalModel.rejectedCount = Int(detailData?.rejectedDevice ?? "0") ?? 0
+        viewModel.offlineScanLocalModel.totalCount = Int(detailData?.accepted ?? "0") ?? 0
         UserDefaultManager.share.storeModelToUserDefault(userData: viewModel.offlineScanLocalModel, key: .scanOfflineData)
         print("after save data in userdefault at scannerVC:-", UserDefaultManager.share.getModelDataFromUserDefults(userData: OfflineScanLocalModel.self, key: .scanOfflineData) as Any)
     }
@@ -204,12 +203,14 @@ extension ScannerVC {
         imgScanStatusBGColor.isHidden = true
     }
     func btnScanAgainAction() {
-        hideScanStatusUI()
-        print("viewModel.scannerEnable", viewModel.scannerEnable)
-        if viewModel.scannerEnable == 0 {
-            getCameraPreview()
+        self.hideScanStatusUI()
+        self.viewModel.isProcessingQRCode = false
+        print("viewModel.scannerEnable", self.viewModel.scannerEnable)
+        if self.viewModel.scannerEnable == 0 {
+            self.getCameraPreview()
+            print("Get innn")
             // Disable scanner after once tap on scan again button
-            viewModel.scannerEnable = 1
+            self.viewModel.scannerEnable = 1
         }
     }
     func btnFindRfidAction() {
@@ -295,15 +296,14 @@ extension ScannerVC {
             )
         } else {
             DispatchQueue.main.async {
-                self.view.stopLoading()
                 // Here user is offline, so get data from DB and distribute to UI.
                 let localStoredData = UserDefaultManager.share.getModelDataFromUserDefults(
                     userData: OfflineScanLocalModel.self, key: .scanOfflineData
                 )
                 self.viewModel.getScanDetailData = GetScanDetailData(
-                    acceptedDevice: localStoredData?.acceptedCount,
-                    rejectedDevice: localStoredData?.rejectedCount,
-                    accepted: localStoredData?.totalCount
+                    acceptedDevice: "\(localStoredData?.acceptedCount ?? 0)",
+                    rejectedDevice: "\(localStoredData?.rejectedCount ?? 0)",
+                    accepted: "\(localStoredData?.totalCount ?? 0)"
                 )
                 self.dataSet()
             }
@@ -339,34 +339,51 @@ extension ScannerVC {
                 self.setUIAfterScanTicket(isSuccess: success, message: msg)
             }
         } else {
-            self.view.stopLoading()
             DispatchQueue.main.async {
-                // If user already gets entry, increase rejection count, else set status yes ("Y")
-                let data = DatabaseHelper.shareInstance.getEntry(
-                    barCode: self.viewModel.scanBarCodeModel.barcode,
-                    completion: { isAccepted in
-                        if isAccepted {
-                            self.setUIAfterScanTicket(
-                                isSuccess: true,
-                                message: "This ticket is valid for this event."
-                            )
-                        } else {
-                            self.setUIAfterScanTicket(
-                                isSuccess: false,
-                                message: "This ticket is already scanned."
-                            )
+                // Store this barcode in DB if not stored.
+                if DatabaseHelper.shareInstance.fetchRecordByBarCode(barCode: self.viewModel.scanBarCodeModel.barcode) == nil {
+                    DatabaseHelper.shareInstance.save(
+                        offlineScan: GetOfflineFetchBarCodeResponse(
+                            barCode: self.viewModel.scanBarCodeModel.barcode,
+                            eventId: "\(self.viewModel.scanBarCodeModel.eventId)",
+                            ticketId: "0",
+                            ticketType: "1",
+                            usedStatus: "Y",
+                            countForRejection: 0
+                        )
+                    )
+                    // SetUI after save in DB
+                    self.setUIAfterScanTicket(
+                        isSuccess: true,
+                        message: "This ticket is valid for this event."
+                    )
+                    self.updateLocalCounts(isTotal: true, isAccepted: true, isRejected: false)
+                } else {
+                    // If user already gets entry, increase rejection count, else set status yes ("Y")
+                    let data = DatabaseHelper.shareInstance.getEntry(
+                        barCode: self.viewModel.scanBarCodeModel.barcode,
+                        completion: { isAccepted in
+                            if isAccepted {
+                                self.setUIAfterScanTicket(
+                                    isSuccess: true,
+                                    message: "This Ticket scanned successfully."
+                                )
+                                self.updateLocalCounts(isTotal: true, isAccepted: true, isRejected: false)
+                            } else {
+                                self.setUIAfterScanTicket(
+                                    isSuccess: false,
+                                    message: "This ticket is already scanned."
+                                )
+                                self.updateLocalCounts(isTotal: true, isAccepted: false, isRejected: true)
+                            }
                         }
-                    }
-                )
-                print("data", data as Any)
+                    )
+                    print("data", data as Any)
+                }
             }
         }
     }
     func offlineFetchBarCode() {
-        //        DatabaseHelper.shareInstance.deleteAllData(forEntity: "OfflineScan")
-//        self.viewModel.saveOfflineRecords(offlineRecord: self.viewModel.offlineData, complition: { isStored in
-//            print("data stored")
-//        })
         if Reachability.isConnectedToNetwork() { // Check internet connection
             self.view.showLoading(centreToView: self.view)
             viewModel.offlineFetchBarCode (
@@ -391,6 +408,22 @@ extension ScannerVC {
                 self.showToast(message: ValidationConstantStrings.networkLost)
             }
         }
+    }
+    func updateLocalCounts(isTotal: Bool, isAccepted: Bool, isRejected: Bool) {
+        var localStoredData = UserDefaultManager.share.getModelDataFromUserDefults(
+            userData: OfflineScanLocalModel.self, key: .scanOfflineData
+        )
+        localStoredData?.totalCount += isTotal ? 1 : 0
+        localStoredData?.acceptedCount += isAccepted ? 1 : 0
+        localStoredData?.rejectedCount += isRejected ? 1 : 0
+        self.viewModel.getScanDetailData = GetScanDetailData(
+            acceptedDevice: "\(localStoredData?.acceptedCount ?? 0)",
+            rejectedDevice: "\(localStoredData?.rejectedCount ?? 0)",
+            accepted: "\(localStoredData?.totalCount ?? 0)"
+        )
+        self.dataSet()
+        print("localStoredData", localStoredData as Any)
+        UserDefaultManager.share.storeModelToUserDefault(userData: localStoredData, key: .scanOfflineData)
     }
     func setUIAfterScanTicket(isSuccess: Bool, message: String) {
         imgScanStatus.isHidden = false
@@ -417,25 +450,26 @@ extension ScannerVC {
         // Set Data to UI Components
         self.lblSunburnReload.text = viewModel.updateTicketModel.eventName
         self.lblDate.text = viewModel.updateTicketModel.date
-        getScanDetail()
     }
 }
 // MARK: - AVCaptureMetadataOutputObjectsDelegate
 extension ScannerVC: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        viewModel.captureSession.stopRunning() // stop scanning after receiving metadata output
-        if let metadataObject = metadataObjects.first {
-            guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return
+            if let metadataObject = metadataObjects.first, !self.viewModel.isProcessingQRCode {
+                self.viewModel.isProcessingQRCode = true
+                guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return
+                }
+                self.viewModel.captureSession.stopRunning() // stop scanning after receiving metadata output
+                guard let codeString = readableObject.stringValue else { return }
+                AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+                self.receivedCodeForQR(qrcode: codeString)
             }
-            guard let codeString = readableObject.stringValue else { return }
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            self.receivedCodeForQR(qrcode: codeString)
-        }
     }
     func receivedCodeForQR(qrcode: String) {
         print("qrcode", qrcode)
         viewModel.scanBarCodeModel.barcode = qrcode
-        scanBarCode()
+        Thread.sleep(forTimeInterval: 1)
+        self.scanBarCode()
     }
 }
 // MARK: - AlertAction

@@ -64,13 +64,12 @@ class DatabaseHelper {
             }
             do {
                 try context.save()
-                print("Core data Gets entry successfully")
+                print("DB Save Success")
             } catch {
                 print("Error:", error)
             }
             return data
         }
-        completion(false)
         return nil
     }
     // Function to get All Data

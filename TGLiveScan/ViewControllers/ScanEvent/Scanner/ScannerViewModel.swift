@@ -19,6 +19,14 @@ class ScannerViewModel {
     var scanBarCodeModel = ScanBarCodeModel()
     var getBarCodeScanResponse: GetBarCodeScanResponse?
     var offlineFetchBarCodeModel = OfflineFetchBarCodeModel()
+    var isProcessingQRCode: Bool = false {
+        willSet {
+            print("isProcessingQRCode willSet", isProcessingQRCode)
+        }
+        didSet {
+            print("isProcessingQRCode didset", isProcessingQRCode)
+        }
+    }
     var offlineData = [
         GetOfflineFetchBarCodeResponse(barCode: "128904692836", eventId: "29344", ticketId: "41462", ticketType: "1", usedStatus: "N"),
         GetOfflineFetchBarCodeResponse(barCode: "956317703381", eventId: "29344", ticketId: "41502", ticketType: "1", usedStatus: "Y"),
@@ -82,10 +90,9 @@ class ScannerViewModel {
             switch result {
             case .success(let response):
                 if response.statusCode == "200" {
-//                    print("success api", Date./)
-//                    self.storeOfflineDataInDataBase(offlineRecord: response, complition: { isStored in
-//                        print("return after stored", Date.now)
-//
+                    // Save response data array in DB 
+//                    self.saveOfflineRecords(offlineRecord: self.offlineData, complition: { isStored in
+//                        print("data stored")
 //                    })
                     complition(true, "Message")
                 } else {
@@ -101,11 +108,12 @@ class ScannerViewModel {
         offlineRecord: [GetOfflineFetchBarCodeResponse],
         complition: @escaping (Bool) -> Void
     ) {
-        // Store array in DB
         offlineRecord.forEach { record in
-            DatabaseHelper.shareInstance.save(offlineScan: record)
+            // Store records in DB if not stored already
+            if DatabaseHelper.shareInstance.fetchRecordByBarCode(barCode: record.barCode ?? "0") == nil {
+                DatabaseHelper.shareInstance.save(offlineScan: record)
+            }
         }
         complition(true)
     }
-    
 }

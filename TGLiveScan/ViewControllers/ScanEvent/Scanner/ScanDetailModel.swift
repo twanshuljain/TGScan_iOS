@@ -17,9 +17,9 @@ struct ScanBarCodeModel: Codable {
 // MARK: Offline Scan Model For Local Store
 struct OfflineScanLocalModel: Codable {
     // For dashboard
-    var acceptedCount: String = ""
-    var rejectedCount: String = ""
-    var totalCount: String = ""
+    var acceptedCount: Int = 0
+    var rejectedCount: Int = 0
+    var totalCount: Int = 0
     // For Scan Summary
     var tixToScan: String = ""
     var tixScanned: String = ""
