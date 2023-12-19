@@ -6,6 +6,7 @@
 import UIKit
 import AVFoundation
 import SDWebImage
+import Network
 
 class ScannerVC: UIViewController {
     // MARK: - Outlets
@@ -40,12 +41,16 @@ class ScannerVC: UIViewController {
     @IBOutlet weak var viewInternetAvailivbility: UIView!
     // MARK: - Variables
     let viewModel = ScannerViewModel()
+    let monitor = NWPathMonitor()
+    var currentZoomFactor: CGFloat = 1.0
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUI()
         self.setFont()
         dataSetToUserModel()
         setUIAndGetScanDetail()
+        setUpNetwork()
     }
     override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.main.async {
@@ -56,7 +61,6 @@ class ScannerVC: UIViewController {
         }
         self.hideScanStatusUI()
         getScanDetail()
-        self.viewInternetAvailivbility.backgroundColor = UIColor.setColor(colorType: Reachability.isConnectedToNetwork() ? .tgGreen : .tgRed)
     }
 }
 extension ScannerVC {
@@ -103,6 +107,22 @@ extension ScannerVC {
         qrScannerView.layer.addSublayer(viewModel.previewLayer)
         self.viewModel.captureSession.startRunning()
     }
+    func setZoomFactor(_ factor: CGFloat) {
+        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+        do {
+            try videoCaptureDevice.lockForConfiguration()
+            defer { videoCaptureDevice.unlockForConfiguration() }
+            
+//            let maxZoomFactor = videoCaptureDevice.activeFormat.videoMaxZoomFactor
+//            let newZoomFactor = min(maxZoomFactor, max(1.0, currentZoomFactor * factor))
+            
+            videoCaptureDevice.videoZoomFactor = factor
+            currentZoomFactor = factor
+        } catch {
+            print("Error adjusting zoom factor: \(error.localizedDescription)")
+        }
+    }
+
     func setFont() {
         lblQrid.text = ""
         lblScanStatusMessage.text = ""
@@ -144,6 +164,25 @@ extension ScannerVC {
         self.lblTotal.textColor = UIColor.setColor(colorType: .titleColourDarkBlue)
         self.lblRejected.font = UIFont.setFont(fontType: .medium, fontSize: .fourteen)
         self.lblRejected.textColor = UIColor.setColor(colorType: .tgRed)
+    }
+    func setUpNetwork() {
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+        checkInternet()
+    }
+    func checkInternet() {
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                self.changeInternetDotColor(colorType: UIColor.setColor(colorType: .tgGreen))
+            } else {
+                self.changeInternetDotColor(colorType: UIColor.setColor(colorType: .tgRed))
+            }
+        }
+    }
+    func changeInternetDotColor(colorType: UIColor) {
+        DispatchQueue.main.async {
+            self.viewInternetAvailivbility.backgroundColor = colorType
+        }
     }
 }
 // MARK: - Instance Method
@@ -238,6 +277,9 @@ extension ScannerVC {
         commanPopup(isForOffline: true, title: OFFLINE_SCAN, desc: OFFLINE_SCAN_DESC)
     }
     func btn1XAction() {
+        setZoomFactor(viewModel.is2xZoom ? 2 : 1)
+        btn1X.setTitle(viewModel.is2xZoom ? "1x" : "2x", for: .normal)
+        viewModel.is2xZoom.toggle()
     }
     func btnTourchAction() {
         let device = AVCaptureDevice.default(for: AVMediaType.video)

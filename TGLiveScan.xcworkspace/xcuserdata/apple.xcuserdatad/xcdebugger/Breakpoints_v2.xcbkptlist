@@ -7,63 +7,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F4C5C506-8276-4253-8FFE-49091ABBF51C"
+            uuid = "B78393C6-BCAF-4FC1-B580-8DAA080BCA72"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "470"
-            endingLineNumber = "470"
-            landmarkName = "receivedCodeForQR(qrcode:)"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "btn1XAction()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5E6A9044-D95D-41F3-B4CD-B1D43B58B31F"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "ScannerViewModel"
-            landmarkType = "3">
             <Locations>
                <Location
-                  uuid = "5E6A9044-D95D-41F3-B4CD-B1D43B58B31F - abee7fdb9ec0e28d"
+                  uuid = "B78393C6-BCAF-4FC1-B580-8DAA080BCA72 - fa2dc6628c4546d"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "TGLiveScan.ScannerViewModel.init() -&gt; TGLiveScan.ScannerViewModel"
+                  symbolName = "TGLiveScan.ScannerVC.btn1XAction() -&gt; ()"
                   moduleName = "TGLiveScan"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerViewModel.swift"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerVC.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "3440">
+                  startingLineNumber = "280"
+                  endingLineNumber = "280"
+                  offsetFromSymbolStart = "48">
                </Location>
                <Location
-                  uuid = "5E6A9044-D95D-41F3-B4CD-B1D43B58B31F - 8c02a0024fecf345"
+                  uuid = "B78393C6-BCAF-4FC1-B580-8DAA080BCA72 - fa2dc6628c4546d"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "TGLiveScan.ScannerViewModel.isProcessingQRCode.willset : Swift.Bool"
+                  symbolName = "TGLiveScan.ScannerVC.btn1XAction() -&gt; ()"
                   moduleName = "TGLiveScan"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerViewModel.swift"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerVC.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "24"
-                  endingLineNumber = "24"
-                  offsetFromSymbolStart = "120">
+                  startingLineNumber = "280"
+                  endingLineNumber = "280"
+                  offsetFromSymbolStart = "64">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -71,47 +55,95 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "88CEFF0B-8AD3-46C3-B66F-54B98213B61F"
+            uuid = "C58C533E-9F1C-4846-8D94-4DAD40A69C9A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerViewModel.swift"
+            filePath = "TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "ScannerViewModel"
-            landmarkType = "3">
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "setZoomFactor(_:)"
+            landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "88CEFF0B-8AD3-46C3-B66F-54B98213B61F - abee7fdb9ec0e28d"
+                  uuid = "C58C533E-9F1C-4846-8D94-4DAD40A69C9A - 7fac9d2c27c8717a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "TGLiveScan.ScannerViewModel.init() -&gt; TGLiveScan.ScannerViewModel"
+                  symbolName = "TGLiveScan.ScannerVC.setZoomFactor(CoreGraphics.CGFloat) -&gt; ()"
                   moduleName = "TGLiveScan"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerViewModel.swift"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerVC.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "3440">
+                  startingLineNumber = "114"
+                  endingLineNumber = "114"
+                  offsetFromSymbolStart = "264">
                </Location>
                <Location
-                  uuid = "88CEFF0B-8AD3-46C3-B66F-54B98213B61F - 1e44f34983af5a42"
+                  uuid = "C58C533E-9F1C-4846-8D94-4DAD40A69C9A - 7fac9d2c27c87159"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "TGLiveScan.ScannerViewModel.isProcessingQRCode.didset : Swift.Bool"
+                  symbolName = "TGLiveScan.ScannerVC.setZoomFactor(CoreGraphics.CGFloat) -&gt; ()"
                   moduleName = "TGLiveScan"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerViewModel.swift"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerVC.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "100">
+                  startingLineNumber = "113"
+                  endingLineNumber = "113"
+                  offsetFromSymbolStart = "236">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B941E893-DC18-4005-9E5E-C662A6642818"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "setZoomFactor(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B941E893-DC18-4005-9E5E-C662A6642818 - 7fac9d2c27c87630"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TGLiveScan.ScannerVC.setZoomFactor(CoreGraphics.CGFloat) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "676">
+               </Location>
+               <Location
+                  uuid = "B941E893-DC18-4005-9E5E-C662A6642818 - 7fac9d2c27c87630"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TGLiveScan.ScannerVC.setZoomFactor(CoreGraphics.CGFloat) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Scanner/ScannerVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "336">
                </Location>
             </Locations>
          </BreakpointContent>

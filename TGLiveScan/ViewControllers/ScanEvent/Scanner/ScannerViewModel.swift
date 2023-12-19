@@ -19,6 +19,7 @@ class ScannerViewModel {
     var scanBarCodeModel = ScanBarCodeModel()
     var getBarCodeScanResponse: GetBarCodeScanResponse?
     var offlineFetchBarCodeModel = OfflineFetchBarCodeModel()
+    var is2xZoom: Bool = false
     var isProcessingQRCode: Bool = false {
         willSet {
             print("isProcessingQRCode willSet", isProcessingQRCode)
