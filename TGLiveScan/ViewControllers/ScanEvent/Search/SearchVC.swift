@@ -133,8 +133,34 @@ class SearchVC: UIViewController {
             )
         } else {
             DispatchQueue.main.async {
-                self.view.stopLoading()
-                self.showToast(message: ValidationConstantStrings.networkLost)
+                // Store this barcode in DB if not stored.
+                if DatabaseHelper.shareInstance.fetchRecordByBarCode(barCode: barCode) == nil {
+                    // Store record in DB
+                    DatabaseHelper.shareInstance.save(
+                        offlineScan: GetOfflineFetchBarCodeResponse(
+                            barCode: barCode,
+                            eventId: "\(self.viewModel.scanBarCodeModel.eventId)",
+                            ticketId: "0",
+                            ticketType: "1",
+                            usedStatus: "Y",
+                            countForRejection: 0
+                        )
+                    )
+                    self.showToast(message: "This ticket verified successfully")
+                } else {
+                    // If user already gets entry, increase rejection count, else set status yes ("Y")
+                    let data = DatabaseHelper.shareInstance.getEntry(
+                        barCode: barCode,
+                        completion: { isAccepted in
+                            if isAccepted {
+                                self.showToast(message: "This ticket verified successfully")
+                            } else {
+                                self.showToast(message: "This ticket is already verified.")
+                            }
+                        }
+                    )
+                    print("data", data as Any)
+                }
             }
         }
     }

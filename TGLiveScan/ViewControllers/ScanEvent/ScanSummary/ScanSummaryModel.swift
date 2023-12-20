@@ -6,9 +6,7 @@
 //
 
 import Foundation
-//struct ScanOverviewModel: Encodable {
-//    var event_id: Int = 0
-//}
+
 struct ScanSummaryModel: Encodable {
     var tab: String = "ACCEPTED"
     var page: Int = 1
@@ -23,4 +21,12 @@ enum TicketStatusList: String {
     case scannedPdfTix = "Scanned PDF Tix"
     case scannedCompsTix = "Scanned Comps Tix"
 }
-
+// Model for send data to update on live server
+struct UpdateOfflineDataOnServerModel {
+    var barCode: String = ""
+    var countForRejection: Int = 0
+    var eventId: String = ""
+    var ticketId: String? = ""
+    var ticketType: String? = ""
+    var usedStatus: String? = ""
+}

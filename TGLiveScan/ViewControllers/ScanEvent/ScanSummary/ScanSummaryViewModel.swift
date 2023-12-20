@@ -16,6 +16,7 @@ class ScanSummaryViewModel {
     var arrOfValueChart: [Int] = []
     var getScanSummaryResponse: GetScanSummaryResponse?
     var updateTicketModel = UpdateTicketModel()
+    var arrUpdateOfflineDataOnServerModel: [UpdateOfflineDataOnServerModel]?
     
     // MARK: Custom Functions
     func getScanSummary(completion: @escaping (Bool, String) -> Void) {

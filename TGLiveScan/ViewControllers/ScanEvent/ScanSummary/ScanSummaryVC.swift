@@ -47,7 +47,21 @@ class ScanSummaryVC: UIViewController, ChartViewDelegate {
         sendReportToPromoter()
     }
     @IBAction func actionUpdateOnLiveServer(_ sender: UIButton) {
-        print("update on live server")
+        let data = DatabaseHelper.shareInstance.getAllData() as? [OfflineScan]
+        viewModel.arrUpdateOfflineDataOnServerModel = []
+        data?.forEach { record in
+            viewModel.arrUpdateOfflineDataOnServerModel?.append(
+                UpdateOfflineDataOnServerModel(
+                    barCode: record.barCode ?? "",
+                    countForRejection: Int(record.countForRejection),
+                    eventId: record.eventId ?? "",
+                    ticketId: record.ticketId,
+                    ticketType: record.ticketType,
+                    usedStatus: record.usedStatus
+                )
+            )
+        }
+        debugPrint("upload on live server", viewModel.arrUpdateOfflineDataOnServerModel)
     }
 }
 // MARK: -
@@ -66,10 +80,6 @@ extension ScanSummaryVC {
         self.tblScan.delegate = self
         self.tblScan.dataSource = self
         self.tblScan.register(UINib(nibName: "ScanSummaryTableViewCell", bundle: nil), forCellReuseIdentifier: "ScanSummaryTableViewCell")
-        
-//        let footerNib = UINib(nibName: "ScanSummaryFooterView", bundle: nil)
-//        tblScan.register(footerNib, forHeaderFooterViewReuseIdentifier: "ScanSummaryFooterView")
-       // self.setFooterView()
     }
     
     func setFooterView(){
@@ -83,21 +93,24 @@ extension ScanSummaryVC {
         }
     }
     func showLogoutAlert() {
-        let alert = UIAlertController.init(title: "Logout", message: "Do you want to logout?", preferredStyle: .alert)
+        let alert = UIAlertController.init(title: LOGOUT_TITLE, message: LOGOUT_MESSAGE, preferredStyle: .alert)
         let btnCancel = UIAlertAction.init(title: "Cancel", style: .default) { _ in
         }
-        let btnYes = UIAlertAction.init(title: "Logout", style: .destructive) { _ in
-            UserDefaultManager.share.removeUserDefualtsModels(key: .userAuthData) // Clear session when user logged out.
-            print("after delete userDefault at Scan summary", UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData) as Any)
+        let btnLogout = UIAlertAction.init(title: "Logout", style: .destructive) { _ in
+            // Clear session when user logged out.
+            UserDefaultManager.share.removeUserDefualtsModels(key: .userAuthData)
+            print("after delete userDefault at ticket type", UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData) as Any)
             // Remove selected Ticket Types on Logout
             UserDefaultManager.share.removeSelectedTicketTypes()
+            // Clear Database on Logout
+            DatabaseHelper.shareInstance.deleteAllData(forEntity: "OfflineScan")
             let navigationController = self.storyboard?.instantiateViewController(withIdentifier: "ScanEventNav") as? UINavigationController
             (UIApplication.shared.windows.first)?.rootViewController = navigationController
             UIApplication.shared.windows.first?.makeKeyAndVisible()
             navigationController?.popToRootViewController(animated: true)
         }
         alert.addAction(btnCancel)
-        alert.addAction(btnYes)
+        alert.addAction(btnLogout)
         self.present(alert, animated: true, completion: nil)
     }
     func setNavigationView() {
