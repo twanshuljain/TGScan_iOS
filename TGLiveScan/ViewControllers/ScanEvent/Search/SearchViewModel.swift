@@ -108,7 +108,7 @@ class SearchViewModel: NSObject {
             case .success(let response):
                 let data = response?["data"] as? [String: Any]
                 print("data", data as Any)
-                self.convertToObjectArray(data ?? [:])
+                self.convertToObjectArray(data ?? [:]) // Get data in array
                 let statuscode = data?["statuscode"] as? String
                 print("statusCode", statuscode as Any)
                 if statuscode == "200" {

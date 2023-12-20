@@ -105,7 +105,9 @@ extension ScannerVC {
         viewModel.previewLayer.frame = qrScannerView.layer.bounds
         viewModel.previewLayer.videoGravity = .resizeAspectFill
         qrScannerView.layer.addSublayer(viewModel.previewLayer)
-        self.viewModel.captureSession.startRunning()
+        DispatchQueue.global(qos: .background).async {
+            self.viewModel.captureSession.startRunning()
+        }
     }
     func setZoomFactor(_ factor: CGFloat) {
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
@@ -426,6 +428,10 @@ extension ScannerVC {
         }
     }
     func offlineFetchBarCode() {
+        // Save response data array in DB
+        viewModel.saveOfflineRecords(offlineRecord: viewModel.offlineData, complition: { isStored in
+            print("data stored")
+        })
         if Reachability.isConnectedToNetwork() { // Check internet connection
             self.view.showLoading(centreToView: self.view)
             viewModel.offlineFetchBarCode (

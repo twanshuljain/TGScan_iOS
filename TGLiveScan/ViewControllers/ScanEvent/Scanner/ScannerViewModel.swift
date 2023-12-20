@@ -83,10 +83,6 @@ class ScannerViewModel {
     func offlineFetchBarCode(complition: @escaping (Bool, String) -> Void) {
         offlineFetchBarCodeModel.eventId = updateTicketModel.eventId
         offlineFetchBarCodeModel.status = 1
-        // Save response data array in DB
-        self.saveOfflineRecords(offlineRecord: self.offlineData, complition: { isStored in
-            print("data stored")
-        })
         APIHandler.shared.offlineFetchBarCode(
             apiName: .offlineFetchBarcode,
             parameter: offlineFetchBarCodeModel,

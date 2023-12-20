@@ -86,6 +86,7 @@ public enum APIName: String {
     case getEmailOrders = "get_emailorders.php"
     case updateEmailsEntry = "confim_orderemail_v2.php"
     case offlineFetchBarcode = "fetch_barcode.php"
+    case updateDataOnServer = "update_barcode.php?"
 }
 public enum GroupApiName: String {
     case auth = "auth"
@@ -1097,5 +1098,59 @@ extension APIHandler {
             }
         }.resume()
     }
-    
+    // MARK: Update on live server
+    func dataUpdateOnServer(
+        apiName: APIName,
+        arrDataToUpload: [[String: Any]],
+        methodType: MethodType,
+        complition: @escaping(Result<AnyObject?, Error>) -> Void
+    ) {
+        let requestURL = "\(APIHandler.shared.baseURL)\(apiName.rawValue)"
+        var request = URLRequest(url: URL(string: requestURL)!)
+        request.httpMethod = methodType.rawValue
+        request.setValue("text/plain", forHTTPHeaderField: "Content-Type")
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: arrDataToUpload, options: []) else {
+            fatalError("Error converting array to JSON data")
+        }
+        if let jsonString = String(data: jsonData, encoding: .utf8) {
+            request.httpBody = jsonString.data(using: .utf8)
+        }
+        print("Method/URL:-\(request.httpMethod ?? "") \(String(describing: request.url))")
+        let str = String(decoding: request.httpBody ?? Data(), as: UTF8.self)
+        print("BODY \n \(str)")
+        print("HEADERS \n \(String(describing: request.allHTTPHeaderFields))")
+        
+        session.dataTask(with: request) { data, response, error in
+            var httpStatusCode = 0
+            if let httpResponse = response as? HTTPURLResponse {
+                httpStatusCode = httpResponse.statusCode
+                print("httpStatusCode:- \(httpStatusCode)")
+            }
+            if error != nil {
+                complition(.failure(error?.localizedDescription ?? "Something went wrong"))
+            } else {
+                if httpStatusCode == 401 {
+                    // Refresh Token
+                    if let fbData = data {
+                        let message = String(decoding: fbData, as: UTF8.self)
+                        complition(.failure(message))
+                    } else {
+                        let message = response?.url?.lastPathComponent
+                        complition(.failure("API \(message ?? "") Invalid Response."))
+                    }
+                } else if httpStatusCode == 200, let data = data {
+                    let dictData = self.nsdataToJSON(data: data as NSData)
+                    print("----------------JSON in APIClient", dictData as Any)
+                    complition(.success(dictData))
+                } else {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data!, options: []) as! NSDictionary
+                        complition(.failure(json["message"] as? String ?? "something went wrong"))
+                    } catch {
+                        complition(.failure("Unable to get json."))
+                    }
+                }
+            }
+        }.resume()
+    }
 }

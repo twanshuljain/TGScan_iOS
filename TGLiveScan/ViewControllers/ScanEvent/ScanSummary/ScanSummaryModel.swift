@@ -22,7 +22,7 @@ enum TicketStatusList: String {
     case scannedCompsTix = "Scanned Comps Tix"
 }
 // Model for send data to update on live server
-struct UpdateOfflineDataOnServerModel {
+struct UpdateOfflineDataOnServerModel: Encodable {
     var barCode: String = ""
     var countForRejection: Int = 0
     var eventId: String = ""

@@ -47,21 +47,22 @@ class ScanSummaryVC: UIViewController, ChartViewDelegate {
         sendReportToPromoter()
     }
     @IBAction func actionUpdateOnLiveServer(_ sender: UIButton) {
-        let data = DatabaseHelper.shareInstance.getAllData() as? [OfflineScan]
-        viewModel.arrUpdateOfflineDataOnServerModel = []
-        data?.forEach { record in
-            viewModel.arrUpdateOfflineDataOnServerModel?.append(
-                UpdateOfflineDataOnServerModel(
-                    barCode: record.barCode ?? "",
-                    countForRejection: Int(record.countForRejection),
-                    eventId: record.eventId ?? "",
-                    ticketId: record.ticketId,
-                    ticketType: record.ticketType,
-                    usedStatus: record.usedStatus
-                )
+        let data = DatabaseHelper.shareInstance.getAllData()
+        var dataDict: [[String:Any]] = []
+        data.forEach({ record in
+            dataDict.append(
+                ["no_of_count_for_rejection": record.countForRejection,
+                 "used_status": record.usedStatus as Any,
+                 "ticket_type": record.ticketType as Any,
+                 "ticket_id": record.ticketId as Any,
+                 "event_id": record.ticketId as Any,
+                 "barcode": record.barCode as Any
+                ]
             )
-        }
-        debugPrint("upload on live server", viewModel.arrUpdateOfflineDataOnServerModel)
+        })
+        print("dataDict", dataDict)
+        // Calling the API to upload all data to server
+        dataUpdateOnServer(dataDictToUpdate: dataDict)
     }
 }
 // MARK: -
@@ -82,7 +83,7 @@ extension ScanSummaryVC {
         self.tblScan.register(UINib(nibName: "ScanSummaryTableViewCell", bundle: nil), forCellReuseIdentifier: "ScanSummaryTableViewCell")
     }
     
-    func setFooterView(){
+    func setFooterView() {
         // Load the custom footer view from the nib file
         let customFooterNib = UINib(nibName: "ScanSummaryFooterView", bundle: nil)
         if let customFooterView = customFooterNib.instantiate(withOwner: nil, options: nil).first as? ScanSummaryFooterView {
@@ -185,6 +186,27 @@ extension ScanSummaryVC {
         if Reachability.isConnectedToNetwork() {
             self.view.showLoading(centreToView: self.view)
             viewModel.sendReportToPromoter(completion: { isTrue, message in
+                if isTrue {
+                    self.view.stopLoading()
+                    self.showToast(message: message)
+                } else {
+                    DispatchQueue.main.async {
+                        self.view.stopLoading()
+                        self.showToast(message: message)
+                    }
+                }
+            })
+        } else {
+            DispatchQueue.main.async {
+                self.view.stopLoading()
+                self.showToast(message: ValidationConstantStrings.networkLost)
+            }
+        }
+    }
+    func dataUpdateOnServer(dataDictToUpdate: [[String: Any]]) {
+        if Reachability.isConnectedToNetwork() {
+            self.view.showLoading(centreToView: self.view)
+            viewModel.dataUpdateOnServer(dataDictToUpdate: dataDictToUpdate, completion: { isTrue, message in
                 if isTrue {
                     self.view.stopLoading()
                     self.showToast(message: message)

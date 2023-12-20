@@ -28,25 +28,25 @@ class DatabaseHelper {
         entityName?.countForRejection = offlineScan.countForRejection ?? 0
         do {
             try context.save()
-            print("Core data Save Successfully")
+            debugPrint("Core data Save Successfully")
         } catch {
-            print("Data not save, Error:", error)
+            debugPrint("Data not save, Error:", error)
         }
     }
     // Function to fetch a record by ID
     func fetchRecordByBarCode(barCode: String) -> OfflineScan? {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "OfflineScan")
-        // Set the predicate to filter based on the ID
+        // Set the predicate to filter based on the barCode
         fetchRequest.predicate = NSPredicate(format: "barCode == %@", "\(barCode)")
         do {
             // Fetch the records that match the predicate
             let records = try context.fetch(fetchRequest)
             // Return the first record (assuming IDs are unique)
             let data = records.first as? OfflineScan
-            print("barCode", data?.barCode as Any)
+            debugPrint("barCode", data?.barCode as Any)
             return records.first as? OfflineScan
         } catch {
-            print("Error fetching record: \(error)")
+            debugPrint("Error fetching record: \(error)")
             return nil
         }
     }
@@ -64,9 +64,9 @@ class DatabaseHelper {
             }
             do {
                 try context.save()
-                print("DB Save Success")
+                debugPrint("DB Save Success")
             } catch {
-                print("Error:", error)
+                debugPrint("Error:", error)
             }
             return data
         }
@@ -79,7 +79,7 @@ class DatabaseHelper {
         do {
             employee = try context.fetch(fetchRequest) as! [OfflineScan]
         } catch {
-            print("Not get data, Error:", error)
+            debugPrint("Not get data, Error:", error)
         }
         return employee
     }
@@ -90,9 +90,27 @@ class DatabaseHelper {
         do {
             try AppDelegate.shared.persistentContainer.viewContext.execute(batchDeleteRequest)
             try AppDelegate.shared.persistentContainer.viewContext.save()
-            print("Core data, Delete all Data Successfully")
+            debugPrint("Core data, Delete all Data Successfully")
         } catch {
-            print("Error deleting all data: \(error)")
+            debugPrint("Error deleting all data: \(error)")
+        }
+    }
+    func deleteRecord(barCode: String) {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "OfflineScan")
+        // Set the predicate to filter based on the ID
+        fetchRequest.predicate = NSPredicate(format: "barCode == %@", "\(barCode)")
+        do {
+            let results = try context.fetch(fetchRequest)
+            if let recordToDelete = results.first {
+                context.delete(recordToDelete)
+                // Save the changes
+                try context.save()
+                debugPrint("Record deleted: \(barCode)")
+            } else {
+                debugPrint("Record not found: \(barCode)")
+            }
+        } catch {
+            debugPrint("Error deleting record: \(error)")
         }
     }
 }

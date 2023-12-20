@@ -43,7 +43,7 @@ class FindRFIDVC: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         viewModel.isConnected = false
-        var localStoredData = UserDefaultManager.share.getModelDataFromUserDefults(
+        let localStoredData = UserDefaultManager.share.getModelDataFromUserDefults(
             userData: OfflineScanLocalModel.self, key: .scanOfflineData
         )
         dataSetToUI(localStoredData: localStoredData ?? OfflineScanLocalModel())
@@ -169,19 +169,21 @@ extension FindRFIDVC {
         self.navigationController?.popViewController(animated: false)
     }
     func startNFCReading() {
-        guard NFCNDEFReaderSession.readingAvailable else {
-            let alertController = UIAlertController(
-                title: "Scanning Not Supported",
-                message: "This device doesn't support tag scanning.",
-                preferredStyle: .alert
-            )
-            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alertController, animated: true, completion: nil)
-            return
+        DispatchQueue.main.async {
+            guard NFCNDEFReaderSession.readingAvailable else {
+                let alertController = UIAlertController(
+                    title: "Scanning Not Supported",
+                    message: "This device doesn't support tag scanning.",
+                    preferredStyle: .alert
+                )
+                alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+                return
+            }
+            self.viewModel.nfcSession = NFCNDEFReaderSession(delegate: self, queue: nil, invalidateAfterFirstRead: false)
+            self.viewModel.nfcSession?.alertMessage = "Hold your iPhone near the item to learn more about it."
+            self.viewModel.nfcSession?.begin()
         }
-        self.viewModel.nfcSession = NFCNDEFReaderSession(delegate: self, queue: nil, invalidateAfterFirstRead: false)
-        self.viewModel.nfcSession?.alertMessage = "Hold your iPhone near the item to learn more about it."
-        self.viewModel.nfcSession?.begin()
     }
     // Get entry by the NFC tag bar code
     func scanBarCode() {

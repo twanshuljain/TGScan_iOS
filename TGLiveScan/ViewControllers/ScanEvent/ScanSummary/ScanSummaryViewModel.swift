@@ -38,6 +38,7 @@ class ScanSummaryViewModel {
             }
         }
     }
+    // MARK: Send status report to promoter
     func sendReportToPromoter(completion: @escaping (Bool, String) -> Void) {
         APIHandler.shared.sendReportToPromoter(
             apiName: .scanBarCode,
@@ -52,6 +53,54 @@ class ScanSummaryViewModel {
             case .failure(let error):
                 print("error", error)
                 completion(false, error as? String ?? "")
+            }
+        }
+    }
+    // MARK: Upload data on live server
+    func dataUpdateOnServer(dataDictToUpdate: [[String: Any]],
+                            completion: @escaping (Bool, String) -> Void) {
+        APIHandler.shared.dataUpdateOnServer(
+            apiName: .updateDataOnServer,
+            arrDataToUpload: dataDictToUpdate,
+            methodType: .POST
+        ) { (result: Result<AnyObject?, Error>) in
+            switch result {
+            case .success(let response):
+                // Convert from dict to array and remove data from db which uploaded sucessfully to live server.
+                self.convertToArray(response as? [String : [String : Any]] ?? [:])
+                DispatchQueue.main.async {
+                    completion(true, "Data upload successfully")
+                }
+            case .failure(let error):
+                print("error", error)
+                completion(false, error as? String ?? "")
+            }
+        }
+    }
+    
+    func convertToArray(_ data: [String : [String : Any]]) {
+        var arr = self.insertKeyInValueToArray(json: data)
+        print(arr)
+        // Remove non 200 statusCode records
+        arr.removeAll { data in
+            return (data["statuscode"] as? String ?? "") != "200"
+        }
+        // Now, Remove records from DB which is updated to server
+        removeDataFromDB(record: arr)
+    }
+    // Here we insert key (barcode) in value of dictionary
+    func insertKeyInValueToArray(json: [String: [String: Any]]) -> [[String: Any]] {
+        return json.compactMap { (entry) in
+            var updatedValue = entry.value
+            updatedValue["barcode"] = entry.key
+            return updatedValue
+        }
+    }
+    func removeDataFromDB(record: [[String : Any]]) {
+        record.forEach { item in
+            let barCode = item["barcode"] as? String ?? ""
+            if !(DatabaseHelper.shareInstance.fetchRecordByBarCode(barCode: barCode) == nil) {
+                DatabaseHelper.shareInstance.deleteRecord(barCode: barCode)
             }
         }
     }
