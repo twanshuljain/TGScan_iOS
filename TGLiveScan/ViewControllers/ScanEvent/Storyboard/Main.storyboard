@@ -564,10 +564,10 @@
                                                 </constraints>
                                             </imageView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile_ip" translatesAutoresizingMaskIntoConstraints="NO" id="zEl-XI-5gO">
-                                                <rect key="frame" x="174.66666666666666" y="50" width="44" height="44"/>
+                                                <rect key="frame" x="169" y="50" width="55" height="55"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="44" id="i5x-XV-zrl"/>
-                                                    <constraint firstAttribute="width" constant="44" id="qw6-4c-92m"/>
+                                                    <constraint firstAttribute="height" constant="55" id="i5x-XV-zrl"/>
+                                                    <constraint firstAttribute="width" constant="55" id="qw6-4c-92m"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -576,7 +576,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="cI2-wb-fqP">
-                                                <rect key="frame" x="119.66666666666667" y="104" width="153.66666666666663" height="42.666666666666657"/>
+                                                <rect key="frame" x="119.66666666666667" y="115.00000000000001" width="153.66666666666663" height="42.666666666666671"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Sunburn reload NYE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P1n-0a-en9">
                                                         <rect key="frame" x="0.0" y="0.0" width="153.66666666666666" height="20.333333333333332"/>
@@ -812,15 +812,15 @@
                                                 <state key="normal" image="OfflineHelp"/>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SkX-Ly-ceO">
-                                                <rect key="frame" x="184.66666666666666" y="150" width="24" height="24"/>
+                                                <rect key="frame" x="212" y="93" width="12" height="12"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="24" id="ZL1-AI-oiU"/>
-                                                    <constraint firstAttribute="height" constant="24" id="iBA-8G-5l4"/>
+                                                    <constraint firstAttribute="width" constant="12" id="ZL1-AI-oiU"/>
+                                                    <constraint firstAttribute="height" constant="12" id="iBA-8G-5l4"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="12"/>
+                                                        <real key="value" value="6"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
@@ -852,16 +852,15 @@
                                             <constraint firstItem="og0-e6-Z7M" firstAttribute="leading" secondItem="eIo-BB-eH0" secondAttribute="leading" constant="26" id="TJj-em-NBe"/>
                                             <constraint firstItem="3mM-S0-4AQ" firstAttribute="top" secondItem="CSd-uT-8Z7" secondAttribute="bottom" constant="90" id="TrG-LF-lmV"/>
                                             <constraint firstAttribute="trailing" secondItem="45r-kK-rVv" secondAttribute="trailing" constant="145" id="Tu5-6g-eNN"/>
-                                            <constraint firstItem="SkX-Ly-ceO" firstAttribute="top" secondItem="cI2-wb-fqP" secondAttribute="bottom" constant="3.3300000000000001" id="Ufx-wb-Rgt"/>
-                                            <constraint firstItem="wNW-Cp-Xxa" firstAttribute="top" secondItem="SkX-Ly-ceO" secondAttribute="bottom" constant="16" id="VTq-w7-X4F"/>
                                             <constraint firstAttribute="trailing" secondItem="Td3-Kc-wgK" secondAttribute="trailing" constant="24" id="X2a-pH-MoL"/>
                                             <constraint firstItem="og0-e6-Z7M" firstAttribute="top" secondItem="rwB-AO-hzo" secondAttribute="bottom" constant="14" id="Xu1-DW-bc0"/>
                                             <constraint firstItem="cI2-wb-fqP" firstAttribute="top" secondItem="zEl-XI-5gO" secondAttribute="bottom" constant="10" id="ZGR-xE-Hmw"/>
-                                            <constraint firstItem="SkX-Ly-ceO" firstAttribute="centerX" secondItem="eIo-BB-eH0" secondAttribute="centerX" id="aWe-nl-9pl"/>
                                             <constraint firstItem="45r-kK-rVv" firstAttribute="leading" secondItem="eIo-BB-eH0" secondAttribute="leading" constant="145" id="fEl-U4-jGr"/>
                                             <constraint firstAttribute="bottom" secondItem="n9x-qO-HDC" secondAttribute="bottom" constant="15" id="fjI-WH-8sr"/>
                                             <constraint firstItem="cI2-wb-fqP" firstAttribute="centerX" secondItem="rwB-AO-hzo" secondAttribute="centerX" id="hWE-l5-WFf"/>
                                             <constraint firstAttribute="trailing" secondItem="rwB-AO-hzo" secondAttribute="trailing" id="iLg-JZ-t0X"/>
+                                            <constraint firstItem="SkX-Ly-ceO" firstAttribute="bottom" secondItem="zEl-XI-5gO" secondAttribute="bottom" id="jvF-8M-AfI"/>
+                                            <constraint firstItem="SkX-Ly-ceO" firstAttribute="trailing" secondItem="zEl-XI-5gO" secondAttribute="trailing" id="kc8-7V-4CX"/>
                                             <constraint firstAttribute="trailing" secondItem="3mM-S0-4AQ" secondAttribute="trailing" constant="27" id="lLf-z7-kpr"/>
                                             <constraint firstItem="45r-kK-rVv" firstAttribute="top" secondItem="Mxr-va-US9" secondAttribute="bottom" constant="10" id="m5r-2B-P8M"/>
                                             <constraint firstItem="H6w-EB-XSQ" firstAttribute="leading" secondItem="wNW-Cp-Xxa" secondAttribute="leading" id="ngB-U2-bcb"/>
@@ -1672,10 +1671,10 @@
                                                 </constraints>
                                             </imageView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WIv-uQ-9en">
-                                                <rect key="frame" x="174.66666666666666" y="68" width="44" height="44"/>
+                                                <rect key="frame" x="169" y="60" width="55" height="55"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="44" id="9Lr-Qp-Hs9"/>
-                                                    <constraint firstAttribute="width" constant="44" id="Ga5-DD-c1b"/>
+                                                    <constraint firstAttribute="height" constant="55" id="9Lr-Qp-Hs9"/>
+                                                    <constraint firstAttribute="width" constant="55" id="Ga5-DD-c1b"/>
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1684,7 +1683,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="7Md-cy-Av8">
-                                                <rect key="frame" x="119.66666666666667" y="132" width="153.66666666666663" height="42.666666666666657"/>
+                                                <rect key="frame" x="119.66666666666667" y="135" width="153.66666666666663" height="42.666666666666657"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunburn reload NYE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VZx-m4-rIN">
                                                         <rect key="frame" x="0.0" y="0.0" width="153.66666666666666" height="20.333333333333332"/>
@@ -1763,7 +1762,7 @@
                                                 <rect key="frame" x="341" y="17" width="36" height="36"/>
                                             </imageView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Keep Closer Your Device." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GmC-JU-LIN">
-                                                <rect key="frame" x="100.66666666666667" y="209.66666666666669" width="191.66666666666663" height="20.333333333333343"/>
+                                                <rect key="frame" x="100.66666666666667" y="212.66666666666669" width="191.66666666666663" height="20.333333333333343"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -1812,7 +1811,7 @@
                                             <constraint firstItem="ZCC-px-pA2" firstAttribute="top" secondItem="PIm-MS-8cI" secondAttribute="top" id="U4U-xn-wdq"/>
                                             <constraint firstItem="FeD-fm-vzJ" firstAttribute="centerX" secondItem="G7T-dB-tnD" secondAttribute="centerX" id="ZJm-iH-tzw"/>
                                             <constraint firstItem="SMx-ig-X6C" firstAttribute="leading" secondItem="zrt-Lv-5V8" secondAttribute="leading" id="af7-VD-2v3"/>
-                                            <constraint firstItem="WIv-uQ-9en" firstAttribute="top" secondItem="zrt-Lv-5V8" secondAttribute="top" constant="68" id="hWN-fX-jhn"/>
+                                            <constraint firstItem="WIv-uQ-9en" firstAttribute="top" secondItem="zrt-Lv-5V8" secondAttribute="top" constant="60" id="hWN-fX-jhn"/>
                                             <constraint firstItem="xRA-PF-il7" firstAttribute="centerY" secondItem="zrt-Lv-5V8" secondAttribute="centerY" id="lot-j9-a7s"/>
                                             <constraint firstItem="xPe-qE-bMW" firstAttribute="leading" secondItem="zrt-Lv-5V8" secondAttribute="leading" id="lpK-Qk-V1J"/>
                                             <constraint firstAttribute="trailing" secondItem="SMx-ig-X6C" secondAttribute="trailing" id="nBw-h5-sZ0"/>
@@ -2269,13 +2268,13 @@ this event.</string>
             <color red="0.043000001460313797" green="0.13699999451637268" blue="0.2199999988079071" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

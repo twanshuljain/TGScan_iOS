@@ -5,21 +5,27 @@
 //  Created by Apple on 16/06/23.
 
 import UIKit
+import Network
+
 class SelectTicketTypeVC: UIViewController {
     // MARK: - Outlets
     @IBOutlet weak var tblTicketTypeTablView: UITableView!
     @IBOutlet weak var vwNavigationView: NavigationBarView!
     @IBOutlet weak var btnSelectAll: UIButton!
     @IBOutlet weak var btnDone: CustomButtonGradiant!
+    
     // MARK: - Variable
     let viewModel = SelectTicketTypeViewModel()
+    let monitor = NWPathMonitor()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         dataSetToUserModel()
-        self.setNavigationview()
-        self.setTableView()
-        self.setFont()
-        self.setUI()
+        setNavigationview()
+        setTableView()
+        setFont()
+        setUI()
+        setUpNetwork()
     }
 }
 
@@ -231,6 +237,31 @@ extension SelectTicketTypeVC {
         alert.addAction(btnCancel)
         alert.addAction(btnLogout)
         self.present(alert, animated: true, completion: nil)
+    }
+    func setUpNetwork() {
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+        checkInternet()
+    }
+    func checkInternet() {
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                self.setLogoutButton(isEnabled: true)
+            } else {
+                self.setLogoutButton(isEnabled: false)
+            }
+        }
+    }
+    func setLogoutButton(isEnabled : Bool) {
+        DispatchQueue.main.async {
+            if isEnabled {
+                self.vwNavigationView.btnRight.isUserInteractionEnabled = true
+                self.vwNavigationView.btnRight.alpha = 1
+            } else {
+                self.vwNavigationView.btnRight.isUserInteractionEnabled = false
+                self.vwNavigationView.btnRight.alpha = 0.5
+            }
+        }
     }
 }
 // MARK: - NavigationBarViewDelegate

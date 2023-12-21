@@ -6,6 +6,7 @@
 import UIKit
 import Foundation
 import IQKeyboardManagerSwift
+import Network
 
 class SearchVC: UIViewController {
     // MARK: - Outlets
@@ -25,6 +26,8 @@ class SearchVC: UIViewController {
     // MARK: - Variables
     let viewModel = SearchViewModel()
     let textField = UITextField()
+    let monitor = NWPathMonitor()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUI()
@@ -33,6 +36,7 @@ class SearchVC: UIViewController {
         self.dataSetToUserModel()
         self.setSearchBar()
         IQKeyboardManager.shared.enableAutoToolbar = false
+        setUpNetwork()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -188,6 +192,20 @@ class SearchVC: UIViewController {
             DispatchQueue.main.async {
                 self.view.stopLoading()
                 self.showToast(message: ValidationConstantStrings.networkLost)
+            }
+        }
+    }
+    func setUpNetwork() {
+        let queue = DispatchQueue(label: "Monitor")
+        monitor.start(queue: queue)
+        checkInternet()
+    }
+    func checkInternet() {
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                self.vwSearchBar.txtSearch.keyboardType = .default
+            } else {
+                self.vwSearchBar.txtSearch.keyboardType = .numberPad
             }
         }
     }
