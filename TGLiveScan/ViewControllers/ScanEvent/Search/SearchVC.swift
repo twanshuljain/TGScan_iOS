@@ -153,7 +153,7 @@ class SearchVC: UIViewController {
                         barCode: barCode,
                         completion: { isAccepted in
                             if isAccepted {
-                                self.showToast(message: "This ticket verified successfully")
+                                self.showToast(message: "This ticket verified successfully.")
                             } else {
                                 self.showToast(message: "This ticket is already verified.")
                             }

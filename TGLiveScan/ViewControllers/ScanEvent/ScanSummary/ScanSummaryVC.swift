@@ -28,6 +28,7 @@ class ScanSummaryVC: UIViewController, ChartViewDelegate {
      let tblData = ["Tix to scan", "Tix Scanned", "Accepted", "Rejected", "Scanned Hard Tix", "Scanned PDF Tix", "Scanned Comps Tix"]
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkInternet()
         getScanSummary()
         self.setNavigationView()
         self.setFont()
@@ -67,6 +68,12 @@ class ScanSummaryVC: UIViewController, ChartViewDelegate {
 }
 // MARK: -
 extension ScanSummaryVC {
+    func checkInternet() {
+        if !(Reachability.isConnectedToNetwork()) {
+            // Show "No internet connection" popup
+            internetAlert()
+        }
+    }
     func dataSetToUserModel() {
         let userDataModel = UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData)
         viewModel.updateTicketModel.eventId = Int(userDataModel?.info?.masterId ?? "") ?? 0
@@ -92,6 +99,14 @@ extension ScanSummaryVC {
             // You can customize the height of the footer view if needed
             customFooterView.frame = CGRect(x: 0, y: 0, width: tblScan.frame.width, height: 120)
         }
+    }
+    func internetAlert() {
+        let alert = UIAlertController.init(title: "Alert", message: "No Internet Connection", preferredStyle: .alert)
+        let btnOk = UIAlertAction.init(title: "Ok", style: .default) { _ in
+            self.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(btnOk)
+        self.present(alert, animated: true, completion: nil)
     }
     func showLogoutAlert() {
         let alert = UIAlertController.init(title: LOGOUT_TITLE, message: LOGOUT_MESSAGE, preferredStyle: .alert)
@@ -177,52 +192,37 @@ extension ScanSummaryVC {
         } else {
             DispatchQueue.main.async {
                 self.view.stopLoading()
-                self.showToast(message: ValidationConstantStrings.networkLost)
             }
         }
     }
     // Send status report to promoter
     func sendReportToPromoter() {
-        if Reachability.isConnectedToNetwork() {
-            self.view.showLoading(centreToView: self.view)
-            viewModel.sendReportToPromoter(completion: { isTrue, message in
-                if isTrue {
+        self.view.showLoading(centreToView: self.view)
+        viewModel.sendReportToPromoter(completion: { isTrue, message in
+            if isTrue {
+                self.view.stopLoading()
+                self.showToast(message: message)
+            } else {
+                DispatchQueue.main.async {
                     self.view.stopLoading()
                     self.showToast(message: message)
-                } else {
-                    DispatchQueue.main.async {
-                        self.view.stopLoading()
-                        self.showToast(message: message)
-                    }
                 }
-            })
-        } else {
-            DispatchQueue.main.async {
-                self.view.stopLoading()
-                self.showToast(message: ValidationConstantStrings.networkLost)
             }
-        }
+        })
     }
     func dataUpdateOnServer(dataDictToUpdate: [[String: Any]]) {
-        if Reachability.isConnectedToNetwork() {
-            self.view.showLoading(centreToView: self.view)
-            viewModel.dataUpdateOnServer(dataDictToUpdate: dataDictToUpdate, completion: { isTrue, message in
-                if isTrue {
+        self.view.showLoading(centreToView: self.view)
+        viewModel.dataUpdateOnServer(dataDictToUpdate: dataDictToUpdate, completion: { isTrue, message in
+            if isTrue {
+                self.view.stopLoading()
+                self.showToast(message: message)
+            } else {
+                DispatchQueue.main.async {
                     self.view.stopLoading()
                     self.showToast(message: message)
-                } else {
-                    DispatchQueue.main.async {
-                        self.view.stopLoading()
-                        self.showToast(message: message)
-                    }
                 }
-            })
-        } else {
-            DispatchQueue.main.async {
-                self.view.stopLoading()
-                self.showToast(message: ValidationConstantStrings.networkLost)
             }
-        }
+        })
     }
     func dataSettingAfterScanOverview() {
         let totalTickets = (viewModel.getScanSummaryResponse?.totalTicketToScan ?? 0) + (viewModel.getScanSummaryResponse?.totalTicketScanned ?? 0)
