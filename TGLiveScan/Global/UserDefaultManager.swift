@@ -20,6 +20,7 @@ class UserDefaultManager {
     private let isAlreadyLoginKey = "isAlreadyLogin"
     private let scanEventIdKey = "scanEventIdKey"
     private let selectedTicketsKey = "selectedTickets"
+    private let isUploadDataKey = "isUploadData"
     func storeModelToUserDefault<T>(userData: T, key: UserDefaultModelKeys) where T: Codable {
         defaults.set(try? JSONEncoder().encode(userData), forKey: key.rawValue)
     }
@@ -136,11 +137,17 @@ extension UserDefaultManager {
             [GetTicketTypesResponseModel].self,
             from: data
            ) {
-             return selectedTickets
+            return selectedTickets
         }
         return []
     }
     func removeSelectedTicketTypes() {
         UserDefaults.standard.removeObject(forKey: selectedTicketsKey)
+    }
+    func setOfflineButtonInteraction(isDataSaved: Bool) {
+        UserDefaults.standard.setValue(isDataSaved, forKey: isUploadDataKey)
+    }
+    func isOfflineButtonEnabled() -> Bool {
+        return UserDefaults.standard.bool(forKey: isUploadDataKey)
     }
 }

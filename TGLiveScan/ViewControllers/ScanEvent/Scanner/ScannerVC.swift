@@ -114,10 +114,6 @@ extension ScannerVC {
         do {
             try videoCaptureDevice.lockForConfiguration()
             defer { videoCaptureDevice.unlockForConfiguration() }
-            
-//            let maxZoomFactor = videoCaptureDevice.activeFormat.videoMaxZoomFactor
-//            let newZoomFactor = min(maxZoomFactor, max(1.0, currentZoomFactor * factor))
-            
             videoCaptureDevice.videoZoomFactor = factor
             currentZoomFactor = factor
         } catch {
@@ -175,14 +171,17 @@ extension ScannerVC {
     func checkInternet() {
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
-                self.changeInternetDotColor(colorType: UIColor.setColor(colorType: .tgGreen))
+                self.changeInternetDotColor(colorType: UIColor.setColor(colorType: .tgGreen),
+                                            isConnected:  true)
             } else {
-                self.changeInternetDotColor(colorType: UIColor.setColor(colorType: .tgRed))
+                self.changeInternetDotColor(colorType: UIColor.setColor(colorType: .tgRed),
+                                            isConnected: false)
             }
         }
     }
-    func changeInternetDotColor(colorType: UIColor) {
+    func changeInternetDotColor(colorType: UIColor, isConnected: Bool) {
         DispatchQueue.main.async {
+            self.btnOffline.alpha = isConnected ? 1 : 0.5
             self.viewInternetAvailivbility.backgroundColor = colorType
         }
     }
@@ -313,6 +312,8 @@ extension ScannerVC {
         if isForOffline {
             popUpVc.isStackViewHidden = true
             popUpVc.isViewForOkayButtonHidden = false
+            // TODO: Manage response and interaction
+//            UserDefaultManager.share.setOfflineButtonInteraction(isDataSaved: true)
         } else {
             popUpVc.isStackViewHidden = false
             popUpVc.isViewForOkayButtonHidden = true
@@ -399,7 +400,7 @@ extension ScannerVC {
                     // SetUI after save in DB
                     self.setUIAfterScanTicket(
                         isSuccess: true,
-                        message: "This ticket is valid for this event."
+                        message: "This barcode \(self.viewModel.scanBarCodeModel.barcode) has been scanned successfully."
                     )
                     self.updateLocalCounts(isTotal: true, isAccepted: true, isRejected: false)
                 } else {
@@ -410,13 +411,13 @@ extension ScannerVC {
                             if isAccepted {
                                 self.setUIAfterScanTicket(
                                     isSuccess: true,
-                                    message: "This Ticket scanned successfully."
+                                    message: "This barcode \(self.viewModel.scanBarCodeModel.barcode) has been scanned successfully."
                                 )
                                 self.updateLocalCounts(isTotal: true, isAccepted: true, isRejected: false)
                             } else {
                                 self.setUIAfterScanTicket(
                                     isSuccess: false,
-                                    message: "This ticket is already scanned."
+                                    message: "This barcode \(self.viewModel.scanBarCodeModel.barcode) is already scanned."
                                 )
                                 self.updateLocalCounts(isTotal: true, isAccepted: false, isRejected: true)
                             }
@@ -429,8 +430,10 @@ extension ScannerVC {
     }
     func offlineFetchBarCode() {
         // Save response data array in DB
-        viewModel.saveOfflineRecords(offlineRecord: viewModel.offlineData, complition: { isStored in
+        viewModel.saveOfflineRecords(offlineRecord: viewModel.offlineData,
+                                     complition: { isStored in
             print("data stored")
+            UserDefaultManager.share.setOfflineButtonInteraction(isDataSaved: true)
         })
         if Reachability.isConnectedToNetwork() { // Check internet connection
             self.view.showLoading(centreToView: self.view)
@@ -452,8 +455,7 @@ extension ScannerVC {
             )
         } else {
             DispatchQueue.main.async {
-                self.view.stopLoading()
-                self.showToast(message: ValidationConstantStrings.networkLost)
+                self.showAlertController(title: ALERT, message: NO_INTERNET)
             }
         }
     }

@@ -25,7 +25,6 @@ class SelectTicketTypeVC: UIViewController {
         setTableView()
         setFont()
         setUI()
-        setUpNetwork()
     }
 }
 
@@ -218,7 +217,17 @@ extension SelectTicketTypeVC {
         tblTicketTypeTablView.reloadData()
     }
     func showLogoutAlert() {
-        let alert = UIAlertController.init(title: LOGOUT_TITLE, message: LOGOUT_MESSAGE, preferredStyle: .alert)
+        var title: String = ""
+        var message: String = ""
+        if DatabaseHelper.shareInstance.isDataBaseEmpty() {
+            title = LOGOUT
+            message = LOGOUT_MESSAGE
+        } else {
+            title = WARNING
+            message = LOGOUT_DESC
+        }
+        let alert = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
+        
         let btnCancel = UIAlertAction.init(title: "Cancel", style: .default) { _ in
         }
         let btnLogout = UIAlertAction.init(title: "Logout", style: .destructive) { _ in
@@ -237,31 +246,6 @@ extension SelectTicketTypeVC {
         alert.addAction(btnCancel)
         alert.addAction(btnLogout)
         self.present(alert, animated: true, completion: nil)
-    }
-    func setUpNetwork() {
-        let queue = DispatchQueue(label: "Monitor")
-        monitor.start(queue: queue)
-        checkInternet()
-    }
-    func checkInternet() {
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                self.setLogoutButton(isEnabled: true)
-            } else {
-                self.setLogoutButton(isEnabled: false)
-            }
-        }
-    }
-    func setLogoutButton(isEnabled : Bool) {
-        DispatchQueue.main.async {
-            if isEnabled {
-                self.vwNavigationView.btnRight.isUserInteractionEnabled = true
-                self.vwNavigationView.btnRight.alpha = 1
-            } else {
-                self.vwNavigationView.btnRight.isUserInteractionEnabled = false
-                self.vwNavigationView.btnRight.alpha = 0.5
-            }
-        }
     }
 }
 // MARK: - NavigationBarViewDelegate

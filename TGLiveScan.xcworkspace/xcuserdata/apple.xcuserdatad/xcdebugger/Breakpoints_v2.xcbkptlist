@@ -7,32 +7,318 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "21F5C8B7-B861-46A6-AD10-6BE978AC3D2D"
+            uuid = "D360065A-EF95-4759-AF00-B013D86EFDB5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TGLiveScan/ViewControllers/ScanEvent/Search/SearchVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "getEmailSearchedData(email:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D360065A-EF95-4759-AF00-B013D86EFDB5 - a717eb3b1445da45"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool, Swift.String) -&gt; () in TGLiveScan.SearchVC.getEmailSearchedData(email: Swift.String) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "396">
+               </Location>
+               <Location
+                  uuid = "D360065A-EF95-4759-AF00-B013D86EFDB5 - a717eb3b1445da26"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool, Swift.String) -&gt; () in TGLiveScan.SearchVC.getEmailSearchedData(email: Swift.String) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "73"
+                  endingLineNumber = "73"
+                  offsetFromSymbolStart = "304">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A8AEDB13-C171-4C27-ABE5-31968F6A002A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TGLiveScan/ViewControllers/ScanEvent/Search/SearchVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "getEmailSearchedData(email:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A8AEDB13-C171-4C27-ABE5-31968F6A002A - a717eb3b1445d51f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool, Swift.String) -&gt; () in TGLiveScan.SearchVC.getEmailSearchedData(email: Swift.String) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "872">
+               </Location>
+               <Location
+                  uuid = "A8AEDB13-C171-4C27-ABE5-31968F6A002A - d690f6461a17f5d9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 @Swift.MainActor () -&gt; () in closure #1 (Swift.Bool, Swift.String) -&gt; () in TGLiveScan.SearchVC.getEmailSearchedData(email: Swift.String) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "80"
+                  endingLineNumber = "80"
+                  offsetFromSymbolStart = "96">
+               </Location>
+               <Location
+                  uuid = "A8AEDB13-C171-4C27-ABE5-31968F6A002A - a717eb3b1445d5e0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Bool, Swift.String) -&gt; () in TGLiveScan.SearchVC.getEmailSearchedData(email: Swift.String) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "79"
+                  endingLineNumber = "79"
+                  offsetFromSymbolStart = "804">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DE47E758-BD48-4DE4-8C9F-BC08C25AFB13"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "TGLiveScan/ViewControllers/ScanEvent/Search/SearchViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
-            landmarkName = "getGlobalSearchedData(keyword:complition:)"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "getEmailSearchedData(emailId:complition:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DE47E758-BD48-4DE4-8C9F-BC08C25AFB13 - b2a34b84fed25ab0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;TGLiveScan.GetEmailOrdersResponse&gt;, Swift.Error&gt;) -&gt; () in TGLiveScan.SearchViewModel.getEmailSearchedData(emailId: Swift.String, complition: (Swift.Bool, Swift.String) -&gt; ()) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "148">
+               </Location>
+               <Location
+                  uuid = "DE47E758-BD48-4DE4-8C9F-BC08C25AFB13 - b2a34b84fed25ab0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;TGLiveScan.GetEmailOrdersResponse&gt;, Swift.Error&gt;) -&gt; () in TGLiveScan.SearchViewModel.getEmailSearchedData(emailId: Swift.String, complition: (Swift.Bool, Swift.String) -&gt; ()) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "38"
+                  endingLineNumber = "38"
+                  offsetFromSymbolStart = "176">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B52FDBBD-7FC7-4995-8006-3378599333CC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TGLiveScan/ViewControllers/ScanEvent/Search/SearchViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "getEmailSearchedData(emailId:complition:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B52FDBBD-7FC7-4995-8006-3378599333CC - b2a34b84fed25b15"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;TGLiveScan.GetEmailOrdersResponse&gt;, Swift.Error&gt;) -&gt; () in TGLiveScan.SearchViewModel.getEmailSearchedData(emailId: Swift.String, complition: (Swift.Bool, Swift.String) -&gt; ()) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "540">
+               </Location>
+               <Location
+                  uuid = "B52FDBBD-7FC7-4995-8006-3378599333CC - b2a34b84fed25b15"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;TGLiveScan.GetEmailOrdersResponse&gt;, Swift.Error&gt;) -&gt; () in TGLiveScan.SearchViewModel.getEmailSearchedData(emailId: Swift.String, complition: (Swift.Bool, Swift.String) -&gt; ()) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "608">
+               </Location>
+               <Location
+                  uuid = "B52FDBBD-7FC7-4995-8006-3378599333CC - b2a34b84fed25b15"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Result&lt;Swift.Array&lt;TGLiveScan.GetEmailOrdersResponse&gt;, Swift.Error&gt;) -&gt; () in TGLiveScan.SearchViewModel.getEmailSearchedData(emailId: Swift.String, complition: (Swift.Bool, Swift.String) -&gt; ()) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "43"
+                  endingLineNumber = "43"
+                  offsetFromSymbolStart = "604">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "18723476-FDAB-4E9F-A094-5D7F5FF8B635"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TGLiveScan/ViewControllers/ScanEvent/Search/SearchViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "getEmailSearchedData(emailId:complition:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A8D35E6F-447E-4E83-8F09-9C991FBBAC9F"
+            uuid = "03857101-D66D-434A-A7D0-3D6083E03019"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "TGLiveScan/ViewControllers/ScanEvent/Search/SearchViewModel.swift"
+            filePath = "TGLiveScan/ViewControllers/ScanEvent/Search/SearchVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
-            landmarkName = "convertToObjectArray(_:)"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
+            landmarkName = "changeKeyboardType(keyboardType:enableAutoToolBar:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "03857101-D66D-434A-A7D0-3D6083E03019 - f8b0b68e0b26b840"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in TGLiveScan.SearchVC.changeKeyboardType(keyboardType: __C.UIKeyboardType, enableAutoToolBar: Swift.Bool) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "218"
+                  endingLineNumber = "218"
+                  offsetFromSymbolStart = "112">
+               </Location>
+               <Location
+                  uuid = "03857101-D66D-434A-A7D0-3D6083E03019 - f8b0b68e0b26b840"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in TGLiveScan.SearchVC.changeKeyboardType(keyboardType: __C.UIKeyboardType, enableAutoToolBar: Swift.Bool) -&gt; ()"
+                  moduleName = "TGLiveScan"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Documents/GitHub/TGScan_iOS/TGLiveScan/ViewControllers/ScanEvent/Search/SearchVC.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "218"
+                  endingLineNumber = "218"
+                  offsetFromSymbolStart = "124">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "585D8541-9AA2-4C5A-8B0D-84CD1C83B142"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TGLiveScan/ViewControllers/ScanEvent/Find/FindRFIDVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "241"
+            endingLineNumber = "241"
+            landmarkName = "scanBarCode()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "549BE385-4F0B-4E32-936D-3CFB57422F9F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TGLiveScan/ViewControllers/ScanEvent/Find/FindRFIDVC.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "237"
+            endingLineNumber = "237"
+            landmarkName = "scanBarCode()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

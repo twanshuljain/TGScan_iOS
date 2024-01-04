@@ -784,8 +784,8 @@ extension APIHandler {
             }
         }.resume()
     }
-    // MARK: Get Email Order Search
-    func getEmailOrders(
+    // MARK: Get Email Search
+    func getEmailSearchList(
         apiName: APIName,
         parameter: EmailSearchDataModel,
         methodType: MethodType,
@@ -835,6 +835,11 @@ extension APIHandler {
                     }
                     catch {
                         print(error)
+                        if JSON == nil {
+                            complition(.failure("No record found."))
+                        } else {
+                            complition(.failure("Something went wrong."))
+                        }
                     }
                 } else {
                     do {

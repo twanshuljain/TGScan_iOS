@@ -29,7 +29,7 @@ class SearchViewModel: NSObject {
             eventId: "\(updateTicketModel.eventId)",
             emailId: emailId
         )
-        APIHandler.shared.getEmailOrders(
+        APIHandler.shared.getEmailSearchList(
             apiName: .getEmailOrders,
             parameter: emailSearchDataModel ?? EmailSearchDataModel(),
             methodType: .POST

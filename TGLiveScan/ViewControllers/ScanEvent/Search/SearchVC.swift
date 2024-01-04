@@ -36,23 +36,26 @@ class SearchVC: UIViewController {
         self.dataSetToUserModel()
         self.setSearchBar()
         IQKeyboardManager.shared.enableAutoToolbar = false
-        setUpNetwork()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setUpNetwork()
     }
     func setSearchBar() {
-        self.vwSearchBar.delegate = self
-        self.vwSearchBar.vwLocation.isHidden = true
-        self.vwSearchBar.btnMenu.setImage(UIImage(named: BACK_ARROW_ICON), for: .normal)
-        self.vwSearchBar.backgroundColor = .white
-        vwSearchBar.txtSearch.becomeFirstResponder()
+        vwSearchBar.delegate = self
+        vwSearchBar.vwLocation.isHidden = true
+        vwSearchBar.btnMenu.setImage(UIImage(named: BACK_ARROW_ICON), for: .normal)
+        vwSearchBar.backgroundColor = .white
         vwSearchBar.txtSearch.delegate = self
         vwSearchBar.txtSearch.returnKeyType = .search
         vwSearchBar.txtSearch.keyboardType = .emailAddress
         vwSearchBar.imgSearch.isHidden = true
         vwSearchBar.locationView.isHidden = true
         vwSearchBar.leadingSearchTextConstraint.constant = 0
+        vwSearchBar.btnFilter.isHidden = true
+        DispatchQueue.main.async {
+            self.vwSearchBar.txtSearch.keyboardToolbar.doneBarButton.setTarget(self, action: #selector(self.doneButtonClicked))
+        }
     }
     func dataSetToUserModel() {
         let userDataModel = UserDefaultManager.share.getModelDataFromUserDefults(userData: GetScanEventResponse.self, key: .userAuthData)
@@ -150,20 +153,19 @@ class SearchVC: UIViewController {
                             countForRejection: 0
                         )
                     )
-                    self.showToast(message: "This ticket verified successfully")
+                    self.showToast(message: "This barcode \(barCode) has been scanned successfully.")
                 } else {
                     // If user already gets entry, increase rejection count, else set status yes ("Y")
                     let data = DatabaseHelper.shareInstance.getEntry(
                         barCode: barCode,
                         completion: { isAccepted in
                             if isAccepted {
-                                self.showToast(message: "This ticket verified successfully.")
+                                self.showToast(message: "This barcode \(barCode) has been scanned successfully.")
                             } else {
-                                self.showToast(message: "This ticket is already verified.")
+                                self.showToast(message: "This barcode \(barCode) is already scanned.")
                             }
                         }
                     )
-                    print("data", data as Any)
                 }
             }
         }
@@ -203,10 +205,28 @@ class SearchVC: UIViewController {
     func checkInternet() {
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
-                self.vwSearchBar.txtSearch.keyboardType = .default
+                self.changeKeyboardType(keyboardType: .emailAddress, enableAutoToolBar: false)
             } else {
-                self.vwSearchBar.txtSearch.keyboardType = .numberPad
+                // In offline mode only barcode search will work
+                self.changeKeyboardType(keyboardType: .numberPad, enableAutoToolBar: true)
             }
+        }
+    }
+    func changeKeyboardType(keyboardType: UIKeyboardType,
+                            enableAutoToolBar: Bool) {
+        DispatchQueue.main.async {
+            IQKeyboardManager.shared.enableAutoToolbar = enableAutoToolBar
+            self.vwSearchBar.txtSearch.keyboardType = keyboardType
+            self.vwSearchBar.txtSearch.becomeFirstResponder()
+        }
+    }
+    @objc func doneButtonClicked(_ sender: Any) {
+        if !(self.vwSearchBar.txtSearch.text?.isEmpty ?? false) {
+            print("bar code API call", self.vwSearchBar.txtSearch.text as Any)
+            viewModel.isGlobalApiActive = false
+            getBarCodeSearchedData(barCode: self.vwSearchBar.txtSearch.text ?? "")
+        } else {
+            showToast(message: "Please enter barcode.")
         }
     }
 }
@@ -353,14 +373,12 @@ extension SearchVC: DidPopupDismis {
 extension SearchVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         print("return tapped ", textField.text as Any)
-        print("\(String(describing: lblSearchText.text))")
-        
-        if let searchText = textField.text, !searchText.isEmpty {
+        if let searchText = textField.text, !searchText.trimmingCharacters(in: .whitespaces).isEmpty {
             if searchText.isValidEmail(emaiId: searchText) {
                 print("email API call")
                 viewModel.isGlobalApiActive = false
-                getEmailSearchedData(email: "sanjay.chawke@gmail.com")
-                viewModel.emailId = "sanjay.chawke@gmail.com"
+                getEmailSearchedData(email: searchText) // "sanjay.chawke@gmail.com"
+                viewModel.emailId = searchText
             } else if searchText.isContainsOnlyNumber {
                 print("bar code API call")
                 viewModel.isGlobalApiActive = false

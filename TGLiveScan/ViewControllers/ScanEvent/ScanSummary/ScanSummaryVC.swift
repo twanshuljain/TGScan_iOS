@@ -40,6 +40,10 @@ class ScanSummaryVC: UIViewController, ChartViewDelegate {
         self.tblViewHeight.constant = self.tblScanAllTableView.contentSize.height
         //self.tblScanViewHt.constant = self.tblScan.contentSize.height
     }
+    override func viewWillAppear(_ animated: Bool) {
+        btnUpdateLiveOnServer.alpha = UserDefaultManager.share.isOfflineButtonEnabled() ? 1 : 0.3
+        btnUpdateLiveOnServer.isUserInteractionEnabled = UserDefaultManager.share.isOfflineButtonEnabled()
+    }
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         self.tblViewHeight.constant = tblScanAllTableView.contentSize.height
         //self.tblScanViewHt.constant = tblScan.contentSize.height
@@ -109,7 +113,16 @@ extension ScanSummaryVC {
         self.present(alert, animated: true, completion: nil)
     }
     func showLogoutAlert() {
-        let alert = UIAlertController.init(title: LOGOUT_TITLE, message: LOGOUT_MESSAGE, preferredStyle: .alert)
+        var title: String = ""
+        var message: String = ""
+        if DatabaseHelper.shareInstance.isDataBaseEmpty() {
+            title = LOGOUT
+            message = LOGOUT_MESSAGE
+        } else {
+            title = WARNING
+            message = LOGOUT_DESC
+        }
+        let alert = UIAlertController.init(title: title, message: message, preferredStyle: .alert)
         let btnCancel = UIAlertAction.init(title: "Cancel", style: .default) { _ in
         }
         let btnLogout = UIAlertAction.init(title: "Logout", style: .destructive) { _ in
@@ -201,7 +214,7 @@ extension ScanSummaryVC {
         viewModel.sendReportToPromoter(completion: { isTrue, message in
             if isTrue {
                 self.view.stopLoading()
-                self.showToast(message: message)
+                self.showAlertController(message: "Report sent successfully")
             } else {
                 DispatchQueue.main.async {
                     self.view.stopLoading()
@@ -214,8 +227,13 @@ extension ScanSummaryVC {
         self.view.showLoading(centreToView: self.view)
         viewModel.dataUpdateOnServer(dataDictToUpdate: dataDictToUpdate, completion: { isTrue, message in
             if isTrue {
+                UserDefaultManager.share.setOfflineButtonInteraction(isDataSaved: false)
+                DispatchQueue.main.async {
+                    self.btnUpdateLiveOnServer.alpha = 0.3
+                    self.btnUpdateLiveOnServer.isUserInteractionEnabled = false
+                    self.showAlertController(message: "Data successfully uploaded")
+                }
                 self.view.stopLoading()
-                self.showToast(message: message)
             } else {
                 DispatchQueue.main.async {
                     self.view.stopLoading()

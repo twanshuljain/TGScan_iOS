@@ -41,13 +41,20 @@ class DatabaseHelper {
         do {
             // Fetch the records that match the predicate
             let records = try context.fetch(fetchRequest)
-            // Return the first record (assuming IDs are unique)
             let data = records.first as? OfflineScan
-            debugPrint("barCode", data?.barCode as Any)
             return records.first as? OfflineScan
         } catch {
             debugPrint("Error fetching record: \(error)")
             return nil
+        }
+    }
+    func isDataBaseEmpty() -> Bool {
+        do {
+            let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "OfflineScan")
+            let count  = try context.count(for: fetchRequest)
+            return count == 0
+        } catch {
+            return true
         }
     }
     
