@@ -240,7 +240,7 @@ extension FindRFIDVC {
                                 self.viewModel.isConnected = false
                                 self.setImages()
                                 self.updateLocalCounts(isTotal: true, isAccepted: false, isRejected: true)
-                                self.showToast(message: "This ticket is already scanned.")
+                                self.showToast(message: "This barcode \(self.viewModel.scanBarCodeModel.barcode) is already scanned.")
                             }
                         }
                     )
