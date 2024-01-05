@@ -26,28 +26,26 @@ class EmailSearchPopupViewController: UIViewController {
         self.btnConfirm.titleLabel?.font = UIFont.setFont(fontType: .medium, fontSize: .fourteen)
     }
     @IBAction func btnCancelAction(_ sender: Any) {
-        print("cencel")
         dismiss(animated: true, completion: nil)
-        popupDelegate?.updateDataAfterPopupDismissed(isFromCancel: true, selectedBarCodes: "")
+        popupDelegate?.updateDataAfterPopupDismissed(
+            isFromCancel: true,
+            selectedBarCodes: "",
+            selectedIdCount: 0
+        )
     }
     
     @IBAction func btnConfirmAction(_ sender: Any) {
-        print("confirm")
         let selectedData = viewModel.arrEmailOrder.filter({$0.isSelected == true })
-        var strSelectedBarCodes = selectedData.map {
+        let strSelectedBarCodes = selectedData.map {
             String($0.barcode?.trimmingCharacters(in: .whitespaces) ?? "")
         }.joined(separator: ",")
         print("strSelectedBarCodes", strSelectedBarCodes)
-        showAlertController(
-            title: "Alert",
-            message: "\(selectedData.count) people are allowed to enter."
-        ) {
-            self.popupDelegate?.updateDataAfterPopupDismissed(
-                isFromCancel: false,
-                selectedBarCodes: strSelectedBarCodes
-            )
-            self.dismiss(animated: true, completion: nil)
-        }
+        self.dismiss(animated: true, completion: nil)
+        self.popupDelegate?.updateDataAfterPopupDismissed(
+            isFromCancel: false,
+            selectedBarCodes: strSelectedBarCodes,
+            selectedIdCount: selectedData.count
+        )
     }
 }
 extension EmailSearchPopupViewController: UITableViewDelegate, UITableViewDataSource {

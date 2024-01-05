@@ -8,7 +8,8 @@ import Foundation
 
 protocol DidPopupDismis {
     func updateDataAfterPopupDismissed(isFromCancel: Bool,
-                                       selectedBarCodes: String)
+                                       selectedBarCodes: String,
+                                       selectedIdCount: Int)
 }
 class SearchViewModel: NSObject {
     var isFromSearchTxtField: Bool = false
@@ -23,6 +24,7 @@ class SearchViewModel: NSObject {
     var getBarCodeSearchedResponse: GetBarCodeSearchedResponse?
     var arrGlobalSearchData: [[String: Any]] = [[:]]
     var isGlobalApiActive: Bool = false
+    var selectedIdCount: Int = 0
    
     func getEmailSearchedData(emailId: String, complition: @escaping (Bool, String) -> Void) {
         self.emailSearchDataModel = EmailSearchDataModel(

@@ -98,6 +98,10 @@ class SearchVC: UIViewController {
                     if isTrue {
                         print("Success")
                         DispatchQueue.main.async {
+                            self.showAlertController(
+                                title: "Alert",
+                                message: "\(self.viewModel.selectedIdCount) people are allowed to enter."
+                            )
                             // call get email orders api after update the email entry
                             self.getEmailSearchedData(email: self.viewModel.emailId)
                             self.view.stopLoading()
@@ -359,14 +363,18 @@ extension SearchVC {
 
 extension SearchVC: DidPopupDismis {
     // After dismiss the popup we set the data and reset screen UI by delegate methods
-    func updateDataAfterPopupDismissed(isFromCancel: Bool,
-                                       selectedBarCodes: String) {
+    func updateDataAfterPopupDismissed(
+        isFromCancel: Bool,
+        selectedBarCodes: String,
+        selectedIdCount: Int
+    ) {
         self.view.alpha = 1
         self.view.backgroundColor = .clear
         print("email:- ",viewModel.emailId)
+        viewModel.selectedIdCount = selectedIdCount
         if !isFromCancel {
             // Call API to update confirm email order and get entry.
-            updateEmailEntry(selectedBarCode: selectedBarCodes)
+            self.updateEmailEntry(selectedBarCode: selectedBarCodes)
         }
     }
 }
